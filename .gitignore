@@ -7,7 +7,7 @@ Thumbs.db
 .idea/
 *.swp
 
-# Node (혹시 나중에 쓸 경우)
+# Node 
 node_modules/
 npm-debug.log
 
