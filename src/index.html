@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Korea Regional Imbalance Dashboard</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Phase 1 MVP</p>
+          <h1>한국 지역 불균형 대시보드</h1>
+          <p class="lead">수도권 집중, 인구감소지역, 폐교 지표를 한 화면에서 비교합니다.</p>
+        </div>
+        <div class="status-badge" id="dataStatus">데이터 로드 중</div>
+      </header>
+
+      <section class="summary-grid" id="summaryCards" aria-label="핵심 통계 카드">
+        <article class="metric-card skeleton"></article>
+        <article class="metric-card skeleton"></article>
+        <article class="metric-card skeleton"></article>
+        <article class="metric-card skeleton"></article>
+      </section>
+
+      <section class="content-grid">
+        <article class="chart-panel" aria-labelledby="chartTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Population Change</p>
+              <h2 id="chartTitle">시도별 인구 증감률</h2>
+            </div>
+            <div class="legend">
+              <span><i class="legend-dot capital"></i>수도권</span>
+              <span><i class="legend-dot decline"></i>감소</span>
+              <span><i class="legend-dot growth"></i>증가</span>
+            </div>
+          </div>
+          <div class="chart-box">
+            <canvas id="populationChart" role="img" aria-label="시도별 인구 증감률 막대차트"></canvas>
+          </div>
+        </article>
+
+        <aside class="region-panel" aria-labelledby="regionTitle">
+          <div class="section-header compact">
+            <div>
+              <p class="eyebrow">Regional Risk</p>
+              <h2 id="regionTitle">감소 폭 상위 지역</h2>
+            </div>
+          </div>
+          <div class="region-list" id="regionList"></div>
+        </aside>
+      </section>
+
+      <section class="data-note" aria-label="데이터 안내">
+        <strong>데이터 상태</strong>
+        <p id="dataNote">정적 JSON 데이터를 확인하고 있습니다.</p>
+      </section>
+
+      <noscript>이 대시보드는 JavaScript를 사용합니다.</noscript>
+    </main>
+  </body>
+</html>
