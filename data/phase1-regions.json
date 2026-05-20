@@ -1,0 +1,169 @@
+{
+  "meta": {
+    "dataset": "Phase 1 prototype regional imbalance data",
+    "status": "prototype-sample",
+    "baseYear": "시연용 임시 기준",
+    "updatedAt": "2026-05-21",
+    "warning": "공식 통계가 아닌 Phase 1 화면 검증용 임시 데이터입니다. KOSIS, 행정안전부, 교육부 자료 확보 후 교체해야 합니다."
+  },
+  "summary": {
+    "capitalAreaPopulationShare": {
+      "label": "수도권 인구 비중",
+      "value": 50.7,
+      "unit": "%"
+    },
+    "capitalAreaGrdpShare": {
+      "label": "수도권 GRDP 비중",
+      "value": 52.8,
+      "unit": "%"
+    },
+    "depopulationAreaCount": {
+      "label": "인구감소지역",
+      "value": 89,
+      "unit": "곳"
+    },
+    "closedSchoolCount": {
+      "label": "폐교 수",
+      "value": 3922,
+      "unit": "곳"
+    }
+  },
+  "regions": [
+    {
+      "code": "KR-11",
+      "name": "서울",
+      "isCapitalArea": true,
+      "populationChangeRate": -1.7,
+      "depopulationAreaCount": 0,
+      "closedSchoolCount": 6
+    },
+    {
+      "code": "KR-26",
+      "name": "부산",
+      "isCapitalArea": false,
+      "populationChangeRate": -3.2,
+      "depopulationAreaCount": 3,
+      "closedSchoolCount": 42
+    },
+    {
+      "code": "KR-27",
+      "name": "대구",
+      "isCapitalArea": false,
+      "populationChangeRate": -2.8,
+      "depopulationAreaCount": 2,
+      "closedSchoolCount": 38
+    },
+    {
+      "code": "KR-28",
+      "name": "인천",
+      "isCapitalArea": true,
+      "populationChangeRate": 2.1,
+      "depopulationAreaCount": 2,
+      "closedSchoolCount": 45
+    },
+    {
+      "code": "KR-29",
+      "name": "광주",
+      "isCapitalArea": false,
+      "populationChangeRate": -1.4,
+      "depopulationAreaCount": 0,
+      "closedSchoolCount": 14
+    },
+    {
+      "code": "KR-30",
+      "name": "대전",
+      "isCapitalArea": false,
+      "populationChangeRate": -0.7,
+      "depopulationAreaCount": 0,
+      "closedSchoolCount": 10
+    },
+    {
+      "code": "KR-31",
+      "name": "울산",
+      "isCapitalArea": false,
+      "populationChangeRate": -2.5,
+      "depopulationAreaCount": 0,
+      "closedSchoolCount": 12
+    },
+    {
+      "code": "KR-50",
+      "name": "세종",
+      "isCapitalArea": false,
+      "populationChangeRate": 14.8,
+      "depopulationAreaCount": 0,
+      "closedSchoolCount": 3
+    },
+    {
+      "code": "KR-41",
+      "name": "경기",
+      "isCapitalArea": true,
+      "populationChangeRate": 3.5,
+      "depopulationAreaCount": 2,
+      "closedSchoolCount": 185
+    },
+    {
+      "code": "KR-42",
+      "name": "강원",
+      "isCapitalArea": false,
+      "populationChangeRate": -0.3,
+      "depopulationAreaCount": 12,
+      "closedSchoolCount": 463
+    },
+    {
+      "code": "KR-43",
+      "name": "충북",
+      "isCapitalArea": false,
+      "populationChangeRate": 0.4,
+      "depopulationAreaCount": 6,
+      "closedSchoolCount": 288
+    },
+    {
+      "code": "KR-44",
+      "name": "충남",
+      "isCapitalArea": false,
+      "populationChangeRate": 1.2,
+      "depopulationAreaCount": 9,
+      "closedSchoolCount": 405
+    },
+    {
+      "code": "KR-45",
+      "name": "전북",
+      "isCapitalArea": false,
+      "populationChangeRate": -2.1,
+      "depopulationAreaCount": 10,
+      "closedSchoolCount": 345
+    },
+    {
+      "code": "KR-46",
+      "name": "전남",
+      "isCapitalArea": false,
+      "populationChangeRate": -2.7,
+      "depopulationAreaCount": 16,
+      "closedSchoolCount": 823
+    },
+    {
+      "code": "KR-47",
+      "name": "경북",
+      "isCapitalArea": false,
+      "populationChangeRate": -2.8,
+      "depopulationAreaCount": 15,
+      "closedSchoolCount": 729
+    },
+    {
+      "code": "KR-48",
+      "name": "경남",
+      "isCapitalArea": false,
+      "populationChangeRate": -1.7,
+      "depopulationAreaCount": 11,
+      "closedSchoolCount": 468
+    },
+    {
+      "code": "KR-49",
+      "name": "제주",
+      "isCapitalArea": false,
+      "populationChangeRate": 3.0,
+      "depopulationAreaCount": 1,
+      "closedSchoolCount": 46
+    }
+  ]
+}
