@@ -38,13 +38,27 @@
 
 > 프레임워크(React/Next.js) 미사용 결정 근거는 [`docs/design.md`](./docs/design.md) 참조.
 
-## 5. 바이브코딩 도구 운용 방침
+## 5. 로컬 실행 방법
+
+정적 JSON을 `fetch`로 불러오므로 로컬에서는 저장소 루트에서 정적 서버를 실행한다.
+
+```bash
+python -m http.server 8000
+```
+
+브라우저에서 다음 주소를 연다.
+
+```text
+http://127.0.0.1:8000/src/index.html
+```
+
+## 6. 바이브코딩 도구 운용 방침
 
 - **Claude**: 요구사항 정리, 문서 작성, 의사결정 토론 파트너, 보고서 작성
 - **Codex**: 코드 구현, 버그 수정, 비판적 리뷰, 커밋 메시지 정리
 - 두 AI의 응답을 교차 검증하여 lessons learned를 [`docs/lessons-learned.md`](./docs/lessons-learned.md)에 누적 기록
 
-## 6. 프로젝트 구조
+## 7. 프로젝트 구조
 
 ```
 korea-regional-imbalance/
@@ -63,7 +77,7 @@ korea-regional-imbalance/
 └── tests/                   # 테스트 케이스
 ```
 
-## 7. 진행 로그
+## 8. 진행 로그
 
 - **2026-05-18**: 프로젝트 킥오프 / 주제·스택 확정 / repo 개설
 - **2026-05-21**: Day 1 리뷰 반영 / Phase 1 문서·데이터·MVP 구현 착수
