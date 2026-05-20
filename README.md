@@ -17,21 +17,22 @@
 - [ ] 인구감소지역 수 표시
 - [ ] 폐교 수 표시
 - [ ] 시도별 인구 증감률 막대차트
-- [ ] (Stretch) 시군구 단위 choropleth 지도
+- [ ] (Phase 2) 시도 단위 choropleth 지도
 
 ## 3. 단계별 계획
 
 | Phase | 목표 | 기간 |
 |---|---|---|
 | Phase 1 (MVP) | 통계 카드 + 막대차트 | 2026-05-18 ~ 2026-05-24 |
-| Phase 2 | Leaflet 지도(choropleth) 추가 | 2026-05-25 ~ 2026-05-31 |
-| Phase 3 | 폐교 레이어 + 필터 + 설명 카드 | 2026-06-01 ~ 2026-06-05 |
+| Phase 2 | Leaflet 시도 단위 지도(choropleth) 추가 | 2026-05-25 ~ 2026-05-31 |
+| Phase 3 | 폐교 통계 + 필터 + 설명 카드 | 2026-06-01 ~ 2026-06-05 |
 | QA / 보고서 | 버그픽스, PDF 보고서 작성, 캡처 정리 | 2026-06-06 ~ 2026-06-08 |
 
 ## 4. 기술 스택
 
 - **Frontend**: HTML5 / CSS3 / Vanilla JavaScript
 - **시각화**: Chart.js (차트), Leaflet (지도)
+- **데이터 처리**: 원본 CSV 확보 후 정적 JSON으로 변환
 - **데이터 출처 (예정)**: KOSIS, 행정안전부 인구감소지역, 교육부 폐교현황
 - **빌드/배포**: 정적 호스팅 (GitHub Pages 예정)
 
@@ -51,6 +52,7 @@ korea-regional-imbalance/
 ├── docs/
 │   ├── requirements.md      # 요구사항 분석
 │   ├── design.md            # 설계 결정 기록
+│   ├── test-plan.md         # 검증 계획
 │   ├── ai-log/              # AI와의 주요 토의 로그
 │   └── lessons-learned.md   # 프로세스 적용 교훈
 ├── data/                    # 데이터 출처 및 전처리 산출물
@@ -64,3 +66,4 @@ korea-regional-imbalance/
 ## 7. 진행 로그
 
 - **2026-05-18**: 프로젝트 킥오프 / 주제·스택 확정 / repo 개설
+- **2026-05-21**: Day 1 리뷰 반영 / Phase 1 문서·데이터·MVP 구현 착수
