@@ -13,11 +13,13 @@
 
 ## 2. MVP 정의
 
-- [ ] 수도권 집중 통계 카드 (인구·GRDP 비중)
-- [ ] 인구감소지역 수 표시
-- [ ] 폐교 수 표시
-- [ ] 시도별 인구 증감률 막대차트
+- [x] 수도권 집중 통계 카드 (인구·GRDP 비중)
+- [x] 인구감소지역 수 표시
+- [x] 폐교 수 표시
+- [x] 시도별 인구 증감률 막대차트
 - [ ] (Phase 2) 시도 단위 choropleth 지도
+
+> Phase 1 MVP는 임시 시연 데이터 기준으로 구현 완료. 공식 통계 데이터 교체는 후속 작업으로 관리한다.
 
 ## 3. 단계별 계획
 
@@ -38,7 +40,22 @@
 
 > 프레임워크(React/Next.js) 미사용 결정 근거는 [`docs/design.md`](./docs/design.md) 참조.
 
-## 5. 로컬 실행 방법
+## 5. 소프트웨어공학 문서 읽는 순서
+
+`docs/`의 Markdown 문서는 제출용 프로세스 증빙이다. 처음 보면 이름만으로 헷갈릴 수 있어
+아래 순서대로 읽으면 된다.
+
+| 문서 | 역할 |
+|---|---|
+| [`docs/process.md`](./docs/process.md) | 적용 방법론, 전체 개발 프로세스, 시퀀스 다이어그램, 프로세스 다이어그램 |
+| [`docs/requirements.md`](./docs/requirements.md) | 사용자, 기능 요구사항, 비기능 요구사항, 추적성 |
+| [`docs/design.md`](./docs/design.md) | Vanilla 스택, 정적 JSON, Phase 분리 같은 설계 결정 |
+| [`docs/test-plan.md`](./docs/test-plan.md) | 수동·자동 검증 기준 |
+| [`docs/lessons-learned.md`](./docs/lessons-learned.md) | Phase별 회고와 개선점 |
+| [`docs/ai-log/`](./docs/ai-log/) | Claude와 Codex를 어떻게 사용했는지에 대한 날짜별 기록 |
+| [`data/README.md`](./data/README.md) | 데이터 출처, 임시 데이터 상태, 공식 데이터 교체 원칙 |
+
+## 6. 로컬 실행 방법
 
 정적 JSON을 `fetch`로 불러오므로 로컬에서는 저장소 루트에서 정적 서버를 실행한다.
 
@@ -52,18 +69,26 @@ python -m http.server 8000
 http://127.0.0.1:8000/src/index.html
 ```
 
-## 6. 바이브코딩 도구 운용 방침
+### 자동 검증
+
+```bash
+node --check src/app.js
+node tests/verify-data.mjs
+```
+
+## 7. 바이브코딩 도구 운용 방침
 
 - **Claude**: 요구사항 정리, 문서 작성, 의사결정 토론 파트너, 보고서 작성
 - **Codex**: 코드 구현, 버그 수정, 비판적 리뷰, 커밋 메시지 정리
 - 두 AI의 응답을 교차 검증하여 lessons learned를 [`docs/lessons-learned.md`](./docs/lessons-learned.md)에 누적 기록
 
-## 7. 프로젝트 구조
+## 8. 프로젝트 구조
 
 ```
 korea-regional-imbalance/
 ├── README.md
 ├── docs/
+│   ├── process.md           # 소프트웨어공학 프로세스 총괄
 │   ├── requirements.md      # 요구사항 분석
 │   ├── design.md            # 설계 결정 기록
 │   ├── test-plan.md         # 검증 계획
@@ -74,10 +99,12 @@ korea-regional-imbalance/
 │   ├── index.html
 │   ├── styles.css
 │   └── app.js
-└── tests/                   # 테스트 케이스
+└── tests/
+    └── verify-data.mjs      # Phase 1 데이터 구조 검증
 ```
 
-## 8. 진행 로그
+## 9. 진행 로그
 
 - **2026-05-18**: 프로젝트 킥오프 / 주제·스택 확정 / repo 개설
 - **2026-05-21**: Day 1 리뷰 반영 / Phase 1 문서·데이터·MVP 구현 착수
+- **2026-05-25**: 소프트웨어공학 프로세스 문서화 / 다이어그램 추가 / 데이터 검증 자동화

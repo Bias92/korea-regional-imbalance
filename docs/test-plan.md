@@ -12,10 +12,24 @@
 - Chart.js 막대차트 렌더링
 - 반응형 레이아웃
 - 문서와 구현의 일치 여부
+- 데이터 구조 자동 검증
+- JavaScript 문법 검증
 
 ---
 
-## 2. 테스트 체크리스트
+## 2. 자동 검증
+
+Phase 1은 별도 빌드 도구가 없는 정적 웹앱이므로, 최소 자동 검증은 Node.js 기반으로 수행한다.
+
+| ID | 명령 | 검증 내용 | 기대 결과 |
+|---|---|---|---|
+| A-001 | `node --check src/app.js` | JavaScript 문법 오류 확인 | 오류 없이 종료 |
+| A-002 | `node tests/verify-data.mjs` | JSON 필수 키, 17개 시도, 수도권 분류 확인 | `Data verification passed.` 출력 |
+| A-003 | `python -m json.tool data/phase1-regions.json` | JSON 파싱 가능 여부 확인 | 오류 없이 종료 |
+
+---
+
+## 3. 수동 테스트 체크리스트
 
 | ID | 항목 | 절차 | 기대 결과 |
 |---|---|---|---|
@@ -29,17 +43,29 @@
 
 ---
 
-## 3. 완료 기준
+## 4. 완료 기준
 
+- A-001부터 A-003까지 모두 통과한다.
 - T-001부터 T-007까지 모두 통과한다.
 - 실패 항목은 `docs/ai-log/` 또는 커밋 메시지에 수정 내역을 남긴다.
 - Phase 2 착수 전 Phase 1 캡처를 확보한다.
 
 ---
 
-## 4. 향후 자동화 후보
+## 5. 2026-05-25 검증 기록
 
-- JSON 스키마 검증
-- 지역 수 17개 고정 확인
-- 필수 통계 키 누락 확인
+| 항목 | 결과 |
+|---|---|
+| `node --check src/app.js` | 통과 |
+| `node tests/verify-data.mjs` | 통과 |
+| `python -m json.tool data/phase1-regions.json` | 통과 |
+| 정적 서버 경로 확인 | `src/index.html`, `data/phase1-regions.json` 모두 200 OK |
+
+---
+
+## 6. 향후 자동화 후보
+
 - Lighthouse 기반 접근성 점검
+- Playwright 기반 브라우저 렌더링 검증
+- 모바일 viewport 스크린샷 비교
+- Chart.js 캔버스 렌더링 여부 확인
