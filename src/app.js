@@ -23,6 +23,33 @@ const mapCodeByRegionCode = {
 };
 
 const mapMetricConfigs = {
+  riskIndex: {
+    title: "지역 위험지수 지도",
+    detailLabel: "위험지수",
+    format: (value) => `${Math.round(value)}점`,
+    legend: [
+      { className: "neutral", label: "낮음" },
+      { className: "flat", label: "주의" },
+      { className: "decline", label: "높음" },
+      { className: "severe", label: "매우 높음" }
+    ],
+    color: (value) => {
+      if (value < 35) {
+        return "#b8c3bd";
+      }
+
+      if (value < 55) {
+        return "#e5b85c";
+      }
+
+      if (value < 75) {
+        return "#d85d4a";
+      }
+
+      return "#b84336";
+    },
+    value: (region) => region.riskIndex
+  },
   populationChangeRate: {
     title: "시도별 인구 증감 지도",
     detailLabel: "인구 증감률",
@@ -121,14 +148,35 @@ async function loadDashboard() {
     }
 
     const data = await response.json();
+    const regions = enrichRegionsWithRisk(data.regions);
     renderSummary(data.summary);
-    renderRegionList(data.regions);
-    renderPopulationChart(data.regions);
-    renderRegionalMap(data.regions).catch(renderMapError);
+    renderInsightPanel(regions);
+    renderRegionList(regions);
+    renderPopulationChart(regions);
+    renderRegionalMap(regions).catch(renderMapError);
     renderDataNote(data.meta);
   } catch (error) {
     renderLoadError(error);
   }
+}
+
+function enrichRegionsWithRisk(regions) {
+  const maxDecline = Math.max(...regions.map((region) => Math.max(0, -region.populationChangeRate)));
+  const maxDepopulation = Math.max(...regions.map((region) => region.depopulationAreaCount));
+  const maxClosedSchools = Math.max(...regions.map((region) => region.closedSchoolCount));
+
+  return regions.map((region) => {
+    const declineScore = maxDecline === 0 ? 0 : Math.max(0, -region.populationChangeRate) / maxDecline;
+    const depopulationScore = maxDepopulation === 0 ? 0 : region.depopulationAreaCount / maxDepopulation;
+    const closedSchoolScore = maxClosedSchools === 0 ? 0 : region.closedSchoolCount / maxClosedSchools;
+    const riskIndex = Math.round((declineScore * 0.4 + depopulationScore * 0.35 + closedSchoolScore * 0.25) * 100);
+
+    return {
+      ...region,
+      riskIndex,
+      riskGrade: getRiskGrade(riskIndex)
+    };
+  });
 }
 
 function renderSummary(summary) {
@@ -167,19 +215,60 @@ function renderSummary(summary) {
   }).join("");
 }
 
+function renderInsightPanel(regions) {
+  const topRiskRegion = getTopRegion(regions, "riskIndex");
+  const topDeclineRegion = [...regions].sort((a, b) => a.populationChangeRate - b.populationChangeRate)[0];
+  const topClosedSchoolRegion = getTopRegion(regions, "closedSchoolCount");
+  const capitalAverage = getAverage(
+    regions.filter((region) => region.isCapitalArea),
+    "populationChangeRate"
+  );
+  const nonCapitalAverage = getAverage(
+    regions.filter((region) => !region.isCapitalArea),
+    "populationChangeRate"
+  );
+  const gap = capitalAverage - nonCapitalAverage;
+
+  const cards = [
+    {
+      kicker: "우선 대응",
+      title: `${topRiskRegion.name} ${topRiskRegion.riskIndex}점`,
+      body: `${topRiskRegion.riskGrade} 등급입니다. 인구감소지역 ${topRiskRegion.depopulationAreaCount}곳, 폐교 ${numberFormatter.format(topRiskRegion.closedSchoolCount)}곳이 함께 잡힙니다.`
+    },
+    {
+      kicker: "감소 신호",
+      title: `${topDeclineRegion.name} ${formatRate(topDeclineRegion.populationChangeRate)}`,
+      body: `17개 시도 중 인구 증감률이 가장 낮습니다. 지도에서 위험지수와 함께 보면 감소 폭과 지역 기반 지표를 같이 판단할 수 있습니다.`
+    },
+    {
+      kicker: "격차 요약",
+      title: `${gap.toFixed(1)}%p 차이`,
+      body: `수도권 평균 증감률은 ${formatRate(capitalAverage)}, 비수도권 평균은 ${formatRate(nonCapitalAverage)}입니다. 폐교 수 최대 지역은 ${topClosedSchoolRegion.name}입니다.`
+    }
+  ];
+
+  document.querySelector("#insightGrid").innerHTML = cards.map((card) => `
+    <article class="insight-card">
+      <span class="insight-kicker">${card.kicker}</span>
+      <strong>${card.title}</strong>
+      <p>${card.body}</p>
+    </article>
+  `).join("");
+}
+
 function renderRegionList(regions) {
   const list = document.querySelector("#regionList");
-  const decliningRegions = [...regions]
-    .sort((a, b) => a.populationChangeRate - b.populationChangeRate)
+  const priorityRegions = [...regions]
+    .sort((a, b) => b.riskIndex - a.riskIndex)
     .slice(0, 6);
 
-  list.innerHTML = decliningRegions.map((region) => {
+  list.innerHTML = priorityRegions.map((region) => {
     const rateClass = region.populationChangeRate < 0 ? "negative" : "positive";
     return `
       <div class="region-row">
         <span class="region-name">${region.name}</span>
-        <span class="change-rate ${rateClass}">${formatRate(region.populationChangeRate)}</span>
-        <span class="region-meta">인구감소지역 ${region.depopulationAreaCount}곳 · 폐교 ${numberFormatter.format(region.closedSchoolCount)}곳</span>
+        <span class="change-rate ${rateClass}">${region.riskIndex}점</span>
+        <span class="region-meta">${region.riskGrade} · 증감률 ${formatRate(region.populationChangeRate)} · 인구감소지역 ${region.depopulationAreaCount}곳 · 폐교 ${numberFormatter.format(region.closedSchoolCount)}곳</span>
       </div>
     `;
   }).join("");
@@ -277,7 +366,7 @@ async function renderRegionalMap(regions) {
   const featureByRegionName = createFeatureByRegionName(geojson.features, regionByMapCode);
   const mapElement = document.querySelector("#regionalMap");
   const regionSelect = document.querySelector("#regionSelect");
-  let currentMetric = "populationChangeRate";
+  let currentMetric = "riskIndex";
   let selectedLayer = null;
   let selectedRegion = null;
   let selectedFeature = null;
@@ -518,6 +607,10 @@ function renderMapDetail(region, feature, metric = "populationChangeRate") {
     <p>${mapName} 경계 데이터와 Phase 1 지표를 연결했습니다.</p>
     <div class="detail-grid">
       <div class="detail-row">
+        <span>종합 위험지수</span>
+        <b>${region.riskIndex}점</b>
+      </div>
+      <div class="detail-row">
         <span>인구 증감률</span>
         <b>${formatRate(region.populationChangeRate)}</b>
       </div>
@@ -530,6 +623,7 @@ function renderMapDetail(region, feature, metric = "populationChangeRate") {
         <b>${numberFormatter.format(region.closedSchoolCount)}곳</b>
       </div>
     </div>
+    <span class="risk-score">${region.riskGrade}</span>
     <span class="area-pill">${areaLabel} 구분</span>
   `;
 }
@@ -559,6 +653,31 @@ function renderLoadError(error) {
   `;
   document.querySelector("#dataNote").textContent =
     "정적 서버에서 src/index.html을 열었는지 확인하세요.";
+}
+
+function getTopRegion(regions, key) {
+  return [...regions].sort((a, b) => b[key] - a[key])[0];
+}
+
+function getAverage(regions, key) {
+  const total = regions.reduce((sum, region) => sum + region[key], 0);
+  return total / regions.length;
+}
+
+function getRiskGrade(score) {
+  if (score >= 75) {
+    return "매우 높음";
+  }
+
+  if (score >= 55) {
+    return "높음";
+  }
+
+  if (score >= 35) {
+    return "주의";
+  }
+
+  return "낮음";
 }
 
 function formatNumber(value) {

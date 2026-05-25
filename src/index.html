@@ -29,22 +29,37 @@
         <article class="metric-card skeleton"></article>
       </section>
 
+      <section class="insight-panel" aria-labelledby="insightTitle">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Decision Brief</p>
+            <h2 id="insightTitle">핵심 진단</h2>
+          </div>
+        </div>
+        <div class="insight-grid" id="insightGrid">
+          <article class="insight-card skeleton"></article>
+          <article class="insight-card skeleton"></article>
+          <article class="insight-card skeleton"></article>
+        </div>
+      </section>
+
       <section class="map-panel" aria-labelledby="mapTitle">
         <div class="section-header">
           <div>
             <p class="eyebrow">Regional Map</p>
-            <h2 id="mapTitle">시도별 인구 증감 지도</h2>
+            <h2 id="mapTitle">지역 위험지수 지도</h2>
           </div>
           <div class="map-legend" id="mapLegend" aria-label="지도 범례">
-            <span><i class="map-swatch severe"></i>-2% 이하</span>
-            <span><i class="map-swatch decline"></i>-2% ~ 0%</span>
-            <span><i class="map-swatch flat"></i>0% ~ 1%</span>
-            <span><i class="map-swatch growth"></i>1% 이상</span>
+            <span><i class="map-swatch neutral"></i>낮음</span>
+            <span><i class="map-swatch flat"></i>주의</span>
+            <span><i class="map-swatch decline"></i>높음</span>
+            <span><i class="map-swatch severe"></i>매우 높음</span>
           </div>
         </div>
         <div class="map-toolbar">
           <div class="metric-toggle-group" role="group" aria-label="지도 지표 선택">
-            <button class="metric-toggle active" type="button" data-map-metric="populationChangeRate">인구 증감률</button>
+            <button class="metric-toggle active" type="button" data-map-metric="riskIndex">위험지수</button>
+            <button class="metric-toggle" type="button" data-map-metric="populationChangeRate">인구 증감률</button>
             <button class="metric-toggle" type="button" data-map-metric="depopulationAreaCount">인구감소지역</button>
             <button class="metric-toggle" type="button" data-map-metric="closedSchoolCount">폐교 수</button>
           </div>
@@ -87,7 +102,7 @@
           <div class="section-header compact">
             <div>
               <p class="eyebrow">Regional Risk</p>
-              <h2 id="regionTitle">감소 폭 상위 지역</h2>
+              <h2 id="regionTitle">위험도 상위 지역</h2>
             </div>
           </div>
           <div class="region-list" id="regionList"></div>
