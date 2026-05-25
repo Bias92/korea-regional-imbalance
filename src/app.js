@@ -22,6 +22,90 @@ const mapCodeByRegionCode = {
   "KR-49": "39"
 };
 
+const mapMetricConfigs = {
+  populationChangeRate: {
+    title: "시도별 인구 증감 지도",
+    detailLabel: "인구 증감률",
+    format: (value) => formatRate(value),
+    legend: [
+      { className: "severe", label: "-2% 이하" },
+      { className: "decline", label: "-2% ~ 0%" },
+      { className: "flat", label: "0% ~ 1%" },
+      { className: "growth", label: "1% 이상" }
+    ],
+    color: (value) => {
+      if (value <= -2) {
+        return "#b84336";
+      }
+
+      if (value < 0) {
+        return "#d85d4a";
+      }
+
+      if (value < 1) {
+        return "#e5b85c";
+      }
+
+      return "#21845a";
+    },
+    value: (region) => region.populationChangeRate
+  },
+  depopulationAreaCount: {
+    title: "인구감소지역 분포 지도",
+    detailLabel: "인구감소지역",
+    format: (value) => `${numberFormatter.format(value)}곳`,
+    legend: [
+      { className: "neutral", label: "0곳" },
+      { className: "flat", label: "1~5곳" },
+      { className: "decline", label: "6~10곳" },
+      { className: "severe", label: "11곳 이상" }
+    ],
+    color: (value) => {
+      if (value === 0) {
+        return "#b8c3bd";
+      }
+
+      if (value <= 5) {
+        return "#e5b85c";
+      }
+
+      if (value <= 10) {
+        return "#d85d4a";
+      }
+
+      return "#b84336";
+    },
+    value: (region) => region.depopulationAreaCount
+  },
+  closedSchoolCount: {
+    title: "시도별 폐교 수 지도",
+    detailLabel: "폐교 수",
+    format: (value) => `${numberFormatter.format(value)}곳`,
+    legend: [
+      { className: "neutral", label: "50곳 이하" },
+      { className: "flat", label: "51~300곳" },
+      { className: "decline", label: "301~500곳" },
+      { className: "severe", label: "501곳 이상" }
+    ],
+    color: (value) => {
+      if (value <= 50) {
+        return "#b8c3bd";
+      }
+
+      if (value <= 300) {
+        return "#e5b85c";
+      }
+
+      if (value <= 500) {
+        return "#d85d4a";
+      }
+
+      return "#b84336";
+    },
+    value: (region) => region.closedSchoolCount
+  }
+};
+
 const numberFormatter = new Intl.NumberFormat("ko-KR");
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -190,7 +274,13 @@ async function renderRegionalMap(regions) {
 
   const geojson = topojson.feature(topology, mapObject);
   const regionByMapCode = createRegionByMapCode(regions);
+  const featureByRegionName = createFeatureByRegionName(geojson.features, regionByMapCode);
   const mapElement = document.querySelector("#regionalMap");
+  const regionSelect = document.querySelector("#regionSelect");
+  let currentMetric = "populationChangeRate";
+  let selectedLayer = null;
+  let selectedRegion = null;
+  let selectedFeature = null;
 
   const map = L.map(mapElement, {
     attributionControl: true,
@@ -204,10 +294,16 @@ async function renderRegionalMap(regions) {
   L.control.zoom({ position: "bottomright" }).addTo(map);
 
   const layerGroup = L.geoJSON(geojson, {
-    style: (feature) => getMapFeatureStyle(feature, regionByMapCode),
+    style: (feature) => getMapFeatureStyle(feature, regionByMapCode, currentMetric),
     onEachFeature: (feature, layer) => {
       const region = regionByMapCode.get(feature.properties.code);
-      layer.bindTooltip(getMapTooltip(region, feature), {
+      const featureMatch = region ? featureByRegionName.get(region.name) : null;
+
+      if (featureMatch) {
+        featureMatch.layer = layer;
+      }
+
+      layer.bindTooltip(getMapTooltip(region, feature, currentMetric), {
         direction: "top",
         sticky: true
       });
@@ -219,13 +315,15 @@ async function renderRegionalMap(regions) {
             fillOpacity: 0.95,
             weight: 2.5
           });
-          renderMapDetail(region, feature);
+          renderMapDetail(region, feature, currentMetric);
         },
         mouseout: () => {
-          layerGroup.resetStyle(layer);
+          if (layer !== selectedLayer) {
+            layerGroup.resetStyle(layer);
+          }
         },
         click: () => {
-          renderMapDetail(region, feature);
+          selectRegion(region, feature, layer);
         }
       });
     }
@@ -234,7 +332,83 @@ async function renderRegionalMap(regions) {
   map.fitBounds(layerGroup.getBounds(), {
     padding: [18, 18]
   });
+  populateRegionSelect(regions, regionSelect);
+  renderMapLegend(currentMetric);
   renderMapDetail();
+
+  document.querySelectorAll("[data-map-metric]").forEach((button) => {
+    button.addEventListener("click", () => {
+      currentMetric = button.dataset.mapMetric;
+      document.querySelectorAll("[data-map-metric]").forEach((item) => {
+        item.classList.toggle("active", item === button);
+      });
+      document.querySelector("#mapTitle").textContent = mapMetricConfigs[currentMetric].title;
+      renderMapLegend(currentMetric);
+      layerGroup.setStyle((feature) => getMapFeatureStyle(feature, regionByMapCode, currentMetric));
+      refreshTooltips(layerGroup, regionByMapCode, currentMetric);
+
+      if (selectedLayer) {
+        selectedLayer.setStyle({
+          color: "#18211c",
+          fillOpacity: 0.96,
+          weight: 3
+        });
+      }
+
+      renderMapDetail(selectedRegion, selectedFeature, currentMetric);
+    });
+  });
+
+  regionSelect.addEventListener("change", () => {
+    const regionName = regionSelect.value;
+
+    if (!regionName) {
+      if (selectedLayer) {
+        layerGroup.resetStyle(selectedLayer);
+      }
+      selectedLayer = null;
+      selectedRegion = null;
+      selectedFeature = null;
+      map.fitBounds(layerGroup.getBounds(), {
+        padding: [18, 18]
+      });
+      renderMapDetail();
+      return;
+    }
+
+    const match = featureByRegionName.get(regionName);
+    if (!match || !match.layer) {
+      return;
+    }
+
+    selectRegion(match.region, match.feature, match.layer);
+    map.fitBounds(match.layer.getBounds(), {
+      maxZoom: 8,
+      padding: [48, 48]
+    });
+  });
+
+  function selectRegion(region, feature, layer) {
+    if (!region) {
+      return;
+    }
+
+    if (selectedLayer && selectedLayer !== layer) {
+      layerGroup.resetStyle(selectedLayer);
+    }
+
+    selectedLayer = layer;
+    selectedRegion = region;
+    selectedFeature = feature;
+    regionSelect.value = region.name;
+    layer.setStyle({
+      color: "#18211c",
+      fillOpacity: 0.96,
+      weight: 3
+    });
+    layer.bringToFront();
+    renderMapDetail(region, feature, currentMetric);
+  }
 }
 
 function createRegionByMapCode(regions) {
@@ -244,7 +418,50 @@ function createRegionByMapCode(regions) {
   ]));
 }
 
-function getMapFeatureStyle(feature, regionByMapCode) {
+function createFeatureByRegionName(features, regionByMapCode) {
+  const result = new Map();
+
+  features.forEach((feature) => {
+    const region = regionByMapCode.get(feature.properties.code);
+
+    if (region) {
+      result.set(region.name, {
+        feature,
+        region,
+        layer: null
+      });
+    }
+  });
+
+  return result;
+}
+
+function populateRegionSelect(regions, select) {
+  select.innerHTML = `
+    <option value="">전국</option>
+    ${regions.map((region) => `<option value="${region.name}">${region.name}</option>`).join("")}
+  `;
+}
+
+function renderMapLegend(metric) {
+  const config = mapMetricConfigs[metric];
+  document.querySelector("#mapLegend").innerHTML = config.legend.map((item) => `
+    <span><i class="map-swatch ${item.className}"></i>${item.label}</span>
+  `).join("");
+}
+
+function refreshTooltips(layerGroup, regionByMapCode, metric) {
+  layerGroup.eachLayer((layer) => {
+    const feature = layer.feature;
+    const region = regionByMapCode.get(feature.properties.code);
+    layer.bindTooltip(getMapTooltip(region, feature, metric), {
+      direction: "top",
+      sticky: true
+    });
+  });
+}
+
+function getMapFeatureStyle(feature, regionByMapCode, metric) {
   const region = regionByMapCode.get(feature.properties.code);
 
   if (!region) {
@@ -257,49 +474,37 @@ function getMapFeatureStyle(feature, regionByMapCode) {
     };
   }
 
+  const config = mapMetricConfigs[metric];
+
   return {
     color: region.isCapitalArea ? "#3465d9" : "#ffffff",
-    fillColor: getRateColor(region.populationChangeRate),
+    fillColor: config.color(config.value(region)),
     fillOpacity: 0.84,
     opacity: 1,
     weight: region.isCapitalArea ? 2.3 : 1
   };
 }
 
-function getRateColor(rate) {
-  if (rate <= -2) {
-    return "#b84336";
-  }
-
-  if (rate < 0) {
-    return "#d85d4a";
-  }
-
-  if (rate < 1) {
-    return "#e5b85c";
-  }
-
-  return "#21845a";
-}
-
-function getMapTooltip(region, feature) {
+function getMapTooltip(region, feature, metric) {
   const name = region ? region.name : feature.properties.name;
 
   if (!region) {
     return `<strong>${name}</strong><br>대시보드 데이터 없음`;
   }
 
-  return `<strong>${name}</strong><br>증감률 ${formatRate(region.populationChangeRate)}`;
+  const config = mapMetricConfigs[metric];
+  return `<strong>${name}</strong><br>${config.detailLabel} ${config.format(config.value(region))}`;
 }
 
-function renderMapDetail(region, feature) {
+function renderMapDetail(region, feature, metric = "populationChangeRate") {
   const detail = document.querySelector("#mapDetail");
+  const config = mapMetricConfigs[metric];
 
   if (!region) {
     detail.innerHTML = `
-      <span class="detail-label">지도 상태</span>
-      <strong>17개 시도 경계 연결 완료</strong>
-      <p>지도 색상은 Phase 1 임시 데이터의 인구 증감률을 기준으로 표시합니다.</p>
+      <span class="detail-label">전국 요약</span>
+      <strong>${config.title}</strong>
+      <p>17개 시도 경계와 Phase 1 지표를 연결했습니다.</p>
     `;
     return;
   }

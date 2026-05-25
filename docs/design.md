@@ -208,4 +208,5 @@ Phase 2 목표는 시도 단위 choropleth 지도다. Leaflet은 GeoJSON과 잘 
 - `data/skorea-provinces-2018-topo-simple.json` 추가
 - `src/app.js`에서 Phase 1 지역 데이터와 지도 경계 코드를 매핑
 - 지도 상세 패널에 인구 증감률, 인구감소지역 수, 폐교 수 표시
+- 지도 지표 전환과 지역 선택 인터랙션 추가
 - `tests/verify-data.mjs`에서 지도 경계 17개와 코드 매핑을 자동 검증

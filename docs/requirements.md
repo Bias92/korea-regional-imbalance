@@ -88,6 +88,8 @@
 | FR-008 | 수도권은 지도에서도 구분되어야 한다. | 서울, 인천, 경기의 경계선이 다른 지역보다 강조된다. |
 | FR-009 | 지도와 Phase 1 지표가 연결되어야 한다. | 지도 지역 선택 시 인구 증감률, 인구감소지역 수, 폐교 수가 표시된다. |
 | FR-010 | 지도 경계 데이터 출처를 기록해야 한다. | `data/README.md`와 라이선스 파일에 출처가 남는다. |
+| FR-011 | 지도 기준 지표를 전환할 수 있어야 한다. | 인구 증감률, 인구감소지역, 폐교 수 버튼으로 지도 색상 기준이 바뀐다. |
+| FR-012 | 사용자가 특정 시도를 직접 선택할 수 있어야 한다. | 지역 선택 드롭다운에서 선택한 시도의 상세 정보가 표시된다. |
 
 ---
 
@@ -112,8 +114,8 @@
 | `data/skorea-provinces-2018-topo-simple.json` | FR-006, FR-010, NFR-006 |
 | `data/README.md` | FR-010, NFR-003, NFR-006 |
 | `src/index.html` | FR-001, FR-004, NFR-001 |
-| `src/app.js` | FR-001, FR-002, FR-003, FR-005, FR-006, FR-007, FR-008, FR-009 |
-| `src/styles.css` | FR-003, FR-007, FR-008, NFR-002, NFR-005 |
+| `src/app.js` | FR-001, FR-002, FR-003, FR-005, FR-006, FR-007, FR-008, FR-009, FR-011, FR-012 |
+| `src/styles.css` | FR-003, FR-007, FR-008, FR-011, FR-012, NFR-002, NFR-005 |
 | `tests/verify-data.mjs` | FR-001, FR-002, FR-003, FR-005, FR-006, FR-008, NFR-003, NFR-006 |
 | `docs/test-plan.md` | 전체 요구사항 검증 |
 
