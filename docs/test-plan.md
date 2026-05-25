@@ -1,6 +1,6 @@
-# 테스트 계획 (Phase 1)
+# 테스트 계획
 
-본 문서는 Phase 1 MVP의 수동 검증 기준을 정의한다.
+본 문서는 Phase 1 MVP와 Phase 2 지도 초안의 검증 기준을 정의한다.
 브라우저 기반 정적 대시보드이므로 초기 단계에서는 체크리스트 중심으로 검증한다.
 
 ---
@@ -10,6 +10,7 @@
 - 정적 JSON 데이터 로드
 - 통계 카드 렌더링
 - Chart.js 막대차트 렌더링
+- Leaflet 시도 단위 지도 렌더링
 - 반응형 레이아웃
 - 문서와 구현의 일치 여부
 - 데이터 구조 자동 검증
@@ -19,13 +20,14 @@
 
 ## 2. 자동 검증
 
-Phase 1은 별도 빌드 도구가 없는 정적 웹앱이므로, 최소 자동 검증은 Node.js 기반으로 수행한다.
+본 프로젝트는 별도 빌드 도구가 없는 정적 웹앱이므로, 최소 자동 검증은 Node.js 기반으로 수행한다.
 
 | ID | 명령 | 검증 내용 | 기대 결과 |
 |---|---|---|---|
 | A-001 | `node --check src/app.js` | JavaScript 문법 오류 확인 | 오류 없이 종료 |
-| A-002 | `node tests/verify-data.mjs` | JSON 필수 키, 17개 시도, 수도권 분류 확인 | `Data verification passed.` 출력 |
+| A-002 | `node tests/verify-data.mjs` | JSON 필수 키, 17개 시도, 지도 경계 17개, 수도권 매핑 확인 | `Data verification passed.` 출력 |
 | A-003 | `python -m json.tool data/phase1-regions.json` | JSON 파싱 가능 여부 확인 | 오류 없이 종료 |
+| A-004 | `python -m json.tool data/skorea-provinces-2018-topo-simple.json` | TopoJSON 파싱 가능 여부 확인 | 오류 없이 종료 |
 
 ---
 
@@ -40,15 +42,17 @@ Phase 1은 별도 빌드 도구가 없는 정적 웹앱이므로, 최소 자동 
 | T-005 | 데이터 기준 표시 | 데이터 설명 영역을 확인한다. | 기준연도와 임시 데이터 안내가 표시된다. |
 | T-006 | 모바일 레이아웃 | 좁은 화면 폭에서 확인한다. | 카드와 차트 텍스트가 겹치지 않는다. |
 | T-007 | 콘솔 오류 | 브라우저 개발자 도구 콘솔을 확인한다. | 로딩 실패나 JavaScript 오류가 없다. |
+| T-008 | 지도 렌더링 | 지도 영역을 확인한다. | 17개 시도 경계가 색상으로 표시된다. |
+| T-009 | 지도 상세 정보 | 지도 지역에 마우스를 올리거나 클릭한다. | 해당 지역의 인구 증감률, 인구감소지역 수, 폐교 수가 표시된다. |
 
 ---
 
 ## 4. 완료 기준
 
-- A-001부터 A-003까지 모두 통과한다.
-- T-001부터 T-007까지 모두 통과한다.
+- A-001부터 A-004까지 모두 통과한다.
+- T-001부터 T-009까지 모두 통과한다.
 - 실패 항목은 `docs/ai-log/` 또는 커밋 메시지에 수정 내역을 남긴다.
-- Phase 2 착수 전 Phase 1 캡처를 확보한다.
+- Phase별 주요 화면 캡처를 확보한다.
 
 ---
 
@@ -59,11 +63,23 @@ Phase 1은 별도 빌드 도구가 없는 정적 웹앱이므로, 최소 자동 
 | `node --check src/app.js` | 통과 |
 | `node tests/verify-data.mjs` | 통과 |
 | `python -m json.tool data/phase1-regions.json` | 통과 |
-| 정적 서버 경로 확인 | `src/index.html`, `data/phase1-regions.json` 모두 200 OK |
+| `python -m json.tool data/skorea-provinces-2018-topo-simple.json` | 통과 |
+| 정적 서버 경로 확인 | `src/index.html`, `data/phase1-regions.json`, `data/skorea-provinces-2018-topo-simple.json` 모두 200 OK |
 
 ---
 
-## 6. 향후 자동화 후보
+## 6. Phase 2 추가 검증 기록
+
+| 항목 | 결과 |
+|---|---|
+| Leaflet 지도 영역 추가 | 통과 |
+| 17개 시도 TopoJSON 경계 연결 | 통과 |
+| Phase 1 데이터와 지도 코드 매핑 | 통과 |
+| 지도 상세 패널 표시 | 통과 |
+
+---
+
+## 7. 향후 자동화 후보
 
 - Lighthouse 기반 접근성 점검
 - Playwright 기반 브라우저 렌더링 검증

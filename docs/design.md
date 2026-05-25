@@ -177,3 +177,35 @@ Phase 1 대시보드는 KOSIS, 행정안전부, 교육부 등 여러 출처의 �
 - 새 기능은 요구사항과 설계 결정 기록을 먼저 갱신한 뒤 구현한다.
 - 각 Phase 종료 시 `docs/ai-log/`와 `docs/lessons-learned.md`에 회고를 남긴다.
 - 자동화 가능한 검증은 `tests/`에 스크립트로 누적한다.
+
+---
+
+## DD-006: Phase 2 지도 경계는 저장소 내 TopoJSON으로 관리
+
+- **결정일**: 2026-05-25
+- **상태**: Accepted
+
+### 맥락
+
+Phase 2 목표는 시도 단위 choropleth 지도다. Leaflet은 GeoJSON과 잘 맞지만, 원본 시도 GeoJSON은
+파일 크기가 커서 정적 대시보드에 부담이 된다. 반대로 외부 URL을 매번 호출하면 네트워크 상태와
+원격 파일 변경에 영향을 받는다.
+
+### 결정
+
+`southkorea/southkorea-maps`의 KOSTAT 2018 시도 단위 단순 TopoJSON을 `data/`에 저장하고,
+브라우저에서는 `topojson-client`로 GeoJSON으로 변환한 뒤 Leaflet에 전달한다.
+
+### 근거
+
+- 단순 TopoJSON은 원본 GeoJSON보다 작아 정적 호스팅에 적합하다.
+- 경계 파일을 저장소에 포함하면 제출 시점의 화면을 재현하기 쉽다.
+- 데이터 출처와 라이선스를 `data/README.md`와 `data/skorea-provinces-license.md`에 남길 수 있다.
+- Phase 2는 시군구가 아니라 시도 단위이므로 17개 경계만 있으면 MVP 요구를 충족한다.
+
+### 결과
+
+- `data/skorea-provinces-2018-topo-simple.json` 추가
+- `src/app.js`에서 Phase 1 지역 데이터와 지도 경계 코드를 매핑
+- 지도 상세 패널에 인구 증감률, 인구감소지역 수, 폐교 수 표시
+- `tests/verify-data.mjs`에서 지도 경계 17개와 코드 매핑을 자동 검증

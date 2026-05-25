@@ -1,4 +1,26 @@
 const DATA_URL = "../data/phase1-regions.json";
+const MAP_URL = "../data/skorea-provinces-2018-topo-simple.json";
+const MAP_OBJECT_NAME = "skorea_provinces_2018_geo";
+
+const mapCodeByRegionCode = {
+  "KR-11": "11",
+  "KR-26": "21",
+  "KR-27": "22",
+  "KR-28": "23",
+  "KR-29": "24",
+  "KR-30": "25",
+  "KR-31": "26",
+  "KR-50": "29",
+  "KR-41": "31",
+  "KR-42": "32",
+  "KR-43": "33",
+  "KR-44": "34",
+  "KR-45": "35",
+  "KR-46": "36",
+  "KR-47": "37",
+  "KR-48": "38",
+  "KR-49": "39"
+};
 
 const numberFormatter = new Intl.NumberFormat("ko-KR");
 
@@ -18,6 +40,7 @@ async function loadDashboard() {
     renderSummary(data.summary);
     renderRegionList(data.regions);
     renderPopulationChart(data.regions);
+    renderRegionalMap(data.regions).catch(renderMapError);
     renderDataNote(data.meta);
   } catch (error) {
     renderLoadError(error);
@@ -145,6 +168,174 @@ function renderPopulationChart(regions) {
       }
     }
   });
+}
+
+async function renderRegionalMap(regions) {
+  if (typeof L === "undefined" || typeof topojson === "undefined") {
+    throw new Error("Leaflet 또는 TopoJSON 라이브러리를 불러오지 못했습니다.");
+  }
+
+  const response = await fetch(MAP_URL);
+
+  if (!response.ok) {
+    throw new Error(`지도 데이터 요청 실패: ${response.status}`);
+  }
+
+  const topology = await response.json();
+  const mapObject = topology.objects[MAP_OBJECT_NAME];
+
+  if (!mapObject) {
+    throw new Error("지도 데이터의 object 이름이 예상과 다릅니다.");
+  }
+
+  const geojson = topojson.feature(topology, mapObject);
+  const regionByMapCode = createRegionByMapCode(regions);
+  const mapElement = document.querySelector("#regionalMap");
+
+  const map = L.map(mapElement, {
+    attributionControl: true,
+    scrollWheelZoom: false,
+    zoomControl: false
+  }).setView([36.4, 127.8], 6);
+
+  map.attributionControl.addAttribution(
+    'Boundary: <a href="https://github.com/southkorea/southkorea-maps">southkorea-maps</a>'
+  );
+  L.control.zoom({ position: "bottomright" }).addTo(map);
+
+  const layerGroup = L.geoJSON(geojson, {
+    style: (feature) => getMapFeatureStyle(feature, regionByMapCode),
+    onEachFeature: (feature, layer) => {
+      const region = regionByMapCode.get(feature.properties.code);
+      layer.bindTooltip(getMapTooltip(region, feature), {
+        direction: "top",
+        sticky: true
+      });
+
+      layer.on({
+        mouseover: () => {
+          layer.setStyle({
+            color: "#18211c",
+            fillOpacity: 0.95,
+            weight: 2.5
+          });
+          renderMapDetail(region, feature);
+        },
+        mouseout: () => {
+          layerGroup.resetStyle(layer);
+        },
+        click: () => {
+          renderMapDetail(region, feature);
+        }
+      });
+    }
+  }).addTo(map);
+
+  map.fitBounds(layerGroup.getBounds(), {
+    padding: [18, 18]
+  });
+  renderMapDetail();
+}
+
+function createRegionByMapCode(regions) {
+  return new Map(regions.map((region) => [
+    mapCodeByRegionCode[region.code],
+    region
+  ]));
+}
+
+function getMapFeatureStyle(feature, regionByMapCode) {
+  const region = regionByMapCode.get(feature.properties.code);
+
+  if (!region) {
+    return {
+      color: "#ffffff",
+      fillColor: "#d8dfd8",
+      fillOpacity: 0.75,
+      opacity: 1,
+      weight: 1
+    };
+  }
+
+  return {
+    color: region.isCapitalArea ? "#3465d9" : "#ffffff",
+    fillColor: getRateColor(region.populationChangeRate),
+    fillOpacity: 0.84,
+    opacity: 1,
+    weight: region.isCapitalArea ? 2.3 : 1
+  };
+}
+
+function getRateColor(rate) {
+  if (rate <= -2) {
+    return "#b84336";
+  }
+
+  if (rate < 0) {
+    return "#d85d4a";
+  }
+
+  if (rate < 1) {
+    return "#e5b85c";
+  }
+
+  return "#21845a";
+}
+
+function getMapTooltip(region, feature) {
+  const name = region ? region.name : feature.properties.name;
+
+  if (!region) {
+    return `<strong>${name}</strong><br>대시보드 데이터 없음`;
+  }
+
+  return `<strong>${name}</strong><br>증감률 ${formatRate(region.populationChangeRate)}`;
+}
+
+function renderMapDetail(region, feature) {
+  const detail = document.querySelector("#mapDetail");
+
+  if (!region) {
+    detail.innerHTML = `
+      <span class="detail-label">지도 상태</span>
+      <strong>17개 시도 경계 연결 완료</strong>
+      <p>지도 색상은 Phase 1 임시 데이터의 인구 증감률을 기준으로 표시합니다.</p>
+    `;
+    return;
+  }
+
+  const mapName = feature.properties.name;
+  const areaLabel = region.isCapitalArea ? "수도권" : "비수도권";
+
+  detail.innerHTML = `
+    <span class="detail-label">${areaLabel}</span>
+    <strong>${region.name}</strong>
+    <p>${mapName} 경계 데이터와 Phase 1 지표를 연결했습니다.</p>
+    <div class="detail-grid">
+      <div class="detail-row">
+        <span>인구 증감률</span>
+        <b>${formatRate(region.populationChangeRate)}</b>
+      </div>
+      <div class="detail-row">
+        <span>인구감소지역</span>
+        <b>${numberFormatter.format(region.depopulationAreaCount)}곳</b>
+      </div>
+      <div class="detail-row">
+        <span>폐교 수</span>
+        <b>${numberFormatter.format(region.closedSchoolCount)}곳</b>
+      </div>
+    </div>
+    <span class="area-pill">${areaLabel} 구분</span>
+  `;
+}
+
+function renderMapError(error) {
+  document.querySelector("#regionalMap").innerHTML = "";
+  document.querySelector("#mapDetail").innerHTML = `
+    <span class="detail-label">지도 오류</span>
+    <strong>지도를 불러오지 못했습니다</strong>
+    <p>${error.message}</p>
+  `;
 }
 
 function renderDataNote(meta) {

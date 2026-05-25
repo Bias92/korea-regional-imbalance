@@ -7,11 +7,19 @@
 - `raw/`: KOSIS, 행정안전부, 교육부 등에서 내려받은 원본 CSV 보관
 - `processed/`: 원본 CSV를 정리한 중간 산출물 보관
 - `phase1-regions.json`: Phase 1 MVP 화면에서 직접 로드하는 정적 JSON
+- `skorea-provinces-2018-topo-simple.json`: Phase 2 지도에 사용하는 시도 단위 TopoJSON
+- `skorea-provinces-license.md`: 지도 경계 원자료 라이선스 기록
 
 ## 현재 상태
 
 `phase1-regions.json`은 Phase 1 화면 구현과 검증을 위한 **임시 시연 데이터**다.
 공식 출처 데이터 확보 후 값과 기준연도를 교체해야 한다.
+
+`skorea-provinces-2018-topo-simple.json`은
+[`southkorea/southkorea-maps`](https://github.com/southkorea/southkorea-maps)의
+KOSTAT 2018 시도 단위 TopoJSON을 저장한 것이다. 지도 경계 원자료는 통계청
+통계지리정보서비스(SGIS)에서 공공누리 제1유형 라이선스로 제공된 자료이며, 원문
+라이선스 문구는 `skorea-provinces-license.md`에 보관한다.
 
 임시 데이터를 사용하는 이유:
 

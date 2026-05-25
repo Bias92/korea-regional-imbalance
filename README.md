@@ -17,9 +17,9 @@
 - [x] 인구감소지역 수 표시
 - [x] 폐교 수 표시
 - [x] 시도별 인구 증감률 막대차트
-- [ ] (Phase 2) 시도 단위 choropleth 지도
+- [x] (Phase 2) 시도 단위 choropleth 지도 초안
 
-> Phase 1 MVP는 임시 시연 데이터 기준으로 구현 완료. 공식 통계 데이터 교체는 후속 작업으로 관리한다.
+> Phase 1 MVP와 Phase 2 지도 초안은 임시 시연 데이터 기준으로 구현 완료. 공식 통계 데이터 교체는 후속 작업으로 관리한다.
 
 ## 3. 단계별 계획
 
@@ -34,6 +34,7 @@
 
 - **Frontend**: HTML5 / CSS3 / Vanilla JavaScript
 - **시각화**: Chart.js (차트), Leaflet (지도)
+- **지도 경계**: southkorea-maps KOSTAT 2018 시도 TopoJSON
 - **데이터 처리**: 원본 CSV 확보 후 정적 JSON으로 변환
 - **데이터 출처 (예정)**: KOSIS, 행정안전부 인구감소지역, 교육부 폐교현황
 - **빌드/배포**: 정적 호스팅 (GitHub Pages 예정)
@@ -95,6 +96,9 @@ korea-regional-imbalance/
 │   ├── ai-log/              # AI와의 주요 토의 로그
 │   └── lessons-learned.md   # 프로세스 적용 교훈
 ├── data/                    # 데이터 출처 및 전처리 산출물
+│   ├── phase1-regions.json
+│   ├── skorea-provinces-2018-topo-simple.json
+│   └── skorea-provinces-license.md
 ├── src/                     # 실제 웹앱 코드
 │   ├── index.html
 │   ├── styles.css
@@ -108,3 +112,4 @@ korea-regional-imbalance/
 - **2026-05-18**: 프로젝트 킥오프 / 주제·스택 확정 / repo 개설
 - **2026-05-21**: Day 1 리뷰 반영 / Phase 1 문서·데이터·MVP 구현 착수
 - **2026-05-25**: 소프트웨어공학 프로세스 문서화 / 다이어그램 추가 / 데이터 검증 자동화
+- **2026-05-25**: Phase 2 Leaflet 시도 단위 choropleth 지도 초안 구현
