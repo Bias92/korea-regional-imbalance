@@ -172,6 +172,54 @@ h2 {
   gap: 14px;
 }
 
+.scenario-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: -6px 0 18px;
+}
+
+.scenario-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.scenario-button {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.scenario-button:hover,
+.scenario-button:focus-visible {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.scenario-button.active {
+  border-color: var(--teal);
+  background: var(--teal);
+  color: #ffffff;
+}
+
+.scenario-toolbar p {
+  max-width: 420px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.5;
+  text-align: right;
+}
+
 .insight-card {
   min-height: 150px;
   padding: 18px;
@@ -567,6 +615,15 @@ h2 {
   .map-toolbar {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .scenario-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .scenario-toolbar p {
+    text-align: left;
   }
 
   .legend,

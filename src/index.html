@@ -36,6 +36,15 @@
             <h2 id="insightTitle">핵심 진단</h2>
           </div>
         </div>
+        <div class="scenario-toolbar">
+          <div class="scenario-buttons" role="group" aria-label="위험지수 분석 기준 선택">
+            <button class="scenario-button active" type="button" data-risk-scenario="balanced">균형</button>
+            <button class="scenario-button" type="button" data-risk-scenario="population">인구감소 중심</button>
+            <button class="scenario-button" type="button" data-risk-scenario="depopulation">소멸위험 중심</button>
+            <button class="scenario-button" type="button" data-risk-scenario="schools">폐교 중심</button>
+          </div>
+          <p id="scenarioNote">인구 감소 40%, 인구감소지역 35%, 폐교 수 25%를 반영합니다.</p>
+        </div>
         <div class="insight-grid" id="insightGrid">
           <article class="insight-card skeleton"></article>
           <article class="insight-card skeleton"></article>

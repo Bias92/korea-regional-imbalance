@@ -22,6 +22,45 @@ const mapCodeByRegionCode = {
   "KR-49": "39"
 };
 
+const riskScenarioConfigs = {
+  balanced: {
+    label: "균형",
+    note: "인구 감소 40%, 인구감소지역 35%, 폐교 수 25%를 반영합니다.",
+    weights: {
+      decline: 0.4,
+      depopulation: 0.35,
+      closedSchools: 0.25
+    }
+  },
+  population: {
+    label: "인구감소 중심",
+    note: "인구 감소 70%, 인구감소지역 20%, 폐교 수 10%를 반영합니다.",
+    weights: {
+      decline: 0.7,
+      depopulation: 0.2,
+      closedSchools: 0.1
+    }
+  },
+  depopulation: {
+    label: "소멸위험 중심",
+    note: "인구 감소 25%, 인구감소지역 55%, 폐교 수 20%를 반영합니다.",
+    weights: {
+      decline: 0.25,
+      depopulation: 0.55,
+      closedSchools: 0.2
+    }
+  },
+  schools: {
+    label: "폐교 중심",
+    note: "인구 감소 20%, 인구감소지역 25%, 폐교 수 55%를 반영합니다.",
+    weights: {
+      decline: 0.2,
+      depopulation: 0.25,
+      closedSchools: 0.55
+    }
+  }
+};
+
 const mapMetricConfigs = {
   riskIndex: {
     title: "지역 위험지수 지도",
@@ -148,34 +187,66 @@ async function loadDashboard() {
     }
 
     const data = await response.json();
-    const regions = enrichRegionsWithRisk(data.regions);
+    const regions = data.regions.map((region) => ({ ...region }));
+    applyRiskScenario(regions, riskScenarioConfigs.balanced.weights);
     renderSummary(data.summary);
     renderInsightPanel(regions);
     renderRegionList(regions);
     renderPopulationChart(regions);
-    renderRegionalMap(regions).catch(renderMapError);
+    let mapController = null;
+
+    try {
+      mapController = await renderRegionalMap(regions);
+    } catch (error) {
+      renderMapError(error);
+    }
+
+    setupRiskScenarioControls(regions, mapController);
     renderDataNote(data.meta);
   } catch (error) {
     renderLoadError(error);
   }
 }
 
-function enrichRegionsWithRisk(regions) {
+function applyRiskScenario(regions, weights) {
   const maxDecline = Math.max(...regions.map((region) => Math.max(0, -region.populationChangeRate)));
   const maxDepopulation = Math.max(...regions.map((region) => region.depopulationAreaCount));
   const maxClosedSchools = Math.max(...regions.map((region) => region.closedSchoolCount));
 
-  return regions.map((region) => {
+  regions.forEach((region) => {
     const declineScore = maxDecline === 0 ? 0 : Math.max(0, -region.populationChangeRate) / maxDecline;
     const depopulationScore = maxDepopulation === 0 ? 0 : region.depopulationAreaCount / maxDepopulation;
     const closedSchoolScore = maxClosedSchools === 0 ? 0 : region.closedSchoolCount / maxClosedSchools;
-    const riskIndex = Math.round((declineScore * 0.4 + depopulationScore * 0.35 + closedSchoolScore * 0.25) * 100);
+    const riskIndex = Math.round((
+      declineScore * weights.decline +
+      depopulationScore * weights.depopulation +
+      closedSchoolScore * weights.closedSchools
+    ) * 100);
 
-    return {
-      ...region,
-      riskIndex,
-      riskGrade: getRiskGrade(riskIndex)
+    region.riskIndex = riskIndex;
+    region.riskGrade = getRiskGrade(riskIndex);
+    region.riskComponents = {
+      declineScore,
+      depopulationScore,
+      closedSchoolScore
     };
+  });
+}
+
+function setupRiskScenarioControls(regions, mapController) {
+  document.querySelectorAll("[data-risk-scenario]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const scenario = riskScenarioConfigs[button.dataset.riskScenario];
+
+      applyRiskScenario(regions, scenario.weights);
+      document.querySelectorAll("[data-risk-scenario]").forEach((item) => {
+        item.classList.toggle("active", item === button);
+      });
+      document.querySelector("#scenarioNote").textContent = scenario.note;
+      renderInsightPanel(regions, scenario);
+      renderRegionList(regions);
+      mapController?.refreshRiskDisplay();
+    });
   });
 }
 
@@ -215,7 +286,7 @@ function renderSummary(summary) {
   }).join("");
 }
 
-function renderInsightPanel(regions) {
+function renderInsightPanel(regions, scenario = riskScenarioConfigs.balanced) {
   const topRiskRegion = getTopRegion(regions, "riskIndex");
   const topDeclineRegion = [...regions].sort((a, b) => a.populationChangeRate - b.populationChangeRate)[0];
   const topClosedSchoolRegion = getTopRegion(regions, "closedSchoolCount");
@@ -231,7 +302,7 @@ function renderInsightPanel(regions) {
 
   const cards = [
     {
-      kicker: "우선 대응",
+      kicker: `${scenario.label} 기준`,
       title: `${topRiskRegion.name} ${topRiskRegion.riskIndex}점`,
       body: `${topRiskRegion.riskGrade} 등급입니다. 인구감소지역 ${topRiskRegion.depopulationAreaCount}곳, 폐교 ${numberFormatter.format(topRiskRegion.closedSchoolCount)}곳이 함께 잡힙니다.`
     },
@@ -272,6 +343,11 @@ function renderRegionList(regions) {
       </div>
     `;
   }).join("");
+}
+
+function getRegionRiskRank(regions, targetRegion) {
+  const sortedRegions = [...regions].sort((a, b) => b.riskIndex - a.riskIndex);
+  return sortedRegions.findIndex((region) => region.name === targetRegion.name) + 1;
 }
 
 function renderPopulationChart(regions) {
@@ -404,7 +480,7 @@ async function renderRegionalMap(regions) {
             fillOpacity: 0.95,
             weight: 2.5
           });
-          renderMapDetail(region, feature, currentMetric);
+          renderMapDetail(region, feature, currentMetric, regions);
         },
         mouseout: () => {
           if (layer !== selectedLayer) {
@@ -423,7 +499,7 @@ async function renderRegionalMap(regions) {
   });
   populateRegionSelect(regions, regionSelect);
   renderMapLegend(currentMetric);
-  renderMapDetail();
+  renderMapDetail(null, null, currentMetric);
 
   document.querySelectorAll("[data-map-metric]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -444,7 +520,7 @@ async function renderRegionalMap(regions) {
         });
       }
 
-      renderMapDetail(selectedRegion, selectedFeature, currentMetric);
+      renderMapDetail(selectedRegion, selectedFeature, currentMetric, regions);
     });
   });
 
@@ -461,7 +537,7 @@ async function renderRegionalMap(regions) {
       map.fitBounds(layerGroup.getBounds(), {
         padding: [18, 18]
       });
-      renderMapDetail();
+      renderMapDetail(null, null, currentMetric);
       return;
     }
 
@@ -496,8 +572,25 @@ async function renderRegionalMap(regions) {
       weight: 3
     });
     layer.bringToFront();
-    renderMapDetail(region, feature, currentMetric);
+    renderMapDetail(region, feature, currentMetric, regions);
   }
+
+  return {
+    refreshRiskDisplay: () => {
+      layerGroup.setStyle((feature) => getMapFeatureStyle(feature, regionByMapCode, currentMetric));
+      refreshTooltips(layerGroup, regionByMapCode, currentMetric);
+
+      if (selectedLayer) {
+        selectedLayer.setStyle({
+          color: "#18211c",
+          fillOpacity: 0.96,
+          weight: 3
+        });
+      }
+
+      renderMapDetail(selectedRegion, selectedFeature, currentMetric, regions);
+    }
+  };
 }
 
 function createRegionByMapCode(regions) {
@@ -585,7 +678,7 @@ function getMapTooltip(region, feature, metric) {
   return `<strong>${name}</strong><br>${config.detailLabel} ${config.format(config.value(region))}`;
 }
 
-function renderMapDetail(region, feature, metric = "populationChangeRate") {
+function renderMapDetail(region, feature, metric = "riskIndex", regions = []) {
   const detail = document.querySelector("#mapDetail");
   const config = mapMetricConfigs[metric];
 
@@ -600,6 +693,7 @@ function renderMapDetail(region, feature, metric = "populationChangeRate") {
 
   const mapName = feature.properties.name;
   const areaLabel = region.isCapitalArea ? "수도권" : "비수도권";
+  const riskRank = regions.length > 0 ? getRegionRiskRank(regions, region) : null;
 
   detail.innerHTML = `
     <span class="detail-label">${areaLabel}</span>
@@ -610,6 +704,12 @@ function renderMapDetail(region, feature, metric = "populationChangeRate") {
         <span>종합 위험지수</span>
         <b>${region.riskIndex}점</b>
       </div>
+      ${riskRank ? `
+        <div class="detail-row">
+          <span>위험도 순위</span>
+          <b>${riskRank}위 / 17개</b>
+        </div>
+      ` : ""}
       <div class="detail-row">
         <span>인구 증감률</span>
         <b>${formatRate(region.populationChangeRate)}</b>
