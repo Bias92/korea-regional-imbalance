@@ -52,6 +52,30 @@
         </div>
       </section>
 
+      <section class="compare-panel" aria-labelledby="compareTitle">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Region Compare</p>
+            <h2 id="compareTitle">지역 비교</h2>
+          </div>
+        </div>
+        <div class="compare-controls">
+          <label>
+            <span>지역 A</span>
+            <select id="compareLeft" aria-label="비교 지역 A"></select>
+          </label>
+          <label>
+            <span>지역 B</span>
+            <select id="compareRight" aria-label="비교 지역 B"></select>
+          </label>
+        </div>
+        <div class="compare-grid" id="compareResult">
+          <article class="compare-card skeleton"></article>
+          <article class="compare-card skeleton"></article>
+          <article class="compare-card skeleton"></article>
+        </div>
+      </section>
+
       <section class="map-panel" aria-labelledby="mapTitle">
         <div class="section-header">
           <div>

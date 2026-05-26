@@ -191,6 +191,7 @@ async function loadDashboard() {
     applyRiskScenario(regions, riskScenarioConfigs.balanced.weights);
     renderSummary(data.summary);
     renderInsightPanel(regions);
+    const compareController = setupRegionComparison(regions);
     renderRegionList(regions);
     renderPopulationChart(regions);
     let mapController = null;
@@ -201,7 +202,7 @@ async function loadDashboard() {
       renderMapError(error);
     }
 
-    setupRiskScenarioControls(regions, mapController);
+    setupRiskScenarioControls(regions, mapController, compareController);
     renderDataNote(data.meta);
   } catch (error) {
     renderLoadError(error);
@@ -233,7 +234,7 @@ function applyRiskScenario(regions, weights) {
   });
 }
 
-function setupRiskScenarioControls(regions, mapController) {
+function setupRiskScenarioControls(regions, mapController, compareController) {
   document.querySelectorAll("[data-risk-scenario]").forEach((button) => {
     button.addEventListener("click", () => {
       const scenario = riskScenarioConfigs[button.dataset.riskScenario];
@@ -244,6 +245,7 @@ function setupRiskScenarioControls(regions, mapController) {
       });
       document.querySelector("#scenarioNote").textContent = scenario.note;
       renderInsightPanel(regions, scenario);
+      compareController.refresh();
       renderRegionList(regions);
       mapController?.refreshRiskDisplay();
     });
@@ -321,6 +323,69 @@ function renderInsightPanel(regions, scenario = riskScenarioConfigs.balanced) {
   document.querySelector("#insightGrid").innerHTML = cards.map((card) => `
     <article class="insight-card">
       <span class="insight-kicker">${card.kicker}</span>
+      <strong>${card.title}</strong>
+      <p>${card.body}</p>
+    </article>
+  `).join("");
+}
+
+function setupRegionComparison(regions) {
+  const leftSelect = document.querySelector("#compareLeft");
+  const rightSelect = document.querySelector("#compareRight");
+  const sortedRegions = [...regions].sort((a, b) => a.name.localeCompare(b.name, "ko-KR"));
+  const topRiskRegion = getTopRegion(regions, "riskIndex");
+  const defaultCapitalRegion = regions.find((region) => region.name === "경기") || regions.find((region) => region.isCapitalArea);
+
+  const options = sortedRegions.map((region) => `<option value="${region.name}">${region.name}</option>`).join("");
+  leftSelect.innerHTML = options;
+  rightSelect.innerHTML = options;
+  leftSelect.value = topRiskRegion.name;
+  rightSelect.value = defaultCapitalRegion.name;
+
+  const refresh = () => {
+    const leftRegion = getRegionByName(regions, leftSelect.value);
+    const rightRegion = getRegionByName(regions, rightSelect.value);
+    renderRegionComparison(leftRegion, rightRegion);
+  };
+
+  leftSelect.addEventListener("change", refresh);
+  rightSelect.addEventListener("change", refresh);
+  refresh();
+
+  return {
+    refresh
+  };
+}
+
+function renderRegionComparison(leftRegion, rightRegion) {
+  const riskDiff = leftRegion.riskIndex - rightRegion.riskIndex;
+  const populationDiff = leftRegion.populationChangeRate - rightRegion.populationChangeRate;
+  const depopulationDiff = leftRegion.depopulationAreaCount - rightRegion.depopulationAreaCount;
+  const schoolDiff = leftRegion.closedSchoolCount - rightRegion.closedSchoolCount;
+  const higherRiskRegion = riskDiff >= 0 ? leftRegion : rightRegion;
+  const lowerRiskRegion = riskDiff >= 0 ? rightRegion : leftRegion;
+
+  const cards = [
+    {
+      label: "위험지수 차이",
+      title: `${higherRiskRegion.name} +${Math.abs(riskDiff)}점`,
+      body: `${withTopicParticle(higherRiskRegion.name)} ${lowerRiskRegion.name}보다 위험지수가 높습니다. ${leftRegion.name} ${leftRegion.riskIndex}점, ${rightRegion.name} ${rightRegion.riskIndex}점입니다.`
+    },
+    {
+      label: "인구 흐름",
+      title: `${formatSignedPoint(populationDiff)}%p`,
+      body: `${leftRegion.name}의 인구 증감률은 ${formatRate(leftRegion.populationChangeRate)}, ${withTopicParticle(rightRegion.name)} ${formatRate(rightRegion.populationChangeRate)}입니다.`
+    },
+    {
+      label: "지역 기반 지표",
+      title: `${formatSignedNumber(depopulationDiff)}곳 / ${formatSignedNumber(schoolDiff)}곳`,
+      body: `인구감소지역 차이는 ${formatSignedNumber(depopulationDiff)}곳, 폐교 수 차이는 ${formatSignedNumber(schoolDiff)}곳입니다.`
+    }
+  ];
+
+  document.querySelector("#compareResult").innerHTML = cards.map((card) => `
+    <article class="compare-card">
+      <span class="compare-label">${card.label}</span>
       <strong>${card.title}</strong>
       <p>${card.body}</p>
     </article>
@@ -759,6 +824,10 @@ function getTopRegion(regions, key) {
   return [...regions].sort((a, b) => b[key] - a[key])[0];
 }
 
+function getRegionByName(regions, name) {
+  return regions.find((region) => region.name === name);
+}
+
 function getAverage(regions, key) {
   const total = regions.reduce((sum, region) => sum + region[key], 0);
   return total / regions.length;
@@ -786,4 +855,22 @@ function formatNumber(value) {
 
 function formatRate(value) {
   return `${value > 0 ? "+" : ""}${value.toFixed(1)}%`;
+}
+
+function formatSignedPoint(value) {
+  return `${value > 0 ? "+" : ""}${value.toFixed(1)}`;
+}
+
+function formatSignedNumber(value) {
+  return `${value > 0 ? "+" : ""}${numberFormatter.format(value)}`;
+}
+
+function withTopicParticle(name) {
+  const lastChar = name.charCodeAt(name.length - 1);
+
+  if (lastChar < 0xac00 || lastChar > 0xd7a3) {
+    return `${name}는`;
+  }
+
+  return (lastChar - 0xac00) % 28 === 0 ? `${name}는` : `${name}은`;
 }

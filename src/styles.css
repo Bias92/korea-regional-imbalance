@@ -151,6 +151,7 @@ h2 {
 }
 
 .insight-panel,
+.compare-panel,
 .map-panel,
 .chart-panel,
 .region-panel,
@@ -161,6 +162,7 @@ h2 {
   box-shadow: var(--shadow);
 }
 
+.compare-panel,
 .insight-panel {
   margin-bottom: 18px;
   padding: 22px;
@@ -258,6 +260,67 @@ h2 {
   color: var(--map-strong);
   font-size: 0.78rem;
   font-weight: 900;
+}
+
+.compare-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: -6px 0 18px;
+}
+
+.compare-controls label {
+  display: grid;
+  gap: 7px;
+  min-width: 190px;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 850;
+}
+
+.compare-controls select {
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-weight: 800;
+}
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.compare-card {
+  min-height: 132px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-strong);
+}
+
+.compare-card .compare-label {
+  display: block;
+  color: var(--teal);
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+
+.compare-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.35rem;
+  line-height: 1.18;
+}
+
+.compare-card p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
 }
 
 .map-panel {
@@ -604,6 +667,7 @@ h2 {
 
   .summary-grid,
   .insight-grid,
+  .compare-grid,
   .content-grid {
     grid-template-columns: 1fr;
   }
@@ -653,6 +717,7 @@ h2 {
 
   .metric-card,
   .insight-panel,
+  .compare-panel,
   .map-panel,
   .chart-panel,
   .region-panel {
