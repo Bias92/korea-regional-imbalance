@@ -94,6 +94,7 @@
 | FR-014 | 대시보드는 핵심 진단을 제공해야 한다. | 우선 대응 지역, 감소 신호, 수도권/비수도권 격차가 카드로 표시된다. |
 | FR-015 | 사용자는 위험지수 계산 기준을 바꿀 수 있어야 한다. | 균형, 인구감소 중심, 소멸위험 중심, 폐교 중심 시나리오를 선택하면 위험지수가 재계산된다. |
 | FR-016 | 사용자는 두 지역을 직접 비교할 수 있어야 한다. | 두 시도를 선택하면 위험지수, 인구 흐름, 인구감소지역 수, 폐교 수 차이가 표시된다. |
+| FR-017 | 대시보드는 위험지수 산식과 가중치를 설명해야 한다. | 선택된 시나리오의 산식, 정규화 기준, 요소별 가중치가 화면에 표시된다. |
 
 ---
 
@@ -117,9 +118,9 @@
 | `data/phase1-regions.json` | FR-001, FR-002, FR-003, FR-004, FR-005 |
 | `data/skorea-provinces-2018-topo-simple.json` | FR-006, FR-010, NFR-006 |
 | `data/README.md` | FR-010, NFR-003, NFR-006 |
-| `src/index.html` | FR-001, FR-004, NFR-001 |
-| `src/app.js` | FR-001, FR-002, FR-003, FR-005, FR-006, FR-007, FR-008, FR-009, FR-011, FR-012, FR-013, FR-014, FR-015, FR-016 |
-| `src/styles.css` | FR-003, FR-007, FR-008, FR-011, FR-012, FR-014, FR-015, FR-016, NFR-002, NFR-005 |
+| `src/index.html` | FR-001, FR-004, FR-017, NFR-001 |
+| `src/app.js` | FR-001, FR-002, FR-003, FR-005, FR-006, FR-007, FR-008, FR-009, FR-011, FR-012, FR-013, FR-014, FR-015, FR-016, FR-017 |
+| `src/styles.css` | FR-003, FR-007, FR-008, FR-011, FR-012, FR-014, FR-015, FR-016, FR-017, NFR-002, NFR-005 |
 | `tests/verify-data.mjs` | FR-001, FR-002, FR-003, FR-005, FR-006, FR-008, NFR-003, NFR-006 |
 | `docs/test-plan.md` | 전체 요구사항 검증 |
 

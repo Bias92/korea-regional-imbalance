@@ -61,6 +61,24 @@ const riskScenarioConfigs = {
   }
 };
 
+const riskFormulaFactors = [
+  {
+    key: "decline",
+    label: "인구 감소",
+    className: "decline"
+  },
+  {
+    key: "depopulation",
+    label: "인구감소지역",
+    className: "depopulation"
+  },
+  {
+    key: "closedSchools",
+    label: "폐교 수",
+    className: "schools"
+  }
+];
+
 const mapMetricConfigs = {
   riskIndex: {
     title: "지역 위험지수 지도",
@@ -190,6 +208,7 @@ async function loadDashboard() {
     const regions = data.regions.map((region) => ({ ...region }));
     applyRiskScenario(regions, riskScenarioConfigs.balanced.weights);
     renderSummary(data.summary);
+    renderFormulaPanel(riskScenarioConfigs.balanced);
     renderInsightPanel(regions);
     const compareController = setupRegionComparison(regions);
     renderRegionList(regions);
@@ -244,6 +263,7 @@ function setupRiskScenarioControls(regions, mapController, compareController) {
         item.classList.toggle("active", item === button);
       });
       document.querySelector("#scenarioNote").textContent = scenario.note;
+      renderFormulaPanel(scenario);
       renderInsightPanel(regions, scenario);
       compareController.refresh();
       renderRegionList(regions);
@@ -284,6 +304,29 @@ function renderSummary(summary) {
         </div>
         <p class="metric-caption">${card.caption}</p>
       </article>
+    `;
+  }).join("");
+}
+
+function renderFormulaPanel(scenario) {
+  const formulaText = document.querySelector("#formulaText");
+  const formulaNote = document.querySelector("#formulaNote");
+  const formulaBars = document.querySelector("#formulaBars");
+
+  formulaText.textContent = `위험지수 = ${riskFormulaFactors
+    .map((factor) => `${factor.label} ${formatWeight(scenario.weights[factor.key])}`)
+    .join(" + ")}`;
+  formulaNote.textContent = `${scenario.label} 기준입니다. 각 항목은 17개 시도 내 최댓값 대비 0~100으로 정규화한 뒤 가중합합니다.`;
+  formulaBars.innerHTML = riskFormulaFactors.map((factor) => {
+    const weight = scenario.weights[factor.key];
+    return `
+      <div class="formula-bar ${factor.className}">
+        <span>${factor.label}</span>
+        <strong>${formatWeight(weight)}</strong>
+        <div class="formula-track" aria-hidden="true">
+          <i style="width: ${formatWeight(weight)}"></i>
+        </div>
+      </div>
     `;
   }).join("");
 }
@@ -863,6 +906,10 @@ function formatSignedPoint(value) {
 
 function formatSignedNumber(value) {
   return `${value > 0 ? "+" : ""}${numberFormatter.format(value)}`;
+}
+
+function formatWeight(value) {
+  return `${Math.round(value * 100)}%`;
 }
 
 function withTopicParticle(name) {

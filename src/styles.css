@@ -222,6 +222,95 @@ h2 {
   text-align: right;
 }
 
+.formula-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
+  gap: 16px;
+  align-items: stretch;
+  margin: 0 0 18px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(22, 124, 128, 0.1), rgba(229, 184, 92, 0.12)), var(--surface);
+}
+
+.formula-copy {
+  min-width: 0;
+}
+
+.formula-label {
+  display: inline-flex;
+  color: var(--teal);
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.formula-copy strong {
+  display: block;
+  margin-top: 7px;
+  font-size: 1.02rem;
+  line-height: 1.4;
+}
+
+.formula-copy p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.formula-bars {
+  display: grid;
+  gap: 10px;
+}
+
+.formula-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 10px;
+  align-items: center;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 0.83rem;
+  font-weight: 850;
+}
+
+.formula-bar span {
+  overflow-wrap: anywhere;
+}
+
+.formula-bar strong {
+  color: var(--text);
+  font-size: 0.86rem;
+}
+
+.formula-track {
+  grid-column: 1 / -1;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(102, 116, 107, 0.18);
+}
+
+.formula-track i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--teal);
+}
+
+.formula-bar.decline .formula-track i {
+  background: var(--coral);
+}
+
+.formula-bar.depopulation .formula-track i {
+  background: var(--teal);
+}
+
+.formula-bar.schools .formula-track i {
+  background: var(--gold);
+}
+
 .insight-card {
   min-height: 150px;
   padding: 18px;
@@ -688,6 +777,10 @@ h2 {
 
   .scenario-toolbar p {
     text-align: left;
+  }
+
+  .formula-panel {
+    grid-template-columns: 1fr;
   }
 
   .legend,
