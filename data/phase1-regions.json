@@ -1,31 +1,39 @@
 {
   "meta": {
-    "dataset": "Phase 1 prototype regional imbalance data",
-    "status": "prototype-sample",
-    "baseYear": "시연용 임시 기준",
-    "updatedAt": "2026-05-21",
-    "warning": "공식 통계가 아닌 Phase 1 화면 검증용 임시 데이터입니다. KOSIS, 행정안전부, 교육부 자료 확보 후 교체해야 합니다."
+    "dataset": "Phase 1 regional imbalance data",
+    "status": "summary-official-mixed",
+    "baseYear": "지표별 상이 (summary 항목 sourceYear 참조)",
+    "updatedAt": "2026-05-29",
+    "warning": "summary(요약 지표 4종)는 통계청·행정안전부·교육부 공식 통계로 교체 완료. regions(시도별 인구증감률·폐교 수 등)는 아직 화면 검증용 임시 데이터이며 KOSIS·시도별 공식 자료로 후속 교체 예정입니다."
   },
   "summary": {
     "capitalAreaPopulationShare": {
       "label": "수도권 인구 비중",
-      "value": 50.7,
-      "unit": "%"
+      "value": 50.8,
+      "unit": "%",
+      "sourceYear": "2024",
+      "source": "통계청 인구주택총조사(등록센서스)"
     },
     "capitalAreaGrdpShare": {
       "label": "수도권 GRDP 비중",
-      "value": 52.8,
-      "unit": "%"
+      "value": 52.3,
+      "unit": "%",
+      "sourceYear": "2023",
+      "source": "통계청 지역소득(잠정)"
     },
     "depopulationAreaCount": {
       "label": "인구감소지역",
       "value": 89,
-      "unit": "곳"
+      "unit": "곳",
+      "sourceYear": "2021 지정·2026 유지",
+      "source": "행정안전부 인구감소지역 지정 고시"
     },
     "closedSchoolCount": {
       "label": "폐교 수",
       "value": 3922,
-      "unit": "곳"
+      "unit": "곳",
+      "sourceYear": "누계",
+      "source": "교육부 지방교육재정알리미 폐교 현황"
     }
   },
   "regions": [

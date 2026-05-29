@@ -295,6 +295,9 @@ function renderSummary(summary) {
   const container = document.querySelector("#summaryCards");
   container.innerHTML = cards.map((card) => {
     const item = summary[card.key];
+    const sourceLine = item.source
+      ? `<p class="metric-source">출처: ${item.source}${item.sourceYear ? ` (${item.sourceYear})` : ""}</p>`
+      : "";
     return `
       <article class="metric-card">
         <span class="metric-label">${item.label}</span>
@@ -303,6 +306,7 @@ function renderSummary(summary) {
           <span class="metric-unit">${item.unit}</span>
         </div>
         <p class="metric-caption">${card.caption}</p>
+        ${sourceLine}
       </article>
     `;
   }).join("");

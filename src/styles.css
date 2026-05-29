@@ -143,6 +143,16 @@ h2 {
   line-height: 1.5;
 }
 
+.metric-source {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.4;
+  opacity: 0.75;
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+}
+
 .content-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 340px;
