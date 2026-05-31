@@ -167,6 +167,7 @@ h2 {
 .map-panel,
 .chart-panel,
 .region-panel,
+.quality-panel,
 .data-note {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -934,6 +935,45 @@ h2 {
   line-height: 1.6;
 }
 
+.quality-panel {
+  margin-top: 18px;
+  padding: 18px;
+}
+
+.quality-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.quality-card {
+  min-height: 126px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-strong);
+}
+
+.quality-label {
+  display: block;
+  color: var(--teal);
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+
+.quality-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.quality-card p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
 .skeleton {
   overflow: hidden;
   background:
@@ -967,6 +1007,7 @@ h2 {
   .insight-grid,
   .compare-grid,
   .strategy-grid,
+  .quality-grid,
   .content-grid {
     grid-template-columns: 1fr;
   }

@@ -266,6 +266,7 @@ async function loadDashboard() {
 
     setupRiskScenarioControls(regions, mapController, compareController, regionExplorerController);
     renderDataNote(data.meta);
+    renderDataQuality(data.meta, data.summary);
   } catch (error) {
     renderLoadError(error);
   }
@@ -1152,9 +1153,38 @@ function renderMapError(error) {
 }
 
 function renderDataNote(meta) {
-  document.querySelector("#dataStatus").textContent = "임시 데이터";
+  document.querySelector("#dataStatus").textContent = getDataStatusLabel(meta.status);
   document.querySelector("#dataNote").textContent =
     `${meta.baseYear} · ${meta.warning}`;
+}
+
+function renderDataQuality(meta, summary) {
+  const summarySourceCount = Object.values(summary).filter((item) => item.source && item.sourceYear).length;
+  const cards = [
+    {
+      label: "요약 지표",
+      status: "공식 통계 반영",
+      body: `${summarySourceCount}개 핵심 카드에 출처와 기준연도를 표시했습니다.`
+    },
+    {
+      label: "시도별 분석",
+      status: "임시 데이터",
+      body: "지도, 위험지수, 폐교 차트 입력값은 화면 검증용이며 공식 시도별 자료로 교체 예정입니다."
+    },
+    {
+      label: "지도 경계",
+      status: "저장소 고정",
+      body: "KOSTAT 2018 시도 TopoJSON을 저장소에 포함하고 라이선스 문서를 함께 관리합니다."
+    }
+  ];
+
+  document.querySelector("#dataQualityGrid").innerHTML = cards.map((card) => `
+    <article class="quality-card">
+      <span class="quality-label">${card.label}</span>
+      <strong>${card.status}</strong>
+      <p>${card.body}</p>
+    </article>
+  `).join("");
 }
 
 function renderLoadError(error) {
@@ -1167,6 +1197,14 @@ function renderLoadError(error) {
   `;
   document.querySelector("#dataNote").textContent =
     "정적 서버에서 src/index.html을 열었는지 확인하세요.";
+}
+
+function getDataStatusLabel(status) {
+  if (status === "summary-official-mixed") {
+    return "혼합 데이터";
+  }
+
+  return "임시 데이터";
 }
 
 function getTopRegion(regions, key) {
