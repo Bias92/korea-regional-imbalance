@@ -79,6 +79,24 @@ const riskFormulaFactors = [
   }
 ];
 
+const riskFactorMetadata = {
+  decline: {
+    label: "인구 감소",
+    actionTitle: "인구 유출 원인 점검",
+    actionBody: (region) => `${region.name}은 인구 증감률 ${formatRate(region.populationChangeRate)}로 감소 신호가 큽니다. 청년층 유출, 고용 접근성, 생활 인프라를 우선 확인해야 합니다.`
+  },
+  depopulation: {
+    label: "인구감소지역",
+    actionTitle: "생활권 단위 대응",
+    actionBody: (region) => `${region.name}은 인구감소지역 ${numberFormatter.format(region.depopulationAreaCount)}곳이 잡힙니다. 개별 시군구보다 생활권 단위로 의료·교통·돌봄 접근성을 묶어 봐야 합니다.`
+  },
+  closedSchools: {
+    label: "폐교 수",
+    actionTitle: "교육 인프라 활용",
+    actionBody: (region) => `${region.name}은 폐교 ${numberFormatter.format(region.closedSchoolCount)}곳이 누적되어 있습니다. 유휴 교육시설 활용, 통학권 변화, 지역 커뮤니티 거점 전환 가능성을 같이 검토해야 합니다.`
+  }
+};
+
 const mapMetricConfigs = {
   riskIndex: {
     title: "지역 위험지수 지도",
@@ -211,6 +229,7 @@ async function loadDashboard() {
     renderFormulaPanel(riskScenarioConfigs.balanced);
     renderInsightPanel(regions);
     const compareController = setupRegionComparison(regions);
+    renderStrategyPanel(regions);
     const regionExplorerController = setupRegionExplorer(regions);
     renderPopulationChart(regions);
     let mapController = null;
@@ -265,6 +284,7 @@ function setupRiskScenarioControls(regions, mapController, compareController, re
       document.querySelector("#scenarioNote").textContent = scenario.note;
       renderFormulaPanel(scenario);
       renderInsightPanel(regions, scenario);
+      renderStrategyPanel(regions, scenario);
       compareController.refresh();
       regionExplorerController.refresh();
       mapController?.refreshRiskDisplay();
@@ -333,6 +353,57 @@ function renderFormulaPanel(scenario) {
       </div>
     `;
   }).join("");
+}
+
+function renderStrategyPanel(regions, scenario = riskScenarioConfigs.balanced) {
+  const topRiskRegion = getTopRegion(regions, "riskIndex");
+  const secondRiskRegion = [...regions].sort((a, b) => b.riskIndex - a.riskIndex)[1];
+  const dominantFactor = getDominantRiskFactor(topRiskRegion, scenario.weights);
+  const factorMeta = riskFactorMetadata[dominantFactor.key];
+  const scoreGap = topRiskRegion.riskIndex - secondRiskRegion.riskIndex;
+
+  const cards = [
+    {
+      label: "우선 대응",
+      title: `${topRiskRegion.name} ${topRiskRegion.riskIndex}점`,
+      body: `${scenario.label} 기준 최상위 지역입니다. 2순위 ${secondRiskRegion.name}보다 ${scoreGap}점 높고, 가장 큰 기여 요소는 ${factorMeta.label}입니다.`
+    },
+    {
+      label: "핵심 조치",
+      title: factorMeta.actionTitle,
+      body: factorMeta.actionBody(topRiskRegion)
+    },
+    {
+      label: "검증 과제",
+      title: "시도별 공식값 교체",
+      body: "요약 지표는 공식 통계로 교체됐지만 지도·위험지수 입력값은 아직 임시 데이터입니다. 다음 반복에서는 시도별 공식 인구·폐교 데이터를 먼저 확정해야 합니다."
+    }
+  ];
+
+  document.querySelector("#strategyGrid").innerHTML = cards.map((card) => `
+    <article class="strategy-card">
+      <span class="strategy-label">${card.label}</span>
+      <strong>${card.title}</strong>
+      <p>${card.body}</p>
+    </article>
+  `).join("");
+}
+
+function getDominantRiskFactor(region, weights) {
+  return [
+    {
+      key: "decline",
+      score: region.riskComponents.declineScore * weights.decline
+    },
+    {
+      key: "depopulation",
+      score: region.riskComponents.depopulationScore * weights.depopulation
+    },
+    {
+      key: "closedSchools",
+      score: region.riskComponents.closedSchoolScore * weights.closedSchools
+    }
+  ].sort((a, b) => b.score - a.score)[0];
 }
 
 function renderInsightPanel(regions, scenario = riskScenarioConfigs.balanced) {
