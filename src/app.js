@@ -211,7 +211,7 @@ async function loadDashboard() {
     renderFormulaPanel(riskScenarioConfigs.balanced);
     renderInsightPanel(regions);
     const compareController = setupRegionComparison(regions);
-    renderRegionList(regions);
+    const regionExplorerController = setupRegionExplorer(regions);
     renderPopulationChart(regions);
     let mapController = null;
 
@@ -221,7 +221,7 @@ async function loadDashboard() {
       renderMapError(error);
     }
 
-    setupRiskScenarioControls(regions, mapController, compareController);
+    setupRiskScenarioControls(regions, mapController, compareController, regionExplorerController);
     renderDataNote(data.meta);
   } catch (error) {
     renderLoadError(error);
@@ -253,7 +253,7 @@ function applyRiskScenario(regions, weights) {
   });
 }
 
-function setupRiskScenarioControls(regions, mapController, compareController) {
+function setupRiskScenarioControls(regions, mapController, compareController, regionExplorerController) {
   document.querySelectorAll("[data-risk-scenario]").forEach((button) => {
     button.addEventListener("click", () => {
       const scenario = riskScenarioConfigs[button.dataset.riskScenario];
@@ -266,7 +266,7 @@ function setupRiskScenarioControls(regions, mapController, compareController) {
       renderFormulaPanel(scenario);
       renderInsightPanel(regions, scenario);
       compareController.refresh();
-      renderRegionList(regions);
+      regionExplorerController.refresh();
       mapController?.refreshRiskDisplay();
     });
   });
@@ -439,22 +439,109 @@ function renderRegionComparison(leftRegion, rightRegion) {
   `).join("");
 }
 
-function renderRegionList(regions) {
-  const list = document.querySelector("#regionList");
-  const priorityRegions = [...regions]
-    .sort((a, b) => b.riskIndex - a.riskIndex)
-    .slice(0, 6);
+function setupRegionExplorer(regions) {
+  const searchInput = document.querySelector("#regionSearch");
+  const areaFilter = document.querySelector("#regionAreaFilter");
+  const sortSelect = document.querySelector("#regionSort");
 
-  list.innerHTML = priorityRegions.map((region) => {
-    const rateClass = region.populationChangeRate < 0 ? "negative" : "positive";
+  const refresh = () => {
+    renderRegionList(regions, {
+      area: areaFilter.value,
+      query: searchInput.value,
+      sort: sortSelect.value
+    });
+  };
+
+  searchInput.addEventListener("input", refresh);
+  areaFilter.addEventListener("change", refresh);
+  sortSelect.addEventListener("change", refresh);
+  refresh();
+
+  return {
+    refresh
+  };
+}
+
+function renderRegionList(regions, options = {}) {
+  const list = document.querySelector("#regionList");
+  const filteredRegions = getFilteredRegions(regions, options);
+  const sortedRegions = getSortedRegions(filteredRegions, options.sort);
+
+  if (sortedRegions.length === 0) {
+    list.innerHTML = `
+      <div class="region-empty">
+        <strong>검색 결과 없음</strong>
+        <p>지역명이나 권역 필터를 다시 조정하세요.</p>
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML = sortedRegions.map((region, index) => {
+    const valueClass = getRegionListValueClass(region, options.sort);
     return `
       <div class="region-row">
-        <span class="region-name">${region.name}</span>
-        <span class="change-rate ${rateClass}">${region.riskIndex}점</span>
-        <span class="region-meta">${region.riskGrade} · 증감률 ${formatRate(region.populationChangeRate)} · 인구감소지역 ${region.depopulationAreaCount}곳 · 폐교 ${numberFormatter.format(region.closedSchoolCount)}곳</span>
+        <span class="region-heading">
+          <span class="region-rank">${index + 1}</span>
+          <span class="region-name">${region.name}</span>
+        </span>
+        <span class="change-rate ${valueClass}">${formatRegionListValue(region, options.sort)}</span>
+        <span class="region-meta">${region.isCapitalArea ? "수도권" : "비수도권"} · ${region.riskGrade} · 위험 ${region.riskIndex}점 · 증감률 ${formatRate(region.populationChangeRate)} · 인구감소지역 ${region.depopulationAreaCount}곳 · 폐교 ${numberFormatter.format(region.closedSchoolCount)}곳</span>
       </div>
     `;
   }).join("");
+}
+
+function getFilteredRegions(regions, options) {
+  const query = (options.query || "").trim().toLowerCase();
+
+  return regions.filter((region) => {
+    const areaMatches =
+      options.area === "capital" ? region.isCapitalArea :
+      options.area === "nonCapital" ? !region.isCapitalArea :
+      true;
+    const queryMatches = query.length === 0 || region.name.toLowerCase().includes(query);
+
+    return areaMatches && queryMatches;
+  });
+}
+
+function getSortedRegions(regions, sortKey = "riskIndex") {
+  return [...regions].sort((a, b) => {
+    if (sortKey === "populationChangeRate") {
+      return a.populationChangeRate - b.populationChangeRate;
+    }
+
+    return b[sortKey] - a[sortKey];
+  });
+}
+
+function formatRegionListValue(region, sortKey = "riskIndex") {
+  if (sortKey === "populationChangeRate") {
+    return formatRate(region.populationChangeRate);
+  }
+
+  if (sortKey === "depopulationAreaCount") {
+    return `${numberFormatter.format(region.depopulationAreaCount)}곳`;
+  }
+
+  if (sortKey === "closedSchoolCount") {
+    return `${numberFormatter.format(region.closedSchoolCount)}곳`;
+  }
+
+  return `${region.riskIndex}점`;
+}
+
+function getRegionListValueClass(region, sortKey = "riskIndex") {
+  if (sortKey === "populationChangeRate") {
+    return region.populationChangeRate < 0 ? "negative" : "positive";
+  }
+
+  if (sortKey === "riskIndex") {
+    return region.riskIndex >= 55 ? "negative" : "positive";
+  }
+
+  return "negative";
 }
 
 function getRegionRiskRank(regions, targetRegion) {

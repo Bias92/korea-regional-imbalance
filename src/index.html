@@ -143,8 +143,31 @@
           <div class="section-header compact">
             <div>
               <p class="eyebrow">Regional Risk</p>
-              <h2 id="regionTitle">위험도 상위 지역</h2>
+              <h2 id="regionTitle">지역 탐색</h2>
             </div>
+          </div>
+          <div class="region-controls">
+            <label>
+              <span>검색</span>
+              <input id="regionSearch" type="search" aria-label="지역 검색" placeholder="지역명">
+            </label>
+            <label>
+              <span>권역</span>
+              <select id="regionAreaFilter" aria-label="권역 필터">
+                <option value="all">전체</option>
+                <option value="capital">수도권</option>
+                <option value="nonCapital">비수도권</option>
+              </select>
+            </label>
+            <label>
+              <span>정렬</span>
+              <select id="regionSort" aria-label="지역 정렬 기준">
+                <option value="riskIndex">위험지수 높은순</option>
+                <option value="populationChangeRate">인구 감소 큰순</option>
+                <option value="depopulationAreaCount">인구감소지역 많은순</option>
+                <option value="closedSchoolCount">폐교 많은순</option>
+              </select>
+            </label>
           </div>
           <div class="region-list" id="regionList"></div>
         </aside>
