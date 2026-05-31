@@ -98,6 +98,32 @@
         </div>
       </section>
 
+      <section class="school-panel" aria-labelledby="schoolTitle">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">School Closure</p>
+            <h2 id="schoolTitle">폐교 통계 분석</h2>
+          </div>
+          <div class="school-filter-group" role="group" aria-label="폐교 분석 필터">
+            <button class="school-filter active" type="button" data-school-filter="all">전체</button>
+            <button class="school-filter" type="button" data-school-filter="nonCapital">비수도권</button>
+            <button class="school-filter" type="button" data-school-filter="capital">수도권</button>
+            <button class="school-filter" type="button" data-school-filter="highClosure">300곳 이상</button>
+          </div>
+        </div>
+        <div class="school-layout">
+          <div class="school-chart-box">
+            <canvas id="closedSchoolChart" role="img" aria-label="시도별 폐교 수 막대차트"></canvas>
+          </div>
+          <div class="school-brief-grid" id="schoolBriefGrid">
+            <article class="school-card skeleton"></article>
+            <article class="school-card skeleton"></article>
+            <article class="school-card skeleton"></article>
+          </div>
+        </div>
+        <p class="school-note" id="schoolNote">시도별 폐교 수는 현재 화면 검증용 임시 데이터입니다.</p>
+      </section>
+
       <section class="map-panel" aria-labelledby="mapTitle">
         <div class="section-header">
           <div>

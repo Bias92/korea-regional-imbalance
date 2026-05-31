@@ -163,6 +163,7 @@ h2 {
 .insight-panel,
 .compare-panel,
 .strategy-panel,
+.school-panel,
 .map-panel,
 .chart-panel,
 .region-panel,
@@ -175,6 +176,7 @@ h2 {
 
 .compare-panel,
 .strategy-panel,
+.school-panel,
 .insight-panel {
   margin-bottom: 18px;
   padding: 22px;
@@ -455,6 +457,94 @@ h2 {
 .strategy-card p {
   margin: 12px 0 0;
   color: var(--muted);
+  line-height: 1.55;
+}
+
+.school-filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.school-filter {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.school-filter:hover,
+.school-filter:focus-visible {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.school-filter.active {
+  border-color: var(--teal);
+  background: var(--teal);
+  color: #ffffff;
+}
+
+.school-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.school-chart-box {
+  position: relative;
+  min-height: 340px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-strong);
+}
+
+.school-brief-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.school-card {
+  min-height: 104px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-strong);
+}
+
+.school-label {
+  display: block;
+  color: var(--teal);
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+
+.school-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.22rem;
+  line-height: 1.18;
+}
+
+.school-card p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.school-note {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
   line-height: 1.55;
 }
 
@@ -885,6 +975,10 @@ h2 {
     grid-template-columns: 1fr;
   }
 
+  .school-layout {
+    grid-template-columns: 1fr;
+  }
+
   .map-toolbar {
     align-items: flex-start;
     flex-direction: column;
@@ -904,6 +998,7 @@ h2 {
   }
 
   .legend,
+  .school-filter-group,
   .map-legend {
     justify-content: flex-start;
   }
@@ -932,6 +1027,7 @@ h2 {
     .insight-panel,
     .compare-panel,
     .strategy-panel,
+    .school-panel,
     .map-panel,
     .chart-panel,
     .region-panel {

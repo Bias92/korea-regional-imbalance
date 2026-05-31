@@ -97,6 +97,29 @@ const riskFactorMetadata = {
   }
 };
 
+const schoolFilterConfigs = {
+  all: {
+    label: "전체",
+    note: "17개 시도 전체 기준입니다.",
+    predicate: () => true
+  },
+  nonCapital: {
+    label: "비수도권",
+    note: "서울·인천·경기를 제외한 비수도권 기준입니다.",
+    predicate: (region) => !region.isCapitalArea
+  },
+  capital: {
+    label: "수도권",
+    note: "서울·인천·경기 기준입니다.",
+    predicate: (region) => region.isCapitalArea
+  },
+  highClosure: {
+    label: "300곳 이상",
+    note: "폐교 수가 300곳 이상인 고위험 지역만 표시합니다.",
+    predicate: (region) => region.closedSchoolCount >= 300
+  }
+};
+
 const mapMetricConfigs = {
   riskIndex: {
     title: "지역 위험지수 지도",
@@ -232,6 +255,7 @@ async function loadDashboard() {
     renderStrategyPanel(regions);
     const regionExplorerController = setupRegionExplorer(regions);
     renderPopulationChart(regions);
+    setupSchoolClosureAnalysis(regions);
     let mapController = null;
 
     try {
@@ -269,6 +293,126 @@ function applyRiskScenario(regions, weights) {
       depopulationScore,
       closedSchoolScore
     };
+  });
+}
+
+function setupSchoolClosureAnalysis(regions) {
+  const buttons = document.querySelectorAll("[data-school-filter]");
+  let chart = null;
+
+  const refresh = (filterKey = "all") => {
+    const config = schoolFilterConfigs[filterKey];
+    const filteredRegions = regions.filter(config.predicate);
+    renderSchoolBrief(filteredRegions, config);
+    chart = renderClosedSchoolChart(filteredRegions, chart);
+    document.querySelector("#schoolNote").textContent =
+      `${config.note} 시도별 폐교 수는 현재 화면 검증용 임시 데이터이며, 공식 기준연도 확정 후 교체 예정입니다.`;
+  };
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      buttons.forEach((item) => {
+        item.classList.toggle("active", item === button);
+      });
+      refresh(button.dataset.schoolFilter);
+    });
+  });
+
+  refresh();
+}
+
+function renderSchoolBrief(regions, config) {
+  const totalClosedSchools = regions.reduce((sum, region) => sum + region.closedSchoolCount, 0);
+  const topRegion = getTopRegion(regions, "closedSchoolCount");
+  const depopulationOverlapCount = regions.filter((region) => region.depopulationAreaCount > 0).length;
+  const averageClosedSchools = regions.length === 0 ? 0 : totalClosedSchools / regions.length;
+  const topShare = totalClosedSchools === 0 ? 0 : (topRegion.closedSchoolCount / totalClosedSchools) * 100;
+
+  const cards = [
+    {
+      label: `${config.label} 합계`,
+      title: `${numberFormatter.format(totalClosedSchools)}곳`,
+      body: `${regions.length}개 시도 기준 평균은 ${numberFormatter.format(Math.round(averageClosedSchools))}곳입니다.`
+    },
+    {
+      label: "최다 지역",
+      title: `${topRegion.name} ${numberFormatter.format(topRegion.closedSchoolCount)}곳`,
+      body: `${config.label} 폐교 수의 ${topShare.toFixed(1)}%가 ${topRegion.name}에 집중됩니다.`
+    },
+    {
+      label: "감소지역 동반",
+      title: `${depopulationOverlapCount}개 시도`,
+      body: `인구감소지역이 1곳 이상 있는 시도입니다. 폐교 수와 생활권 축소 신호를 함께 봐야 합니다.`
+    }
+  ];
+
+  document.querySelector("#schoolBriefGrid").innerHTML = cards.map((card) => `
+    <article class="school-card">
+      <span class="school-label">${card.label}</span>
+      <strong>${card.title}</strong>
+      <p>${card.body}</p>
+    </article>
+  `).join("");
+}
+
+function renderClosedSchoolChart(regions, chart) {
+  const canvas = document.querySelector("#closedSchoolChart");
+  const sortedRegions = [...regions]
+    .sort((a, b) => b.closedSchoolCount - a.closedSchoolCount)
+    .slice(0, 8);
+
+  if (chart) {
+    chart.destroy();
+  }
+
+  return new Chart(canvas, {
+    type: "bar",
+    data: {
+      labels: sortedRegions.map((region) => region.name),
+      datasets: [
+        {
+          label: "폐교 수",
+          data: sortedRegions.map((region) => region.closedSchoolCount),
+          backgroundColor: sortedRegions.map((region) => region.isCapitalArea ? "#3465d9" : "#d85d4a"),
+          borderRadius: 5,
+          borderSkipped: false
+        }
+      ]
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: (context) => `폐교 ${numberFormatter.format(context.parsed.x)}곳`
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: {
+            color: "rgba(102, 116, 107, 0.18)"
+          },
+          ticks: {
+            color: "#526158",
+            callback: (value) => `${numberFormatter.format(value)}곳`
+          }
+        },
+        y: {
+          grid: {
+            display: false
+          },
+          ticks: {
+            color: "#526158"
+          }
+        }
+      }
+    }
   });
 }
 
