@@ -99,6 +99,7 @@
 | FR-019 | 대시보드는 위험지수 기반 대응 전략을 제안해야 한다. | 선택 시나리오의 최상위 위험 지역, 주요 기여 요인, 후속 검증 과제가 카드로 표시된다. |
 | FR-020 | 대시보드는 폐교 통계를 별도 분석할 수 있어야 한다. | 폐교 수 전용 차트, 권역/고위험 필터, 합계·최다 지역·감소지역 동반 설명 카드가 표시된다. |
 | FR-021 | 대시보드는 공식 데이터와 임시 데이터를 구분해 표시해야 한다. | 요약 지표, 시도별 분석, 지도 경계의 데이터 신뢰도 상태가 별도 카드로 표시된다. |
+| FR-022 | 사용자는 현재 분석 결과를 보고서용 Markdown으로 내보낼 수 있어야 한다. | 분석 기준, 핵심 요약, 위험지역, 데이터 한계를 담은 MD 파일을 생성할 수 있다. |
 
 ---
 
@@ -122,9 +123,9 @@
 | `data/phase1-regions.json` | FR-001, FR-002, FR-003, FR-004, FR-005 |
 | `data/skorea-provinces-2018-topo-simple.json` | FR-006, FR-010, NFR-006 |
 | `data/README.md` | FR-010, NFR-003, NFR-006 |
-| `src/index.html` | FR-001, FR-004, FR-017, FR-018, FR-019, FR-020, FR-021, NFR-001 |
-| `src/app.js` | FR-001, FR-002, FR-003, FR-005, FR-006, FR-007, FR-008, FR-009, FR-011, FR-012, FR-013, FR-014, FR-015, FR-016, FR-017, FR-018, FR-019, FR-020, FR-021 |
-| `src/styles.css` | FR-003, FR-007, FR-008, FR-011, FR-012, FR-014, FR-015, FR-016, FR-017, FR-018, FR-019, FR-020, FR-021, NFR-002, NFR-005 |
+| `src/index.html` | FR-001, FR-004, FR-017, FR-018, FR-019, FR-020, FR-021, FR-022, NFR-001 |
+| `src/app.js` | FR-001, FR-002, FR-003, FR-005, FR-006, FR-007, FR-008, FR-009, FR-011, FR-012, FR-013, FR-014, FR-015, FR-016, FR-017, FR-018, FR-019, FR-020, FR-021, FR-022 |
+| `src/styles.css` | FR-003, FR-007, FR-008, FR-011, FR-012, FR-014, FR-015, FR-016, FR-017, FR-018, FR-019, FR-020, FR-021, FR-022, NFR-002, NFR-005 |
 | `tests/verify-data.mjs` | FR-001, FR-002, FR-003, FR-005, FR-006, FR-008, NFR-003, NFR-006 |
 | `docs/test-plan.md` | 전체 요구사항 검증 |
 

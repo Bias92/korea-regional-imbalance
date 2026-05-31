@@ -232,6 +232,7 @@ const mapMetricConfigs = {
 };
 
 const numberFormatter = new Intl.NumberFormat("ko-KR");
+let currentRiskScenarioKey = "balanced";
 
 document.addEventListener("DOMContentLoaded", () => {
   loadDashboard();
@@ -264,9 +265,10 @@ async function loadDashboard() {
       renderMapError(error);
     }
 
-    setupRiskScenarioControls(regions, mapController, compareController, regionExplorerController);
     renderDataNote(data.meta);
     renderDataQuality(data.meta, data.summary);
+    const reportController = setupReportExport(data, regions);
+    setupRiskScenarioControls(regions, mapController, compareController, regionExplorerController, reportController);
   } catch (error) {
     renderLoadError(error);
   }
@@ -417,11 +419,12 @@ function renderClosedSchoolChart(regions, chart) {
   });
 }
 
-function setupRiskScenarioControls(regions, mapController, compareController, regionExplorerController) {
+function setupRiskScenarioControls(regions, mapController, compareController, regionExplorerController, reportController) {
   document.querySelectorAll("[data-risk-scenario]").forEach((button) => {
     button.addEventListener("click", () => {
       const scenario = riskScenarioConfigs[button.dataset.riskScenario];
 
+      currentRiskScenarioKey = button.dataset.riskScenario;
       applyRiskScenario(regions, scenario.weights);
       document.querySelectorAll("[data-risk-scenario]").forEach((item) => {
         item.classList.toggle("active", item === button);
@@ -433,6 +436,7 @@ function setupRiskScenarioControls(regions, mapController, compareController, re
       compareController.refresh();
       regionExplorerController.refresh();
       mapController?.refreshRiskDisplay();
+      reportController.refresh();
     });
   });
 }
@@ -1185,6 +1189,107 @@ function renderDataQuality(meta, summary) {
       <p>${card.body}</p>
     </article>
   `).join("");
+}
+
+function setupReportExport(data, regions) {
+  const button = document.querySelector("#reportDownloadButton");
+  const status = document.querySelector("#reportExportStatus");
+
+  const refresh = () => {
+    renderReportSummary(data, regions);
+    status.textContent = "현재 화면 상태를 기준으로 보고서 요약을 만들 수 있습니다.";
+  };
+
+  button.addEventListener("click", () => {
+    downloadTextFile("korea-regional-imbalance-summary.md", createReportMarkdown(data, regions));
+    status.textContent = "보고서 요약 MD를 생성했습니다.";
+  });
+
+  refresh();
+
+  return {
+    refresh
+  };
+}
+
+function renderReportSummary(data, regions) {
+  const scenario = riskScenarioConfigs[currentRiskScenarioKey];
+  const topRiskRegion = getTopRegion(regions, "riskIndex");
+  const topClosedSchoolRegion = getTopRegion(regions, "closedSchoolCount");
+  const cards = [
+    {
+      label: "분석 기준",
+      title: scenario.label,
+      body: scenario.note
+    },
+    {
+      label: "우선 확인 지역",
+      title: `${topRiskRegion.name} ${topRiskRegion.riskIndex}점`,
+      body: `${topRiskRegion.riskGrade} 등급입니다. 인구감소지역 ${topRiskRegion.depopulationAreaCount}곳, 폐교 ${numberFormatter.format(topRiskRegion.closedSchoolCount)}곳입니다.`
+    },
+    {
+      label: "데이터 상태",
+      title: getDataStatusLabel(data.meta.status),
+      body: `요약 지표는 공식 통계, 시도별 지도·위험지수 입력값은 임시 데이터입니다. 폐교 최다 지역은 ${topClosedSchoolRegion.name}입니다.`
+    }
+  ];
+
+  document.querySelector("#reportSummaryGrid").innerHTML = cards.map((card) => `
+    <article class="report-card">
+      <span class="report-label">${card.label}</span>
+      <strong>${card.title}</strong>
+      <p>${card.body}</p>
+    </article>
+  `).join("");
+}
+
+function createReportMarkdown(data, regions) {
+  const scenario = riskScenarioConfigs[currentRiskScenarioKey];
+  const topRiskRegion = getTopRegion(regions, "riskIndex");
+  const topDeclineRegion = [...regions].sort((a, b) => a.populationChangeRate - b.populationChangeRate)[0];
+  const topClosedSchoolRegion = getTopRegion(regions, "closedSchoolCount");
+  const summary = data.summary;
+
+  return [
+    "# Korea Regional Imbalance Dashboard 보고서 요약",
+    "",
+    `- 생성 시각: ${new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}`,
+    `- 분석 기준: ${scenario.label}`,
+    `- 데이터 상태: ${getDataStatusLabel(data.meta.status)}`,
+    "",
+    "## 핵심 요약",
+    "",
+    `- 수도권 인구 비중: ${summary.capitalAreaPopulationShare.value}${summary.capitalAreaPopulationShare.unit} (${summary.capitalAreaPopulationShare.sourceYear})`,
+    `- 수도권 GRDP 비중: ${summary.capitalAreaGrdpShare.value}${summary.capitalAreaGrdpShare.unit} (${summary.capitalAreaGrdpShare.sourceYear})`,
+    `- 인구감소지역: ${summary.depopulationAreaCount.value}${summary.depopulationAreaCount.unit} (${summary.depopulationAreaCount.sourceYear})`,
+    `- 폐교 수: ${numberFormatter.format(summary.closedSchoolCount.value)}${summary.closedSchoolCount.unit} (${summary.closedSchoolCount.sourceYear})`,
+    "",
+    "## 분석 결과",
+    "",
+    `- 위험지수 최상위 지역: ${topRiskRegion.name} ${topRiskRegion.riskIndex}점 (${topRiskRegion.riskGrade})`,
+    `- 인구 감소 최상위 지역: ${topDeclineRegion.name} ${formatRate(topDeclineRegion.populationChangeRate)}`,
+    `- 폐교 수 최다 지역: ${topClosedSchoolRegion.name} ${numberFormatter.format(topClosedSchoolRegion.closedSchoolCount)}곳`,
+    "",
+    "## 데이터 한계",
+    "",
+    "- summary 요약 지표는 공식 통계 출처와 기준연도를 표시했다.",
+    "- regions 시도별 분석 값은 아직 화면 검증용 임시 데이터다.",
+    "- 최종 보고서에서는 위험지수를 정책 판단 보조용 파생 지표로 설명해야 한다."
+  ].join("\n");
+}
+
+function downloadTextFile(filename, content) {
+  const blob = new Blob([content], {
+    type: "text/markdown;charset=utf-8"
+  });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
 }
 
 function renderLoadError(error) {

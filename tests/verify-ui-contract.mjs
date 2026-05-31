@@ -25,6 +25,9 @@ const requiredDomIds = [
   "schoolBriefGrid",
   "schoolNote",
   "dataQualityGrid",
+  "reportSummaryGrid",
+  "reportDownloadButton",
+  "reportExportStatus",
   "regionalMap",
   "regionSearch",
   "regionAreaFilter",
@@ -51,6 +54,8 @@ const requiredFunctions = [
   "setupSchoolClosureAnalysis",
   "renderClosedSchoolChart",
   "renderDataQuality",
+  "setupReportExport",
+  "createReportMarkdown",
   "setupRegionComparison",
   "setupRegionExplorer",
   "renderRegionalMap"
@@ -60,7 +65,7 @@ for (const functionName of requiredFunctions) {
   assert(app.includes(`function ${functionName}`), `${functionName} 함수가 없습니다.`);
 }
 
-for (const requirementId of ["FR-017", "FR-018", "FR-019", "FR-020", "FR-021"]) {
+for (const requirementId of ["FR-017", "FR-018", "FR-019", "FR-020", "FR-021", "FR-022"]) {
   assert(requirements.includes(requirementId), `${requirementId} 요구사항 추적이 없습니다.`);
 }
 
