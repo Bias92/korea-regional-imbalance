@@ -514,3 +514,32 @@ Phase 3 목표는 폐교 통계와 필터, 설명 카드를 추가하는 것이�
 - `package.json` 검증 스크립트 추가
 - `.github/workflows/ci.yml` 추가
 - 테스트 계획에 `A-006` 추가
+
+---
+
+## DD-017: GitHub Pages 정적 배포 준비
+
+- **결정일**: 2026-06-01
+- **상태**: Accepted
+
+### 맥락
+
+현재 앱은 로컬 정적 서버에서 실행되지만, 최종 제출 시 채점자가 별도 설정 없이 데모를 열 수 있으면
+검토 부담이 줄어든다. GitHub Pages는 정적 HTML/CSS/JS 앱과 잘 맞는다.
+
+### 결정
+
+GitHub Actions 기반 Pages 배포 워크플로를 추가하고, 저장소 루트에 `src/index.html`로 이동하는
+진입점 `index.html`을 둔다.
+
+### 근거
+
+- 앱은 빌드 산출물이 필요 없는 정적 파일 구조이므로 Pages 배포가 단순하다.
+- 루트 진입점이 있으면 Pages 기본 URL에서 바로 앱 화면으로 이동할 수 있다.
+- 배포 전에 `npm test`를 실행해 깨진 상태가 Pages에 올라가는 위험을 줄인다.
+
+### 결과
+
+- `.github/workflows/pages.yml` 추가
+- 루트 `index.html` 리다이렉트 추가
+- `.nojekyll` 추가

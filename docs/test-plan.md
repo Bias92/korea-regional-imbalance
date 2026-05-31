@@ -30,6 +30,7 @@
 | A-004 | `python -m json.tool data/skorea-provinces-2018-topo-simple.json` | TopoJSON 파싱 가능 여부 확인 | 오류 없이 종료 |
 | A-005 | `node tests/verify-ui-contract.mjs` | 핵심 DOM id, 시나리오/지도 버튼 수, UI 렌더링 함수 연결 확인 | `UI contract verification passed.` 출력 |
 | A-006 | `npm test` | A-001~A-005를 한 번에 실행 | 모든 검증 명령이 오류 없이 종료 |
+| A-007 | GitHub Actions `Deploy Pages` | Pages 배포 전 `npm test` 실행 및 정적 파일 업로드 | main 브랜치 push 후 Pages 배포 성공 |
 
 ---
 

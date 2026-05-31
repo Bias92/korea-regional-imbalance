@@ -47,7 +47,7 @@
 - **지도 경계**: southkorea-maps KOSTAT 2018 시도 TopoJSON
 - **데이터 처리**: 원본 CSV 확보 후 정적 JSON으로 변환
 - **데이터 출처 (예정)**: KOSIS, 행정안전부 인구감소지역, 교육부 폐교현황
-- **빌드/배포**: 정적 호스팅 (GitHub Pages 예정)
+- **빌드/배포**: 정적 호스팅 (GitHub Pages Actions 워크플로)
 
 > 프레임워크(React/Next.js) 미사용 결정 근거는 [`docs/design.md`](./docs/design.md) 참조.
 
@@ -81,6 +81,8 @@ python -m http.server 8000
 http://127.0.0.1:8000/src/index.html
 ```
 
+루트 경로(`http://127.0.0.1:8000/`)는 `src/index.html`로 이동한다.
+
 ### 자동 검증
 
 ```bash
@@ -106,6 +108,7 @@ node tests/verify-ui-contract.mjs
 ```
 korea-regional-imbalance/
 ├── README.md
+├── index.html               # GitHub Pages 루트 진입점
 ├── docs/
 │   ├── process.md           # 소프트웨어공학 프로세스 총괄
 │   ├── requirements.md      # 요구사항 분석
@@ -145,3 +148,4 @@ korea-regional-imbalance/
 - **2026-06-01**: 보고서 요약 MD 다운로드 기능 추가
 - **2026-06-01**: 최종 보고서 초안 문서 추가
 - **2026-06-01**: npm 검증 스크립트와 GitHub Actions CI 추가
+- **2026-06-01**: GitHub Pages 배포 워크플로와 루트 진입점 추가
