@@ -63,6 +63,7 @@
 | [`docs/design.md`](./docs/design.md) | Vanilla 스택, 정적 JSON, Phase 분리 같은 설계 결정 |
 | [`docs/test-plan.md`](./docs/test-plan.md) | 수동·자동 검증 기준 |
 | [`docs/lessons-learned.md`](./docs/lessons-learned.md) | Phase별 회고와 개선점 |
+| [`docs/final-report-draft.md`](./docs/final-report-draft.md) | 최종 보고서 초안과 제출 논리 |
 | [`docs/ai-log/`](./docs/ai-log/) | Claude와 Codex를 어떻게 사용했는지에 대한 날짜별 기록 |
 | [`data/README.md`](./data/README.md) | 데이터 출처, 임시 데이터 상태, 공식 데이터 교체 원칙 |
 
@@ -135,3 +136,4 @@ korea-regional-imbalance/
 - **2026-05-31**: Phase 3 폐교 통계 필터·차트·설명 카드 초안 추가
 - **2026-05-31**: 공식/임시 데이터 신뢰도 상태 패널 추가
 - **2026-06-01**: 보고서 요약 MD 다운로드 기능 추가
+- **2026-06-01**: 최종 보고서 초안 문서 추가
