@@ -82,6 +82,7 @@ http://127.0.0.1:8000/src/index.html
 ```bash
 node --check src/app.js
 node tests/verify-data.mjs
+node tests/verify-ui-contract.mjs
 ```
 
 ## 7. 바이브코딩 도구 운용 방침

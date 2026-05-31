@@ -28,6 +28,7 @@
 | A-002 | `node tests/verify-data.mjs` | JSON 필수 키, 17개 시도, 지도 경계 17개, 수도권 매핑 확인 | `Data verification passed.` 출력 |
 | A-003 | `python -m json.tool data/phase1-regions.json` | JSON 파싱 가능 여부 확인 | 오류 없이 종료 |
 | A-004 | `python -m json.tool data/skorea-provinces-2018-topo-simple.json` | TopoJSON 파싱 가능 여부 확인 | 오류 없이 종료 |
+| A-005 | `node tests/verify-ui-contract.mjs` | 핵심 DOM id, 시나리오/지도 버튼 수, UI 렌더링 함수 연결 확인 | `UI contract verification passed.` 출력 |
 
 ---
 
@@ -58,7 +59,7 @@
 
 ## 4. 완료 기준
 
-- A-001부터 A-004까지 모두 통과한다.
+- A-001부터 A-005까지 모두 통과한다.
 - T-001부터 T-018까지 모두 통과한다.
 - 실패 항목은 `docs/ai-log/` 또는 커밋 메시지에 수정 내역을 남긴다.
 - Phase별 주요 화면 캡처를 확보한다.
@@ -120,7 +121,20 @@
 
 ---
 
-## 9. 향후 자동화 후보
+## 9. 2026-05-31 검증 기록
+
+| 항목 | 결과 |
+|---|---|
+| `node --check src/app.js` | 통과 |
+| `node tests/verify-data.mjs` | 통과 |
+| `node tests/verify-ui-contract.mjs` | 통과 |
+| `python -m json.tool data/phase1-regions.json` | 통과 |
+| 지역 검색·권역 필터·정렬 | 통과 |
+| 대응 전략 브리프 시나리오 갱신 | 통과 |
+
+---
+
+## 10. 향후 자동화 후보
 
 - Lighthouse 기반 접근성 점검
 - Playwright 기반 브라우저 렌더링 검증
