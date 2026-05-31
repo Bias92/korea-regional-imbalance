@@ -1,0 +1,13 @@
+{
+  "name": "korea-regional-imbalance-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check src/app.js",
+    "test:data": "node tests/verify-data.mjs",
+    "test:ui": "node tests/verify-ui-contract.mjs",
+    "test:json": "python -m json.tool data/phase1-regions.json > /dev/null && python -m json.tool data/skorea-provinces-2018-topo-simple.json > /dev/null",
+    "test": "npm run check && npm run test:data && npm run test:ui && npm run test:json"
+  }
+}

@@ -84,6 +84,12 @@ http://127.0.0.1:8000/src/index.html
 ### 자동 검증
 
 ```bash
+npm test
+```
+
+개별 검증 명령은 다음과 같다.
+
+```bash
 node --check src/app.js
 node tests/verify-data.mjs
 node tests/verify-ui-contract.mjs
@@ -115,6 +121,7 @@ korea-regional-imbalance/
 │   ├── index.html
 │   ├── styles.css
 │   └── app.js
+├── package.json             # 검증 스크립트
 └── tests/
     └── verify-data.mjs      # Phase 1 데이터 구조 검증
 ```
@@ -137,3 +144,4 @@ korea-regional-imbalance/
 - **2026-05-31**: 공식/임시 데이터 신뢰도 상태 패널 추가
 - **2026-06-01**: 보고서 요약 MD 다운로드 기능 추가
 - **2026-06-01**: 최종 보고서 초안 문서 추가
+- **2026-06-01**: npm 검증 스크립트와 GitHub Actions CI 추가

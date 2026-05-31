@@ -29,6 +29,7 @@
 | A-003 | `python -m json.tool data/phase1-regions.json` | JSON 파싱 가능 여부 확인 | 오류 없이 종료 |
 | A-004 | `python -m json.tool data/skorea-provinces-2018-topo-simple.json` | TopoJSON 파싱 가능 여부 확인 | 오류 없이 종료 |
 | A-005 | `node tests/verify-ui-contract.mjs` | 핵심 DOM id, 시나리오/지도 버튼 수, UI 렌더링 함수 연결 확인 | `UI contract verification passed.` 출력 |
+| A-006 | `npm test` | A-001~A-005를 한 번에 실행 | 모든 검증 명령이 오류 없이 종료 |
 
 ---
 
@@ -62,7 +63,7 @@
 
 ## 4. 완료 기준
 
-- A-001부터 A-005까지 모두 통과한다.
+- A-001부터 A-006까지 모두 통과한다.
 - T-001부터 T-021까지 모두 통과한다.
 - 실패 항목은 `docs/ai-log/` 또는 커밋 메시지에 수정 내역을 남긴다.
 - Phase별 주요 화면 캡처를 확보한다.
