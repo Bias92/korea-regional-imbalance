@@ -163,6 +163,7 @@ h2 {
 .insight-panel,
 .compare-panel,
 .strategy-panel,
+.scenario-matrix-panel,
 .school-panel,
 .map-panel,
 .chart-panel,
@@ -178,6 +179,7 @@ h2 {
 
 .compare-panel,
 .strategy-panel,
+.scenario-matrix-panel,
 .school-panel,
 .insight-panel {
   margin-bottom: 18px;
@@ -460,6 +462,62 @@ h2 {
   margin: 12px 0 0;
   color: var(--muted);
   line-height: 1.55;
+}
+
+.scenario-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.scenario-matrix-card {
+  min-height: 190px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-strong);
+}
+
+.scenario-matrix-label {
+  display: block;
+  color: var(--teal);
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+
+.scenario-matrix-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.2rem;
+  line-height: 1.22;
+}
+
+.scenario-matrix-card ol {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding-left: 20px;
+  color: var(--muted);
+}
+
+.scenario-matrix-card li {
+  padding-left: 2px;
+}
+
+.scenario-matrix-card li::marker {
+  color: var(--teal);
+  font-weight: 900;
+}
+
+.scenario-matrix-card li span {
+  color: var(--text);
+  font-weight: 800;
+}
+
+.scenario-matrix-card li b {
+  float: right;
+  color: var(--coral);
+  font-size: 0.88rem;
 }
 
 .school-filter-group {
@@ -1072,6 +1130,7 @@ h2 {
   .insight-grid,
   .compare-grid,
   .strategy-grid,
+  .scenario-matrix-grid,
   .quality-grid,
   .report-grid,
   .content-grid {
@@ -1134,6 +1193,7 @@ h2 {
     .insight-panel,
     .compare-panel,
     .strategy-panel,
+    .scenario-matrix-panel,
     .school-panel,
     .map-panel,
     .chart-panel,

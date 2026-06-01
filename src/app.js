@@ -254,6 +254,7 @@ async function loadDashboard() {
     renderInsightPanel(regions);
     const compareController = setupRegionComparison(regions);
     renderStrategyPanel(regions);
+    renderScenarioMatrix(regions);
     const regionExplorerController = setupRegionExplorer(regions);
     renderPopulationChart(regions);
     setupSchoolClosureAnalysis(regions);
@@ -297,6 +298,50 @@ function applyRiskScenario(regions, weights) {
       closedSchoolScore
     };
   });
+}
+
+function renderScenarioMatrix(regions) {
+  const scenarioEntries = Object.entries(riskScenarioConfigs);
+  document.querySelector("#scenarioMatrixGrid").innerHTML = scenarioEntries.map(([key, scenario]) => {
+    const rankedRegions = getScenarioRiskScores(regions, scenario.weights).slice(0, 3);
+
+    return `
+      <article class="scenario-matrix-card" data-scenario-card="${key}">
+        <span class="scenario-matrix-label">${scenario.label}</span>
+        <strong>${rankedRegions[0].name} ${rankedRegions[0].riskIndex}점</strong>
+        <ol>
+          ${rankedRegions.map((region) => `
+            <li>
+              <span>${region.name}</span>
+              <b>${region.riskIndex}점</b>
+            </li>
+          `).join("")}
+        </ol>
+      </article>
+    `;
+  }).join("");
+}
+
+function getScenarioRiskScores(regions, weights) {
+  const maxDecline = Math.max(...regions.map((region) => Math.max(0, -region.populationChangeRate)));
+  const maxDepopulation = Math.max(...regions.map((region) => region.depopulationAreaCount));
+  const maxClosedSchools = Math.max(...regions.map((region) => region.closedSchoolCount));
+
+  return regions.map((region) => {
+    const declineScore = maxDecline === 0 ? 0 : Math.max(0, -region.populationChangeRate) / maxDecline;
+    const depopulationScore = maxDepopulation === 0 ? 0 : region.depopulationAreaCount / maxDepopulation;
+    const closedSchoolScore = maxClosedSchools === 0 ? 0 : region.closedSchoolCount / maxClosedSchools;
+    const riskIndex = Math.round((
+      declineScore * weights.decline +
+      depopulationScore * weights.depopulation +
+      closedSchoolScore * weights.closedSchools
+    ) * 100);
+
+    return {
+      name: region.name,
+      riskIndex
+    };
+  }).sort((a, b) => b.riskIndex - a.riskIndex);
 }
 
 function setupSchoolClosureAnalysis(regions) {
