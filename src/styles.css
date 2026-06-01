@@ -44,6 +44,38 @@ body {
   padding: 18px 0 26px;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.capture-mode-button {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--teal);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 850;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.capture-mode-button:hover,
+.capture-mode-button:focus-visible {
+  border-color: var(--teal);
+}
+
+.capture-mode .capture-mode-button {
+  border-color: var(--teal);
+  background: var(--teal);
+  color: #ffffff;
+}
+
 .eyebrow {
   margin: 0 0 8px;
   color: var(--teal);
@@ -81,7 +113,6 @@ h2 {
 }
 
 .status-badge {
-  flex: 0 0 auto;
   min-width: 132px;
   padding: 10px 12px;
   border: 1px solid var(--line);
@@ -1097,6 +1128,38 @@ h2 {
   line-height: 1.5;
 }
 
+.capture-mode {
+  background: var(--bg);
+}
+
+.capture-mode .app-shell {
+  width: min(1120px, calc(100% - 28px));
+}
+
+.capture-mode .scenario-toolbar,
+.capture-mode .compare-controls,
+.capture-mode .school-filter-group,
+.capture-mode .map-toolbar,
+.capture-mode .region-controls,
+.capture-mode .report-download-button {
+  display: none;
+}
+
+.capture-mode .insight-panel,
+.capture-mode .compare-panel,
+.capture-mode .strategy-panel,
+.capture-mode .scenario-matrix-panel,
+.capture-mode .school-panel,
+.capture-mode .map-panel,
+.capture-mode .chart-panel,
+.capture-mode .region-panel,
+.capture-mode .quality-panel,
+.capture-mode .report-panel,
+.capture-mode .data-note,
+.capture-mode .metric-card {
+  box-shadow: none;
+}
+
 .skeleton {
   overflow: hidden;
   background:
@@ -1123,6 +1186,16 @@ h2 {
   }
 
   .status-badge {
+    width: 100%;
+  }
+
+  .header-actions {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .capture-mode-button {
     width: 100%;
   }
 
@@ -1175,6 +1248,43 @@ h2 {
 
   .chart-box {
     height: 380px;
+  }
+}
+
+@media print {
+  body {
+    background: #ffffff;
+  }
+
+  .app-shell {
+    width: 100%;
+    padding: 0;
+  }
+
+  .capture-mode-button,
+  .scenario-toolbar,
+  .compare-controls,
+  .school-filter-group,
+  .map-toolbar,
+  .region-controls,
+  .report-download-button {
+    display: none;
+  }
+
+  .metric-card,
+  .insight-panel,
+  .compare-panel,
+  .strategy-panel,
+  .scenario-matrix-panel,
+  .school-panel,
+  .map-panel,
+  .chart-panel,
+  .region-panel,
+  .quality-panel,
+  .report-panel,
+  .data-note {
+    box-shadow: none;
+    break-inside: avoid;
   }
 }
 

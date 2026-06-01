@@ -235,8 +235,19 @@ const numberFormatter = new Intl.NumberFormat("ko-KR");
 let currentRiskScenarioKey = "balanced";
 
 document.addEventListener("DOMContentLoaded", () => {
+  setupCaptureMode();
   loadDashboard();
 });
+
+function setupCaptureMode() {
+  const button = document.querySelector("#captureModeButton");
+
+  button.addEventListener("click", () => {
+    const isActive = document.body.classList.toggle("capture-mode");
+    button.textContent = isActive ? "일반 모드" : "캡처 모드";
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+}
 
 async function loadDashboard() {
   try {

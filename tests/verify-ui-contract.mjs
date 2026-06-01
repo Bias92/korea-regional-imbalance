@@ -17,6 +17,7 @@ function assert(condition, message) {
 
 const requiredDomIds = [
   "summaryCards",
+  "captureModeButton",
   "formulaPanel",
   "compareLeft",
   "compareRight",
@@ -51,6 +52,7 @@ assert(schoolFilterButtonCount === 4, "폐교 분석 필터 버튼은 4개여야
 
 const requiredFunctions = [
   "renderFormulaPanel",
+  "setupCaptureMode",
   "renderStrategyPanel",
   "renderScenarioMatrix",
   "getScenarioRiskScores",
@@ -68,7 +70,7 @@ for (const functionName of requiredFunctions) {
   assert(app.includes(`function ${functionName}`), `${functionName} 함수가 없습니다.`);
 }
 
-for (const requirementId of ["FR-017", "FR-018", "FR-019", "FR-020", "FR-021", "FR-022", "FR-023"]) {
+for (const requirementId of ["FR-017", "FR-018", "FR-019", "FR-020", "FR-021", "FR-022", "FR-023", "FR-024"]) {
   assert(requirements.includes(requirementId), `${requirementId} 요구사항 추적이 없습니다.`);
 }
 
