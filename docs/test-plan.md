@@ -156,6 +156,7 @@
 |---|---|
 | 로컬 정적 서버 실행 | 통과, `http://127.0.0.1:8000/src/index.html` 응답 확인 |
 | 데스크톱 화면 캡처 | 통과, `docs/assets/screenshots/2026-06-02-dashboard-capture.png` 생성 |
+| 모바일 화면 캡처 | 통과, `docs/assets/screenshots/2026-06-02-dashboard-mobile.png` 생성 |
 | 제출 증빙 인덱스 | 통과, 과제 요구사항과 저장소 산출물 매핑 추가 |
 | 최신 프로세스 상태 반영 | 통과, `docs/process.md`와 `docs/final-report-draft.md` 갱신 |
 | `npm test` | 통과, 데이터 검증과 UI 계약 검증 모두 성공 |

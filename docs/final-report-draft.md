@@ -131,8 +131,9 @@ python -m json.tool data/skorea-provinces-2018-topo-simple.json
 검증 범위는 JavaScript 문법, JSON 구조, 지도 경계 매핑, 핵심 DOM id, 버튼 개수, 요구사항 추적성을
 포함한다. 수동 검증 체크리스트는 `docs/test-plan.md`에 기록했다.
 
-2026-06-02 기준 제출 증빙을 위해 데스크톱 화면 캡처도 저장소에 추가했다.
-캡처 파일은 `docs/assets/screenshots/2026-06-02-dashboard-capture.png`에 위치한다.
+2026-06-02 기준 제출 증빙을 위해 데스크톱과 모바일 화면 캡처도 저장소에 추가했다.
+캡처 파일은 `docs/assets/screenshots/2026-06-02-dashboard-capture.png`와
+`docs/assets/screenshots/2026-06-02-dashboard-mobile.png`에 위치한다.
 
 ---
 

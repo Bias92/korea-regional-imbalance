@@ -27,6 +27,8 @@
   - 화면 캡처와 제출 전 남은 항목 정리
 - `docs/assets/screenshots/2026-06-02-dashboard-capture.png` 추가
   - 로컬 정적 서버에서 실행한 대시보드를 headless Chrome으로 캡처
+- `docs/assets/screenshots/2026-06-02-dashboard-mobile.png` 추가
+  - 모바일 폭 캡처 중 헤더 설명 문장 줄바꿈 문제를 확인하고 CSS 보정
 - `README.md` 갱신
   - 제출 증빙 인덱스 링크 추가
   - 화면 캡처 디렉터리와 2026-06-02 진행 로그 반영

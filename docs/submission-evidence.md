@@ -16,7 +16,7 @@
 | 구현 산출물 | `src/index.html`, `src/styles.css`, `src/app.js`, `data/` | 정적 웹 대시보드 구현 |
 | 품질 관리 | `docs/test-plan.md`, `tests/`, `.github/workflows/ci.yml` | 로컬 `npm test`와 GitHub Actions 검증 |
 | 프로세스 적용 교훈 | `docs/lessons-learned.md`, `docs/final-report-draft.md` | 날짜별 lessons learned 누적 |
-| SW 산출물 캡처 | `docs/assets/screenshots/2026-06-02-dashboard-capture.png` | 2026-06-02 데스크톱 캡처 확보 |
+| SW 산출물 캡처 | `docs/assets/screenshots/2026-06-02-dashboard-capture.png`, `docs/assets/screenshots/2026-06-02-dashboard-mobile.png` | 2026-06-02 데스크톱·모바일 캡처 확보 |
 | PDF 제출 보고서 | `docs/final-report-draft.md` | 초안 작성 완료, 최종 PDF 변환 필요 |
 | 형상 관리 시스템 공유 | GitHub repository | main 브랜치에 산출물과 증빙 문서 누적 |
 | 착수 시점 토의 증빙 | `docs/ai-log/2026-05-18-kickoff.md`, `docs/ai-log/2026-05-18-codex-review.md` | 주제 선정과 AI 교차 검토 기록 |
@@ -49,6 +49,10 @@
 
 ![2026-06-02 dashboard capture](./assets/screenshots/2026-06-02-dashboard-capture.png)
 
+모바일 폭에서도 주요 정보가 세로 흐름으로 표시되는지 확인하기 위해 별도 캡처를 남겼다.
+
+![2026-06-02 dashboard mobile capture](./assets/screenshots/2026-06-02-dashboard-mobile.png)
+
 ---
 
 ## 4. 제출 전 남은 항목
@@ -56,6 +60,5 @@
 | 항목 | 이유 | 권장 처리 |
 |---|---|---|
 | 최종 PDF 변환 | 과제 제출 형식 요구 | `docs/final-report-draft.md`를 최종 문장으로 다듬고 PDF로 변환 |
-| 모바일 캡처 | 반응형 품질 증빙 | 모바일 폭 화면 캡처 추가 |
 | 공식 시도별 데이터 보강 | 데이터 신뢰도 향상 | 임시 시도별 분석값을 공식 기준으로 단계적 교체 |
 | 최종 검증 로그 | 제출 직전 재현성 확보 | `npm test` 결과와 브라우저 캡처 결과를 `docs/test-plan.md`에 추가 |

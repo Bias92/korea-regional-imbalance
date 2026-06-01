@@ -110,6 +110,7 @@ h2 {
   color: var(--muted);
   font-size: 1.02rem;
   line-height: 1.65;
+  overflow-wrap: anywhere;
 }
 
 .status-badge {
@@ -1185,6 +1186,11 @@ h2 {
     flex-direction: column;
   }
 
+  .page-header > div {
+    width: 100%;
+    min-width: 0;
+  }
+
   .status-badge {
     width: 100%;
   }
@@ -1299,15 +1305,19 @@ h2 {
     line-height: 1.12;
   }
 
-    .metric-card,
-    .insight-panel,
-    .compare-panel,
-    .strategy-panel,
-    .scenario-matrix-panel,
-    .school-panel,
-    .map-panel,
-    .chart-panel,
-    .region-panel {
+  .lead {
+    max-width: 100%;
+  }
+
+  .metric-card,
+  .insight-panel,
+  .compare-panel,
+  .strategy-panel,
+  .scenario-matrix-panel,
+  .school-panel,
+  .map-panel,
+  .chart-panel,
+  .region-panel {
     padding: 16px;
   }
 
