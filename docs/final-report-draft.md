@@ -23,6 +23,7 @@
 - 데이터 파일: `data/phase1-regions.json`
 - 자동 검증 스크립트: `tests/verify-data.mjs`, `tests/verify-ui-contract.mjs`
 - 프로세스 증빙 문서: `docs/process.md`, `docs/requirements.md`, `docs/design.md`, `docs/test-plan.md`
+- 제출 증빙 인덱스와 화면 캡처: `docs/submission-evidence.md`
 
 ---
 
@@ -42,7 +43,7 @@
 |---|---|---|
 | Phase 1 | 통계 카드 + 막대차트 MVP | 완료 |
 | Phase 2 | 시도 단위 지도 + 위험지수 분석 | 완료 |
-| Phase 3 | 폐교 통계 + 필터 + 설명 카드 | 진행 중, 초안 구현 |
+| Phase 3 | 폐교 통계 + 필터 + 설명 카드 | 구현 완료, 데이터 보강 필요 |
 | QA / 보고서 | 검증, 캡처, 제출 문서 정리 | 진행 중 |
 
 ---
@@ -65,6 +66,8 @@
 - 폐교 통계 전용 분석
 - 데이터 신뢰도 상태 표시
 - 보고서 요약 Markdown 내보내기
+- 시나리오별 우선순위 매트릭스
+- 보고서 캡처 모드
 
 요구사항 상세와 추적성은 `docs/requirements.md`에 기록했다.
 
@@ -108,6 +111,8 @@ API 직접 호출 대신 `data/phase1-regions.json`을 사용했다. 브라우�
 - 폐교 통계 필터와 전용 차트 확인
 - 데이터 신뢰도 상태 확인
 - 보고서 요약 Markdown 다운로드
+- 시나리오별 우선순위 매트릭스 확인
+- 보고서 캡처 모드로 조작 요소를 줄인 화면 확인
 
 ---
 
@@ -125,6 +130,9 @@ python -m json.tool data/skorea-provinces-2018-topo-simple.json
 
 검증 범위는 JavaScript 문법, JSON 구조, 지도 경계 매핑, 핵심 DOM id, 버튼 개수, 요구사항 추적성을
 포함한다. 수동 검증 체크리스트는 `docs/test-plan.md`에 기록했다.
+
+2026-06-02 기준 제출 증빙을 위해 데스크톱 화면 캡처도 저장소에 추가했다.
+캡처 파일은 `docs/assets/screenshots/2026-06-02-dashboard-capture.png`에 위치한다.
 
 ---
 
@@ -155,7 +163,7 @@ AI 결과를 그대로 수용하지 않고, 요구사항·설계·테스트 문�
 3. 위험지수 가중치와 등급 구간 재검토
 4. 모바일 화면 캡처 및 QA
 5. 최종 PDF 보고서 작성
-6. GitHub Pages 배포
+6. 최종 제출 전 GitHub Pages 배포 결과 확인
 
 ---
 

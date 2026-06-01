@@ -66,6 +66,7 @@
 | [`docs/test-plan.md`](./docs/test-plan.md) | 수동·자동 검증 기준 |
 | [`docs/lessons-learned.md`](./docs/lessons-learned.md) | Phase별 회고와 개선점 |
 | [`docs/final-report-draft.md`](./docs/final-report-draft.md) | 최종 보고서 초안과 제출 논리 |
+| [`docs/submission-evidence.md`](./docs/submission-evidence.md) | 과제 요구사항별 제출 증빙 인덱스와 화면 캡처 |
 | [`docs/ai-log/`](./docs/ai-log/) | Claude와 Codex를 어떻게 사용했는지에 대한 날짜별 기록 |
 | [`data/README.md`](./data/README.md) | 데이터 출처, 임시 데이터 상태, 공식 데이터 교체 원칙 |
 
@@ -116,7 +117,9 @@ korea-regional-imbalance/
 │   ├── requirements.md      # 요구사항 분석
 │   ├── design.md            # 설계 결정 기록
 │   ├── test-plan.md         # 검증 계획
+│   ├── submission-evidence.md # 과제 제출 증빙 인덱스
 │   ├── ai-log/              # AI와의 주요 토의 로그
+│   ├── assets/screenshots/  # 제출용 화면 캡처
 │   └── lessons-learned.md   # 프로세스 적용 교훈
 ├── data/                    # 데이터 출처 및 전처리 산출물
 │   ├── phase1-regions.json
@@ -153,3 +156,4 @@ korea-regional-imbalance/
 - **2026-06-01**: GitHub Pages 배포 워크플로와 루트 진입점 추가
 - **2026-06-01**: 위험지수 시나리오별 우선순위 매트릭스 추가
 - **2026-06-01**: 보고서 캡처 모드와 인쇄 스타일 추가
+- **2026-06-02**: 제출 증빙 인덱스와 대시보드 화면 캡처 추가
