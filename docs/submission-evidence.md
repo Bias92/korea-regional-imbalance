@@ -14,7 +14,7 @@
 | 요구사항 분석 | `docs/requirements.md` | 기능 요구사항, 비기능 요구사항, 유스케이스 작성 |
 | 설계 및 방법론 | `docs/process.md`, `docs/design.md` | 위험 기반 반복·점진 개발, V-Model식 추적성, ADR 적용 |
 | 구현 산출물 | `src/index.html`, `src/styles.css`, `src/app.js`, `data/` | 정적 웹 대시보드 구현 |
-| 품질 관리 | `docs/test-plan.md`, `tests/`, `.github/workflows/ci.yml` | 로컬 `npm test`와 GitHub Actions 검증 |
+| 품질 관리 | `docs/test-plan.md`, `tests/`, `.github/workflows/ci.yml` | 로컬 `npm test`, 제출물 검증, GitHub Actions 검증 |
 | 프로세스 적용 교훈 | `docs/lessons-learned.md`, `docs/final-report-draft.md` | 날짜별 lessons learned 누적 |
 | SW 산출물 캡처 | `docs/assets/screenshots/2026-06-02-dashboard-capture.png`, `docs/assets/screenshots/2026-06-02-dashboard-mobile.png` | 2026-06-02 데스크톱·모바일 캡처 확보 |
 | PDF 제출 보고서 | `docs/final-report.html`, `docs/final-report.pdf` | 최종 보고서 HTML/PDF 작성 |

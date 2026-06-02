@@ -33,6 +33,8 @@
   - 과제 제출용 최종 보고서 원본과 PDF 산출물 확보
 - `scripts/render-report.mjs` 추가
   - headless Chrome으로 PDF를 재생성할 수 있도록 제출물 생성 절차 자동화
+- `tests/verify-submission.mjs` 추가
+  - PDF, 보고서 HTML, 데스크톱·모바일 캡처, 제출 증빙 인덱스 누락 여부를 자동 검증
 - `README.md` 갱신
   - 제출 증빙 인덱스 링크 추가
   - 화면 캡처 디렉터리와 2026-06-02 진행 로그 반영

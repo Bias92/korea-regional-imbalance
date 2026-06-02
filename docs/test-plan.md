@@ -29,8 +29,9 @@
 | A-003 | `python -m json.tool data/phase1-regions.json` | JSON 파싱 가능 여부 확인 | 오류 없이 종료 |
 | A-004 | `python -m json.tool data/skorea-provinces-2018-topo-simple.json` | TopoJSON 파싱 가능 여부 확인 | 오류 없이 종료 |
 | A-005 | `node tests/verify-ui-contract.mjs` | 핵심 DOM id, 시나리오/지도 버튼 수, UI 렌더링 함수 연결 확인 | `UI contract verification passed.` 출력 |
-| A-006 | `npm test` | A-001~A-005를 한 번에 실행 | 모든 검증 명령이 오류 없이 종료 |
-| A-007 | GitHub Actions `Deploy Pages` | Pages 배포 전 `npm test` 실행 및 정적 파일 업로드 | main 브랜치 push 후 Pages 배포 성공 |
+| A-006 | `node tests/verify-submission.mjs` | 최종 PDF, 보고서 HTML, 데스크톱·모바일 캡처, 제출 증빙 문서 존재 확인 | `Submission verification passed.` 출력 |
+| A-007 | `npm test` | A-001~A-006과 JSON 파싱 검증을 한 번에 실행 | 모든 검증 명령이 오류 없이 종료 |
+| A-008 | GitHub Actions `Deploy Pages` | Pages 배포 전 `npm test` 실행 및 정적 파일 업로드 | main 브랜치 push 후 Pages 배포 성공 |
 
 ---
 
@@ -66,7 +67,7 @@
 
 ## 4. 완료 기준
 
-- A-001부터 A-006까지 모두 통과한다.
+- A-001부터 A-007까지 모두 통과한다.
 - T-001부터 T-023까지 모두 통과한다.
 - 실패 항목은 `docs/ai-log/` 또는 커밋 메시지에 수정 내역을 남긴다.
 - Phase별 주요 화면 캡처를 확보한다.
@@ -159,5 +160,5 @@
 | 모바일 화면 캡처 | 통과, `docs/assets/screenshots/2026-06-02-dashboard-mobile.png` 생성 |
 | 제출 증빙 인덱스 | 통과, 과제 요구사항과 저장소 산출물 매핑 추가 |
 | 최신 프로세스 상태 반영 | 통과, `docs/process.md`와 `docs/final-report-draft.md` 갱신 |
-| `npm test` | 통과, 데이터 검증과 UI 계약 검증 모두 성공 |
+| `npm test` | 통과, 데이터 검증, UI 계약 검증, 제출물 검증 모두 성공 |
 | `git diff --check` | 통과, 공백 오류 없음 |
