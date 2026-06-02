@@ -69,6 +69,7 @@
 | [`docs/final-report.html`](./docs/final-report.html) | PDF 변환용 최종 보고서 원본 |
 | [`docs/final-report.pdf`](./docs/final-report.pdf) | 과제 제출용 PDF 보고서 |
 | [`docs/submission-evidence.md`](./docs/submission-evidence.md) | 과제 요구사항별 제출 증빙 인덱스와 화면 캡처 |
+| [`docs/final-submission-checklist.md`](./docs/final-submission-checklist.md) | 제출 직전 파일·명령·잔여 작업 체크리스트 |
 | [`docs/ai-log/`](./docs/ai-log/) | Claude와 Codex를 어떻게 사용했는지에 대한 날짜별 기록 |
 | [`data/README.md`](./data/README.md) | 데이터 출처, 임시 데이터 상태, 공식 데이터 교체 원칙 |
 
@@ -165,3 +166,4 @@ korea-regional-imbalance/
 - **2026-06-01**: 위험지수 시나리오별 우선순위 매트릭스 추가
 - **2026-06-01**: 보고서 캡처 모드와 인쇄 스타일 추가
 - **2026-06-02**: 제출 증빙 인덱스와 대시보드 화면 캡처 추가
+- **2026-06-02**: 최종 보고서 PDF와 제출 산출물 검증 스크립트 추가
