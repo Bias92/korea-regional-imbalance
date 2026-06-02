@@ -22,6 +22,14 @@ const requiredDomIds = [
   "compareLeft",
   "compareRight",
   "strategyGrid",
+  "simulationRegion",
+  "populationProgram",
+  "depopulationProgram",
+  "schoolProgram",
+  "simulationResetButton",
+  "simulationResultGrid",
+  "simulationPlan",
+  "simulationNote",
   "scenarioMatrixGrid",
   "closedSchoolChart",
   "schoolBriefGrid",
@@ -54,6 +62,10 @@ const requiredFunctions = [
   "renderFormulaPanel",
   "setupCaptureMode",
   "renderStrategyPanel",
+  "setupPolicySimulation",
+  "renderPolicyRegionOptions",
+  "renderPolicySimulation",
+  "calculatePolicySimulation",
   "renderScenarioMatrix",
   "getScenarioRiskScores",
   "setupSchoolClosureAnalysis",
@@ -70,7 +82,7 @@ for (const functionName of requiredFunctions) {
   assert(app.includes(`function ${functionName}`), `${functionName} 함수가 없습니다.`);
 }
 
-for (const requirementId of ["FR-017", "FR-018", "FR-019", "FR-020", "FR-021", "FR-022", "FR-023", "FR-024"]) {
+for (const requirementId of ["FR-017", "FR-018", "FR-019", "FR-020", "FR-021", "FR-022", "FR-023", "FR-024", "FR-025"]) {
   assert(requirements.includes(requirementId), `${requirementId} 요구사항 추적이 없습니다.`);
 }
 

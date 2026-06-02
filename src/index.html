@@ -101,6 +101,48 @@
         </div>
       </section>
 
+      <section class="simulation-panel" aria-labelledby="simulationTitle">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Policy Lab</p>
+            <h2 id="simulationTitle">대응 시뮬레이터</h2>
+          </div>
+          <label class="simulation-region-select">
+            <span>대상 지역</span>
+            <select id="simulationRegion" aria-label="대응 시뮬레이션 대상 지역"></select>
+          </label>
+        </div>
+        <div class="simulation-layout">
+          <div class="simulation-controls" aria-label="정책 투입 강도">
+            <label>
+              <span>청년·일자리</span>
+              <input id="populationProgram" type="range" min="0" max="100" step="5" value="55">
+              <b data-intervention-value="population">55%</b>
+            </label>
+            <label>
+              <span>생활권 인프라</span>
+              <input id="depopulationProgram" type="range" min="0" max="100" step="5" value="45">
+              <b data-intervention-value="depopulation">45%</b>
+            </label>
+            <label>
+              <span>폐교 활용</span>
+              <input id="schoolProgram" type="range" min="0" max="100" step="5" value="35">
+              <b data-intervention-value="schools">35%</b>
+            </label>
+            <button class="simulation-reset-button" id="simulationResetButton" type="button">초기값</button>
+          </div>
+          <div>
+            <div class="simulation-result-grid" id="simulationResultGrid">
+              <article class="simulation-card skeleton"></article>
+              <article class="simulation-card skeleton"></article>
+              <article class="simulation-card skeleton"></article>
+            </div>
+            <ol class="simulation-plan" id="simulationPlan"></ol>
+          </div>
+        </div>
+        <p class="simulation-note" id="simulationNote">시뮬레이터는 임시 데이터 기반의 정책 가설 비교 도구입니다.</p>
+      </section>
+
       <section class="scenario-matrix-panel" aria-labelledby="scenarioMatrixTitle">
         <div class="section-header">
           <div>

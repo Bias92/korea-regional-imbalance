@@ -120,6 +120,30 @@ const schoolFilterConfigs = {
   }
 };
 
+const interventionDefaults = {
+  population: 55,
+  depopulation: 45,
+  schools: 35
+};
+
+const interventionConfigs = {
+  population: {
+    label: "청년·일자리",
+    target: "인구 감소",
+    plan: "청년 일자리, 정주 지원, 지역 산업 전환 과제를 묶어 인구 유출 압력을 낮춘다."
+  },
+  depopulation: {
+    label: "생활권 인프라",
+    target: "인구감소지역",
+    plan: "의료, 교통, 돌봄 접근성을 생활권 단위로 묶어 소멸위험 신호를 완화한다."
+  },
+  schools: {
+    label: "폐교 활용",
+    target: "폐교 수",
+    plan: "폐교를 교육, 돌봄, 커뮤니티 거점으로 전환해 교육 인프라 축소 신호를 줄인다."
+  }
+};
+
 const mapMetricConfigs = {
   riskIndex: {
     title: "지역 위험지수 지도",
@@ -265,6 +289,7 @@ async function loadDashboard() {
     renderInsightPanel(regions);
     const compareController = setupRegionComparison(regions);
     renderStrategyPanel(regions);
+    const policySimulationController = setupPolicySimulation(regions);
     renderScenarioMatrix(regions);
     const regionExplorerController = setupRegionExplorer(regions);
     renderPopulationChart(regions);
@@ -280,7 +305,8 @@ async function loadDashboard() {
     renderDataNote(data.meta);
     renderDataQuality(data.meta, data.summary);
     const reportController = setupReportExport(data, regions);
-    setupRiskScenarioControls(regions, mapController, compareController, regionExplorerController, reportController);
+    policySimulationController.setReportController(reportController);
+    setupRiskScenarioControls(regions, mapController, compareController, regionExplorerController, policySimulationController, reportController);
   } catch (error) {
     renderLoadError(error);
   }
@@ -475,7 +501,7 @@ function renderClosedSchoolChart(regions, chart) {
   });
 }
 
-function setupRiskScenarioControls(regions, mapController, compareController, regionExplorerController, reportController) {
+function setupRiskScenarioControls(regions, mapController, compareController, regionExplorerController, policySimulationController, reportController) {
   document.querySelectorAll("[data-risk-scenario]").forEach((button) => {
     button.addEventListener("click", () => {
       const scenario = riskScenarioConfigs[button.dataset.riskScenario];
@@ -491,6 +517,7 @@ function setupRiskScenarioControls(regions, mapController, compareController, re
       renderStrategyPanel(regions, scenario);
       compareController.refresh();
       regionExplorerController.refresh();
+      policySimulationController.refresh();
       mapController?.refreshRiskDisplay();
       reportController.refresh();
     });
@@ -592,6 +619,156 @@ function renderStrategyPanel(regions, scenario = riskScenarioConfigs.balanced) {
       <p>${card.body}</p>
     </article>
   `).join("");
+}
+
+function setupPolicySimulation(regions) {
+  const regionSelect = document.querySelector("#simulationRegion");
+  const resetButton = document.querySelector("#simulationResetButton");
+  const controls = {
+    population: document.querySelector("#populationProgram"),
+    depopulation: document.querySelector("#depopulationProgram"),
+    schools: document.querySelector("#schoolProgram")
+  };
+  let reportController = null;
+
+  renderPolicyRegionOptions(regions, regionSelect);
+
+  const refresh = () => {
+    renderPolicyRegionOptions(regions, regionSelect);
+    const values = getPolicyInterventionValues(controls);
+    const selectedRegion = getRegionByName(regions, regionSelect.value) || getTopRegion(regions, "riskIndex");
+
+    syncPolicyInterventionLabels(values);
+    renderPolicySimulation(selectedRegion, riskScenarioConfigs[currentRiskScenarioKey], values);
+    reportController?.refresh();
+  };
+
+  Object.values(controls).forEach((input) => {
+    input.addEventListener("input", refresh);
+  });
+  regionSelect.addEventListener("change", refresh);
+  resetButton.addEventListener("click", () => {
+    Object.entries(interventionDefaults).forEach(([key, value]) => {
+      controls[key].value = String(value);
+    });
+    refresh();
+  });
+
+  refresh();
+
+  return {
+    refresh,
+    setReportController: (controller) => {
+      reportController = controller;
+    }
+  };
+}
+
+function renderPolicyRegionOptions(regions, select) {
+  const selectedValue = select.value;
+  const sortedRegions = getSortedRegions(regions, "riskIndex");
+
+  select.innerHTML = sortedRegions.map((region) => `
+    <option value="${region.name}">${region.name} · ${region.riskIndex}점</option>
+  `).join("");
+  select.value = selectedValue && regions.some((region) => region.name === selectedValue)
+    ? selectedValue
+    : sortedRegions[0].name;
+}
+
+function getPolicyInterventionValues(controls) {
+  return Object.fromEntries(Object.entries(controls).map(([key, input]) => [
+    key,
+    Number(input.value)
+  ]));
+}
+
+function syncPolicyInterventionLabels(values) {
+  Object.entries(values).forEach(([key, value]) => {
+    document.querySelector(`[data-intervention-value="${key}"]`).textContent = `${value}%`;
+  });
+}
+
+function renderPolicySimulation(region, scenario, values) {
+  const simulation = calculatePolicySimulation(region, scenario, values);
+  const cards = [
+    {
+      label: "예상 위험 변화",
+      title: `${simulation.baseRisk}점에서 ${simulation.adjustedRisk}점`,
+      body: `${simulation.reduction}점 완화되는 가설입니다. 실제 효과가 아니라 정책 우선순위 비교용 추정값입니다.`
+    },
+    {
+      label: "집중 패키지",
+      title: `${simulation.strongestProgram.label} ${simulation.strongestProgram.value}%`,
+      body: simulation.strongestProgram.plan
+    },
+    {
+      label: "잔여 리스크",
+      title: simulation.remainingFactor.label,
+      body: `${scenario.label} 기준으로 조정 뒤에도 ${simulation.remainingFactor.label} 기여도가 가장 큽니다. 후속 데이터 검증을 먼저 연결해야 합니다.`
+    }
+  ];
+
+  document.querySelector("#simulationResultGrid").innerHTML = cards.map((card) => `
+    <article class="simulation-card">
+      <span class="simulation-label">${card.label}</span>
+      <strong>${card.title}</strong>
+      <p>${card.body}</p>
+    </article>
+  `).join("");
+  document.querySelector("#simulationPlan").innerHTML = simulation.plan.map((item) => `
+    <li>${item}</li>
+  `).join("");
+  document.querySelector("#simulationNote").textContent =
+    `${scenario.label} 기준, ${region.name} 대상입니다. 시뮬레이터는 임시 시도별 데이터와 가정 계수를 사용하므로 공식 정책 판단 전 재검증이 필요합니다.`;
+}
+
+function calculatePolicySimulation(region, scenario, values) {
+  const factors = [
+    {
+      key: "decline",
+      label: "인구 감소",
+      base: region.riskComponents.declineScore * scenario.weights.decline,
+      multiplier: Math.max(0.45, 1 - values.population * 0.0034 - values.depopulation * 0.0008)
+    },
+    {
+      key: "depopulation",
+      label: "인구감소지역",
+      base: region.riskComponents.depopulationScore * scenario.weights.depopulation,
+      multiplier: Math.max(0.45, 1 - values.depopulation * 0.003 - values.schools * 0.0006)
+    },
+    {
+      key: "closedSchools",
+      label: "폐교 수",
+      base: region.riskComponents.closedSchoolScore * scenario.weights.closedSchools,
+      multiplier: Math.max(0.45, 1 - values.schools * 0.0028 - values.population * 0.0005)
+    }
+  ];
+  const adjustedFactors = factors.map((factor) => ({
+    ...factor,
+    adjusted: factor.base * factor.multiplier
+  }));
+  const adjustedRisk = Math.round(adjustedFactors.reduce((sum, factor) => sum + factor.adjusted, 0) * 100);
+  const strongestEntry = Object.entries(values).sort((a, b) => b[1] - a[1])[0];
+  const strongestProgram = {
+    ...interventionConfigs[strongestEntry[0]],
+    value: strongestEntry[1]
+  };
+  const remainingFactor = adjustedFactors.sort((a, b) => b.adjusted - a.adjusted)[0];
+  const reduction = Math.max(0, region.riskIndex - adjustedRisk);
+
+  return {
+    baseRisk: region.riskIndex,
+    adjustedRisk,
+    reduction,
+    strongestProgram,
+    remainingFactor,
+    plan: [
+      `${region.name}의 ${remainingFactor.label} 공식 시도별 데이터를 먼저 확인한다.`,
+      `${strongestProgram.label} 패키지를 ${strongestProgram.value}% 강도로 시범 적용하는 가정을 비교한다.`,
+      `${scenario.label} 기준 위험지수 변화와 지역 비교 결과를 보고 다음 투입 강도를 조정한다.`
+    ]
+  };
 }
 
 function getDominantRiskFactor(region, weights) {
@@ -1272,6 +1449,7 @@ function renderReportSummary(data, regions) {
   const scenario = riskScenarioConfigs[currentRiskScenarioKey];
   const topRiskRegion = getTopRegion(regions, "riskIndex");
   const topClosedSchoolRegion = getTopRegion(regions, "closedSchoolCount");
+  const simulation = getCurrentPolicySimulation(regions);
   const cards = [
     {
       label: "분석 기준",
@@ -1287,6 +1465,11 @@ function renderReportSummary(data, regions) {
       label: "데이터 상태",
       title: getDataStatusLabel(data.meta.status),
       body: `요약 지표는 공식 통계, 시도별 지도·위험지수 입력값은 임시 데이터입니다. 폐교 최다 지역은 ${topClosedSchoolRegion.name}입니다.`
+    },
+    {
+      label: "정책 가설",
+      title: `${simulation.region.name} ${simulation.adjustedRisk}점`,
+      body: `대응 시뮬레이터 기준 ${simulation.baseRisk}점에서 ${simulation.adjustedRisk}점으로 ${simulation.reduction}점 완화되는 가설입니다.`
     }
   ];
 
@@ -1304,6 +1487,7 @@ function createReportMarkdown(data, regions) {
   const topRiskRegion = getTopRegion(regions, "riskIndex");
   const topDeclineRegion = [...regions].sort((a, b) => a.populationChangeRate - b.populationChangeRate)[0];
   const topClosedSchoolRegion = getTopRegion(regions, "closedSchoolCount");
+  const simulation = getCurrentPolicySimulation(regions);
   const summary = data.summary;
 
   return [
@@ -1326,12 +1510,35 @@ function createReportMarkdown(data, regions) {
     `- 인구 감소 최상위 지역: ${topDeclineRegion.name} ${formatRate(topDeclineRegion.populationChangeRate)}`,
     `- 폐교 수 최다 지역: ${topClosedSchoolRegion.name} ${numberFormatter.format(topClosedSchoolRegion.closedSchoolCount)}곳`,
     "",
+    "## 정책 시뮬레이션 가설",
+    "",
+    `- 대상 지역: ${simulation.region.name}`,
+    `- 예상 위험 변화: ${simulation.baseRisk}점에서 ${simulation.adjustedRisk}점 (${simulation.reduction}점 완화 가설)`,
+    `- 집중 패키지: ${simulation.strongestProgram.label} ${simulation.strongestProgram.value}%`,
+    `- 잔여 리스크: ${simulation.remainingFactor.label}`,
+    "",
     "## 데이터 한계",
     "",
     "- summary 요약 지표는 공식 통계 출처와 기준연도를 표시했다.",
     "- regions 시도별 분석 값은 아직 화면 검증용 임시 데이터다.",
     "- 최종 보고서에서는 위험지수를 정책 판단 보조용 파생 지표로 설명해야 한다."
   ].join("\n");
+}
+
+function getCurrentPolicySimulation(regions) {
+  const regionSelect = document.querySelector("#simulationRegion");
+  const controls = {
+    population: document.querySelector("#populationProgram"),
+    depopulation: document.querySelector("#depopulationProgram"),
+    schools: document.querySelector("#schoolProgram")
+  };
+  const region = getRegionByName(regions, regionSelect?.value) || getTopRegion(regions, "riskIndex");
+  const values = getPolicyInterventionValues(controls);
+
+  return {
+    region,
+    ...calculatePolicySimulation(region, riskScenarioConfigs[currentRiskScenarioKey], values)
+  };
 }
 
 function downloadTextFile(filename, content) {

@@ -195,6 +195,7 @@ h2 {
 .insight-panel,
 .compare-panel,
 .strategy-panel,
+.simulation-panel,
 .scenario-matrix-panel,
 .school-panel,
 .map-panel,
@@ -211,6 +212,7 @@ h2 {
 
 .compare-panel,
 .strategy-panel,
+.simulation-panel,
 .scenario-matrix-panel,
 .school-panel,
 .insight-panel {
@@ -493,6 +495,144 @@ h2 {
 .strategy-card p {
   margin: 12px 0 0;
   color: var(--muted);
+  line-height: 1.55;
+}
+
+.simulation-region-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 850;
+}
+
+.simulation-region-select select {
+  min-width: 190px;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-weight: 850;
+}
+
+.simulation-layout {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.simulation-controls {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-strong);
+}
+
+.simulation-controls label {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 10px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 850;
+}
+
+.simulation-controls span {
+  overflow-wrap: anywhere;
+}
+
+.simulation-controls b {
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.simulation-controls input {
+  grid-column: 1 / -1;
+  width: 100%;
+  accent-color: var(--teal);
+}
+
+.simulation-reset-button {
+  min-height: 36px;
+  border: 1px solid var(--teal);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--teal);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.simulation-reset-button:hover,
+.simulation-reset-button:focus-visible {
+  background: rgba(22, 124, 128, 0.08);
+}
+
+.simulation-result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.simulation-card {
+  min-height: 148px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-strong);
+}
+
+.simulation-label {
+  display: block;
+  color: var(--teal);
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+
+.simulation-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.26rem;
+  line-height: 1.2;
+}
+
+.simulation-card p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.simulation-plan {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 14px 14px 14px 34px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.simulation-plan li::marker {
+  color: var(--teal);
+  font-weight: 900;
+}
+
+.simulation-note {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
   line-height: 1.55;
 }
 
@@ -1139,6 +1279,8 @@ h2 {
 
 .capture-mode .scenario-toolbar,
 .capture-mode .compare-controls,
+.capture-mode .simulation-region-select,
+.capture-mode .simulation-controls,
 .capture-mode .school-filter-group,
 .capture-mode .map-toolbar,
 .capture-mode .region-controls,
@@ -1149,6 +1291,7 @@ h2 {
 .capture-mode .insight-panel,
 .capture-mode .compare-panel,
 .capture-mode .strategy-panel,
+.capture-mode .simulation-panel,
 .capture-mode .scenario-matrix-panel,
 .capture-mode .school-panel,
 .capture-mode .map-panel,
@@ -1209,6 +1352,7 @@ h2 {
   .insight-grid,
   .compare-grid,
   .strategy-grid,
+  .simulation-result-grid,
   .scenario-matrix-grid,
   .quality-grid,
   .report-grid,
@@ -1221,6 +1365,10 @@ h2 {
   }
 
   .school-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .simulation-layout {
     grid-template-columns: 1fr;
   }
 
@@ -1270,6 +1418,8 @@ h2 {
   .capture-mode-button,
   .scenario-toolbar,
   .compare-controls,
+  .simulation-region-select,
+  .simulation-controls,
   .school-filter-group,
   .map-toolbar,
   .region-controls,
@@ -1278,11 +1428,12 @@ h2 {
   }
 
   .metric-card,
-  .insight-panel,
-  .compare-panel,
-  .strategy-panel,
-  .scenario-matrix-panel,
-  .school-panel,
+    .insight-panel,
+    .compare-panel,
+    .strategy-panel,
+    .simulation-panel,
+    .scenario-matrix-panel,
+    .school-panel,
   .map-panel,
   .chart-panel,
   .region-panel,
