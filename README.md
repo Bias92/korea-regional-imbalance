@@ -66,6 +66,8 @@
 | [`docs/test-plan.md`](./docs/test-plan.md) | 수동·자동 검증 기준 |
 | [`docs/lessons-learned.md`](./docs/lessons-learned.md) | Phase별 회고와 개선점 |
 | [`docs/final-report-draft.md`](./docs/final-report-draft.md) | 최종 보고서 초안과 제출 논리 |
+| [`docs/final-report.html`](./docs/final-report.html) | PDF 변환용 최종 보고서 원본 |
+| [`docs/final-report.pdf`](./docs/final-report.pdf) | 과제 제출용 PDF 보고서 |
 | [`docs/submission-evidence.md`](./docs/submission-evidence.md) | 과제 요구사항별 제출 증빙 인덱스와 화면 캡처 |
 | [`docs/ai-log/`](./docs/ai-log/) | Claude와 Codex를 어떻게 사용했는지에 대한 날짜별 기록 |
 | [`data/README.md`](./data/README.md) | 데이터 출처, 임시 데이터 상태, 공식 데이터 교체 원칙 |
@@ -90,6 +92,12 @@ http://127.0.0.1:8000/src/index.html
 
 ```bash
 npm test
+```
+
+최종 보고서 PDF를 다시 생성하려면 다음 명령을 실행한다.
+
+```bash
+npm run report:pdf
 ```
 
 개별 검증 명령은 다음과 같다.

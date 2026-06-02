@@ -29,6 +29,10 @@
   - 로컬 정적 서버에서 실행한 대시보드를 headless Chrome으로 캡처
 - `docs/assets/screenshots/2026-06-02-dashboard-mobile.png` 추가
   - 모바일 폭 캡처 중 헤더 설명 문장 줄바꿈 문제를 확인하고 CSS 보정
+- `docs/final-report.html`, `docs/final-report.pdf` 추가
+  - 과제 제출용 최종 보고서 원본과 PDF 산출물 확보
+- `scripts/render-report.mjs` 추가
+  - headless Chrome으로 PDF를 재생성할 수 있도록 제출물 생성 절차 자동화
 - `README.md` 갱신
   - 제출 증빙 인덱스 링크 추가
   - 화면 캡처 디렉터리와 2026-06-02 진행 로그 반영
