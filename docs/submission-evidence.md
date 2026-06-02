@@ -16,6 +16,7 @@
 | 구현 산출물 | `src/index.html`, `src/styles.css`, `src/app.js`, `data/` | 정적 웹 대시보드 구현 |
 | 품질 관리 | `docs/test-plan.md`, `tests/`, `.github/workflows/ci.yml` | 로컬 `npm test`, 제출물 검증, GitHub Actions 검증 |
 | 프로세스 적용 교훈 | `docs/lessons-learned.md`, `docs/final-report-draft.md` | 날짜별 lessons learned 누적 |
+| 사용자 피드백 반영 | `docs/ai-log/2026-06-02-policy-simulator.md`, `docs/requirements.md` | "단순 표시 앱" 피드백을 정책 대응 시뮬레이터 요구사항으로 전환 |
 | SW 산출물 캡처 | `docs/assets/screenshots/2026-06-02-dashboard-capture.png`, `docs/assets/screenshots/2026-06-02-dashboard-mobile.png` | 2026-06-02 데스크톱·모바일 캡처 확보 |
 | PDF 제출 보고서 | `docs/final-report.html`, `docs/final-report.pdf` | 최종 보고서 HTML/PDF 작성 |
 | 제출 직전 확인 | `docs/final-submission-checklist.md` | 제출 파일, 검증 명령, 잔여 작업 정리 |
@@ -38,6 +39,7 @@
 | 2026-05-31 | 지역 탐색, 대응 전략, 폐교 분석, UI 계약 검증 | `docs/ai-log/2026-05-31-region-exploration.md` |
 | 2026-06-01 | 보고서 요약, CI, Pages, 캡처 모드 추가 | `docs/ai-log/2026-06-01-report-prep.md` |
 | 2026-06-02 | 제출 증빙 인덱스와 화면 캡처 확보 | `docs/ai-log/2026-06-02-submission-evidence.md` |
+| 2026-06-02 | 정책 대응 시뮬레이터 추가와 요구사항 추적성 갱신 | `docs/ai-log/2026-06-02-policy-simulator.md` |
 
 위 흐름은 막판에 한 번에 구현한 것이 아니라, 요구사항과 검증 기준을 기능 확장과 함께
 반복적으로 갱신했음을 보여준다.
