@@ -40,6 +40,7 @@
 | 2026-06-01 | 보고서 요약, CI, Pages, 캡처 모드 추가 | `docs/ai-log/2026-06-01-report-prep.md` |
 | 2026-06-02 | 제출 증빙 인덱스와 화면 캡처 확보 | `docs/ai-log/2026-06-02-submission-evidence.md` |
 | 2026-06-02 | 정책 대응 시뮬레이터 추가와 요구사항 추적성 갱신 | `docs/ai-log/2026-06-02-policy-simulator.md` |
+| 2026-06-03 | GitHub Pages 배포 실패 원인 분석과 워크플로 수정 | `docs/ai-log/2026-06-03-pages-finalization.md` |
 
 위 흐름은 막판에 한 번에 구현한 것이 아니라, 요구사항과 검증 기준을 기능 확장과 함께
 반복적으로 갱신했음을 보여준다.
