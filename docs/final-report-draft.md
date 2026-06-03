@@ -20,6 +20,7 @@
 ### 결과물
 
 - 정적 웹 대시보드: `src/index.html`
+- 배포 데모: `https://bias92.github.io/korea-regional-imbalance/`
 - 데이터 파일: `data/phase1-regions.json`
 - 자동 검증 스크립트: `tests/verify-data.mjs`, `tests/verify-ui-contract.mjs`
 - 프로세스 증빙 문서: `docs/process.md`, `docs/requirements.md`, `docs/design.md`, `docs/test-plan.md`

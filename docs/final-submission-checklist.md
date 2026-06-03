@@ -15,6 +15,7 @@
 | 데스크톱 화면 캡처 | `docs/assets/screenshots/2026-06-02-dashboard-capture.png` | 준비 완료 |
 | 모바일 화면 캡처 | `docs/assets/screenshots/2026-06-02-dashboard-mobile.png` | 준비 완료 |
 | GitHub 증빙 저장소 | `https://github.com/Bias92/korea-regional-imbalance` | main 브랜치에 누적 |
+| GitHub Pages 데모 | `https://bias92.github.io/korea-regional-imbalance/` | 2026-06-03 배포 성공 및 200 OK 확인 |
 | 프로세스 증빙 인덱스 | `docs/submission-evidence.md` | 준비 완료 |
 
 ---
@@ -56,5 +57,5 @@ git status --short --branch
 | 작업 | 필수 여부 | 판단 |
 |---|---|---|
 | 공식 시도별 데이터 전체 교체 | 선택 | 데이터 신뢰도는 높아지지만 검증 시간이 필요하므로 별도 커밋으로 진행 |
-| GitHub Pages 실제 URL 확인 | 권장 | 제출 전 브라우저에서 배포 결과 확인 |
+| GitHub Pages 실제 URL 확인 | 권장 | 완료, `https://bias92.github.io/korea-regional-imbalance/` |
 | PDF 문장 다듬기 | 권장 | 분량과 수업 제출 양식에 맞춰 최종 조정 |
