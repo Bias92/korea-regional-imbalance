@@ -59,6 +59,7 @@ const schoolFilterButtonCount = (html.match(/data-school-filter="/g) || []).leng
 assert(schoolFilterButtonCount === 4, "폐교 분석 필터 버튼은 4개여야 합니다.");
 
 const requiredFunctions = [
+  "setupPwaInstallability",
   "renderFormulaPanel",
   "setupCaptureMode",
   "renderStrategyPanel",

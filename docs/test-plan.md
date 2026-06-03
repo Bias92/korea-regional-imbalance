@@ -24,7 +24,7 @@
 
 | ID | 명령 | 검증 내용 | 기대 결과 |
 |---|---|---|---|
-| A-001 | `node --check src/app.js` | JavaScript 문법 오류 확인 | 오류 없이 종료 |
+| A-001 | `node --check src/app.js && node --check service-worker.js` | 앱 코드와 PWA service worker 문법 오류 확인 | 오류 없이 종료 |
 | A-002 | `node tests/verify-data.mjs` | JSON 필수 키, 17개 시도, 지도 경계 17개, 수도권 매핑 확인 | `Data verification passed.` 출력 |
 | A-003 | `python -m json.tool data/phase1-regions.json` | JSON 파싱 가능 여부 확인 | 오류 없이 종료 |
 | A-004 | `python -m json.tool data/skorea-provinces-2018-topo-simple.json` | TopoJSON 파싱 가능 여부 확인 | 오류 없이 종료 |
@@ -63,13 +63,14 @@
 | T-022 | 시나리오 매트릭스 | 시나리오별 우선순위 영역을 확인한다. | 네 가지 시나리오별 상위 3개 지역과 점수가 표시된다. |
 | T-023 | 캡처 모드 | 캡처 모드 버튼을 누른다. | 주요 조작 컨트롤이 숨겨지고 보고서 캡처용 화면 스타일이 적용된다. |
 | T-024 | 대응 시뮬레이터 | 대상 지역과 정책 패키지 슬라이더를 바꾼다. | 예상 위험지수, 집중 패키지, 잔여 리스크, 실행 순서가 현재 입력값에 맞게 갱신된다. |
+| T-025 | PWA 설치성 | 배포 URL을 지원 브라우저에서 열고 설치 가능 여부를 확인한다. | manifest, 앱 아이콘, service worker가 감지되어 앱처럼 설치할 수 있다. |
 
 ---
 
 ## 4. 완료 기준
 
 - A-001부터 A-007까지 모두 통과한다.
-- T-001부터 T-024까지 모두 통과한다.
+- T-001부터 T-025까지 모두 통과한다.
 - 실패 항목은 `docs/ai-log/` 또는 커밋 메시지에 수정 내역을 남긴다.
 - Phase별 주요 화면 캡처를 확보한다.
 
@@ -187,3 +188,15 @@
 | GitHub Pages 앱 URL | 통과, `src/index.html` 200 OK 및 `대응 시뮬레이터` 섹션 확인 |
 | README 제출용 랜딩 페이지 | 통과, Live Demo, 최종 PDF, 과제 요구사항 대응표, 화면 캡처, 프로세스 다이어그램 포함 |
 | Git 상태 | 통과, `main`과 `origin/main` 동기화 확인 |
+
+---
+
+## 14. 2026-06-03 PWA 설치성 검증 기록
+
+| 항목 | 결과 |
+|---|---|
+| Web App Manifest | 통과, `manifest.webmanifest`에 `display: standalone`, `start_url`, 아이콘 2종 포함 |
+| 앱 아이콘 | 통과, `assets/icons/icon-192.png`, `assets/icons/icon-512.png` 생성 |
+| Service Worker | 통과, `service-worker.js`가 앱 셸과 데이터 JSON을 캐시하도록 구성 |
+| HTML 연결 | 통과, `src/index.html`에 manifest, theme color, apple touch icon 연결 |
+| 자동 검증 | 통과, 제출물 검증에서 PWA 파일과 아이콘 크기 확인 |

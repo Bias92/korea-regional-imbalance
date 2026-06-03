@@ -260,8 +260,21 @@ let currentRiskScenarioKey = "balanced";
 
 document.addEventListener("DOMContentLoaded", () => {
   setupCaptureMode();
+  setupPwaInstallability();
   loadDashboard();
 });
+
+function setupPwaInstallability() {
+  if (!("serviceWorker" in navigator)) {
+    return;
+  }
+
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("../service-worker.js").catch(() => {
+      // PWA installability is progressive enhancement; the dashboard still runs without it.
+    });
+  });
+}
 
 function setupCaptureMode() {
   const button = document.querySelector("#captureModeButton");

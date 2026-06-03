@@ -255,7 +255,7 @@
         <div class="meta-grid">
           <div class="card">
             <strong>SW 산출물</strong>
-            한국 지역 불균형 대시보드
+          한국 지역 불균형 대시보드
           </div>
           <div class="card">
             <strong>저장소</strong>
@@ -264,6 +264,10 @@
           <div class="card">
             <strong>배포 데모</strong>
             <a href="https://bias92.github.io/korea-regional-imbalance/">bias92.github.io/korea-regional-imbalance</a>
+          </div>
+          <div class="card">
+            <strong>앱 형태</strong>
+            GitHub Pages 기반 정적 웹앱 + PWA 설치성
           </div>
           <div class="card">
             <strong>AI 도구</strong>
@@ -283,6 +287,8 @@
           정적 웹 대시보드 개발이다. 통계 자료는 표 형태로 제공되는 경우가 많아 일반 사용자가
           지역 간 차이를 직관적으로 이해하기 어렵다. 따라서 본 프로젝트는 카드, 차트, 지도,
           위험지수, 지역 비교, 정책 대응 시뮬레이터를 통해 지역 불균형을 탐색 가능한 화면으로 구성했다.
+          최종 산출물은 네이티브 앱이 아니라 브라우저에서 실행되는 정적 웹앱이지만, manifest와
+          service worker를 추가해 지원 브라우저에서는 앱처럼 설치할 수 있도록 했다.
         </p>
         <p>
           이 프로젝트의 목적은 단지 동작하는 웹앱을 만드는 것이 아니다. 과제의 핵심은
@@ -302,7 +308,7 @@
         <div class="phase-grid">
           <div class="card">
             <strong>반복·점진 개발</strong>
-            Phase 1 MVP를 먼저 확보한 뒤 지도, 위험지수, 폐교 분석, 정책 시뮬레이션, 보고서 기능을 순차 추가했다.
+            Phase 1 MVP를 먼저 확보한 뒤 지도, 위험지수, 폐교 분석, 정책 시뮬레이션, PWA 설치성, 보고서 기능을 순차 추가했다.
           </div>
           <div class="card">
             <strong>위험 기반 스코프 관리</strong>
@@ -345,7 +351,7 @@
           <tbody>
             <tr>
               <td>기능 요구사항</td>
-              <td>통계 카드, 차트, 지도, 위험지수, 지역 비교, 정책 시뮬레이터, 폐교 분석, 캡처 모드</td>
+              <td>통계 카드, 차트, 지도, 위험지수, 지역 비교, 정책 시뮬레이터, 폐교 분석, PWA 설치성, 캡처 모드</td>
               <td>단순 표시 화면에서 탐색형 분석 도구로 확장</td>
             </tr>
             <tr>
@@ -361,7 +367,7 @@
           </tbody>
         </table>
         <p>
-          요구사항은 `docs/requirements.md`에 FR-001부터 FR-025까지 ID로 관리했다. 새 기능을
+          요구사항은 `docs/requirements.md`에 FR-001부터 FR-026까지 ID로 관리했다. 새 기능을
           추가할 때는 요구사항과 설계 결정, 테스트 계획을 함께 갱신하여 AI가 만든 코드가
           문서 밖에서 떠돌지 않도록 했다.
         </p>
@@ -372,7 +378,8 @@
         <p>
           구현 결과물은 HTML, CSS, Vanilla JavaScript 기반의 정적 웹앱이다. Chart.js로 막대차트를,
           Leaflet과 저장소 내 TopoJSON 파일로 시도 단위 지도를 렌더링한다. 별도 빌드 없이
-          GitHub Pages 또는 로컬 정적 서버에서 실행할 수 있도록 구성했다.
+          GitHub Pages 또는 로컬 정적 서버에서 실행할 수 있도록 구성했다. 또한 `manifest.webmanifest`,
+          앱 아이콘, `service-worker.js`를 추가하여 PWA 설치 조건을 갖추었다.
         </p>
         <figure>
           <img src="./assets/screenshots/2026-06-02-dashboard-capture.png" alt="대시보드 데스크톱 캡처">
@@ -509,7 +516,7 @@
         </p>
         <p>
           본 프로젝트에서는 위험 기반 반복·점진 개발을 통해 MVP를 먼저 확보하고, 지도, 위험지수,
-          지역 비교, 정책 대응 시뮬레이터, 폐교 분석, 데이터 신뢰도, 보고서 캡처 기능을 단계적으로 추가했다.
+          지역 비교, 정책 대응 시뮬레이터, 폐교 분석, 데이터 신뢰도, PWA 설치성, 보고서 캡처 기능을 단계적으로 추가했다.
           그 과정에서 요구사항 ID, 설계 결정, 자동 테스트, AI 작업 로그, lessons learned를
           GitHub에 누적했다. 따라서 바이브코딩의 효과는 단순히 개발 속도 향상에 그치지 않고,
           프로세스를 통해 재현 가능하고 설명 가능한 소프트웨어 산출물로 전환되는 데 있음을 확인했다.

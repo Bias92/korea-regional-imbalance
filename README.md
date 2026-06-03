@@ -8,6 +8,7 @@
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-167c80)](https://bias92.github.io/korea-regional-imbalance/)
 [![Final Report](https://img.shields.io/badge/Final%20Report-PDF-d85d4a)](./docs/final-report.pdf)
 [![Process Evidence](https://img.shields.io/badge/Process-Evidence-3465d9)](./docs/submission-evidence.md)
+[![PWA](https://img.shields.io/badge/PWA-Installable-21845a)](./manifest.webmanifest)
 
 ## Live
 
@@ -17,6 +18,7 @@
 | 최종 PDF 보고서 | [docs/final-report.pdf](./docs/final-report.pdf) |
 | 제출 증빙 인덱스 | [docs/submission-evidence.md](./docs/submission-evidence.md) |
 | 최종 체크리스트 | [docs/final-submission-checklist.md](./docs/final-submission-checklist.md) |
+| PWA manifest | [manifest.webmanifest](./manifest.webmanifest) |
 
 ![Korea Regional Imbalance Dashboard screenshot](./docs/assets/screenshots/2026-06-02-dashboard-capture.png)
 
@@ -37,6 +39,21 @@
 | 지역 탐색 | 지역명 검색, 수도권/비수도권 필터, 위험지수·인구감소·폐교 기준 정렬 |
 | 폐교 분석 | 폐교 수 전용 차트, 권역 필터, 설명 카드 제공 |
 | 보고서 지원 | 보고서 요약 Markdown 다운로드, 캡처 모드, 인쇄 스타일 제공 |
+| PWA 설치 | manifest, 앱 아이콘, service worker를 통해 브라우저에서 앱처럼 설치 가능 |
+
+## 앱인가, 웹인가
+
+이 프로젝트는 **웹앱**이다. GitHub Pages에서 실행되는 정적 웹 대시보드이며, 동시에 PWA 설정을 포함해 지원 브라우저에서는 앱처럼 설치할 수 있다.
+
+| 구분 | 상태 |
+|---|---|
+| 웹 실행 | 가능, GitHub Pages에서 바로 접속 |
+| 모바일 브라우저 | 가능, 반응형 레이아웃 |
+| PWA 설치 | 가능, manifest와 service worker 제공 |
+| 앱스토어 네이티브 앱 | 아님, iOS/Android 패키지로 빌드한 것은 아님 |
+| 데스크톱 설치형 앱 | 아님, Electron/Tauri 패키지는 아님 |
+
+Chrome/Edge/Android에서는 주소창 또는 브라우저 메뉴의 설치 기능을 사용할 수 있고, iOS Safari에서는 공유 메뉴의 "홈 화면에 추가"로 앱처럼 배치할 수 있다.
 
 ## 과제 요구사항 대응
 
@@ -91,7 +108,7 @@ sequenceDiagram
 |---|---|---|
 | Phase 1 | 통계 카드 + 막대차트 MVP | 완료 |
 | Phase 2 | Leaflet 시도 지도 + 위험지수 | 완료 |
-| Phase 3 | 폐교 분석 + 정책 대응 시뮬레이터 | 완료 |
+| Phase 3 | 폐교 분석 + 정책 대응 시뮬레이터 + PWA 설치성 | 완료 |
 | QA / 보고서 | 캡처, PDF, 제출 증빙, Pages 배포 | 완료 |
 
 ## 기술 스택
@@ -104,6 +121,7 @@ sequenceDiagram
 | 데이터 | Git에 고정한 정적 JSON |
 | 검증 | Node.js 검증 스크립트, JSON 파싱 검증, GitHub Actions |
 | 배포 | GitHub Pages |
+| 앱 설치성 | Web App Manifest, Service Worker, PWA icons |
 
 프레임워크를 쓰지 않은 이유는 [docs/design.md](./docs/design.md)의 `DD-001`에 정리했다. 과제의 핵심이 프레임워크 활용이 아니라 **프로세스 적용 증빙**이므로, 정적 파일 구조로 구현 이력과 산출물을 단순하게 유지했다.
 
@@ -172,6 +190,9 @@ npm run report:pdf
 korea-regional-imbalance/
 ├── README.md
 ├── index.html
+├── manifest.webmanifest
+├── service-worker.js
+├── assets/icons/
 ├── .github/workflows/
 │   ├── ci.yml
 │   └── pages.yml
@@ -213,6 +234,7 @@ korea-regional-imbalance/
 | 2026-06-01 | 보고서 요약, CI, Pages, 캡처 모드 추가 |
 | 2026-06-02 | 정책 대응 시뮬레이터, 최종 PDF, 제출 증빙 추가 |
 | 2026-06-03 | GitHub Pages 배포 활성화와 Live Demo URL 검증 |
+| 2026-06-03 | PWA manifest, service worker, 앱 아이콘 추가 |
 
 ## 제출 상태
 
@@ -223,6 +245,7 @@ korea-regional-imbalance/
 | 최종 PDF | 준비 완료 |
 | 프로세스 증빙 | 준비 완료 |
 | GitHub Pages 데모 | 준비 완료 |
+| PWA 설치성 | 준비 완료 |
 | 자동 검증 | 통과 |
 
 남은 항목은 공식 시도별 데이터 전체 교체 정도다. 현재 보고서와 앱에서는 해당 값이 임시 데이터임을 명시했으므로, 제출 필수 요건은 충족한 상태다.

@@ -630,3 +630,35 @@ GitHub Actions 기반 Pages 배포 워크플로를 추가하고, 저장소 루�
 - `FR-025` 요구사항 추가
 - Policy Lab 영역과 슬라이더 기반 정책 패키지 조정 UI 추가
 - 보고서 요약 Markdown에 현재 정책 시뮬레이션 가설 포함
+
+---
+
+## DD-021: PWA 설치성 추가
+
+- **결정일**: 2026-06-03
+- **상태**: Accepted
+
+### 맥락
+
+최종 점검에서 "앱과 웹 둘 다 가능한가"라는 질문이 제기되었다. 현재 산출물은 GitHub Pages에서
+동작하는 정적 웹앱이므로 네이티브 iOS/Android 앱은 아니지만, PWA를 적용하면 브라우저에서
+앱처럼 설치해 사용할 수 있다.
+
+### 결정
+
+Web App Manifest, 앱 아이콘, Service Worker를 추가해 대시보드를 PWA로 설치 가능하게 만든다.
+네이티브 앱 패키징은 별도 빌드 도구와 배포 절차가 필요하므로 이번 제출 범위에서는 제외한다.
+
+### 근거
+
+- PWA는 기존 정적 웹앱 구조를 유지하면서 설치성을 제공한다.
+- GitHub Pages 배포와 잘 맞고 추가 서버가 필요 없다.
+- manifest와 service worker는 자동 검증 대상에 포함할 수 있어 품질 관리 흐름을 유지할 수 있다.
+- "웹앱이지만 앱처럼 설치 가능"하다는 설명이 제출 레포의 데모 가치와 사용성을 높인다.
+
+### 결과
+
+- `FR-026` 요구사항 추가
+- `manifest.webmanifest`, `service-worker.js`, PWA 아이콘 2종 추가
+- `src/index.html`에 manifest, theme color, apple touch icon 연결
+- 제출물 검증에서 PWA 파일과 아이콘 크기 확인

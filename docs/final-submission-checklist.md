@@ -16,6 +16,7 @@
 | 모바일 화면 캡처 | `docs/assets/screenshots/2026-06-02-dashboard-mobile.png` | 준비 완료 |
 | GitHub 증빙 저장소 | `https://github.com/Bias92/korea-regional-imbalance` | main 브랜치에 누적 |
 | GitHub Pages 데모 | `https://bias92.github.io/korea-regional-imbalance/` | 2026-06-03 배포 성공 및 200 OK 확인 |
+| PWA 설치성 | `manifest.webmanifest`, `service-worker.js`, `assets/icons/` | 앱처럼 설치 가능한 웹앱 구성 완료 |
 | 프로세스 증빙 인덱스 | `docs/submission-evidence.md` | 준비 완료 |
 
 ---
@@ -48,6 +49,7 @@ git status --short --branch
 - 품질 관리: `npm test`, UI 계약 검증, 제출물 검증, GitHub Actions
 - 바이브코딩 효과: 구현 속도 향상, 스코프 통제, 설명 가능한 산출물, 회귀 방지
 - 사용자 피드백 반영: 단순 표시 앱이라는 약점을 정책 대응 시뮬레이터 요구사항으로 전환
+- 앱/웹 구분: 네이티브 앱은 아니지만 PWA로 설치 가능한 정적 웹앱
 - 한계: 시도별 분석값 일부는 임시 데이터이므로 최종 정책 판단 지표가 아니라 데모용 분석 지표
 
 ---

@@ -1,0 +1,26 @@
+{
+  "name": "Korea Regional Imbalance Dashboard",
+  "short_name": "Regional Risk",
+  "description": "한국 지역 불균형 지표를 지도, 차트, 위험지수, 정책 대응 시뮬레이터로 분석하는 대시보드입니다.",
+  "lang": "ko-KR",
+  "start_url": "./src/index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f6f7f2",
+  "theme_color": "#167c80",
+  "icons": [
+    {
+      "src": "./assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

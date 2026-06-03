@@ -21,6 +21,7 @@
 
 - 정적 웹 대시보드: `src/index.html`
 - 배포 데모: `https://bias92.github.io/korea-regional-imbalance/`
+- PWA 설치성: `manifest.webmanifest`, `service-worker.js`, `assets/icons/`
 - 데이터 파일: `data/phase1-regions.json`
 - 자동 검증 스크립트: `tests/verify-data.mjs`, `tests/verify-ui-contract.mjs`
 - 프로세스 증빙 문서: `docs/process.md`, `docs/requirements.md`, `docs/design.md`, `docs/test-plan.md`
@@ -86,6 +87,13 @@ React나 Next.js 대신 Vanilla 스택을 사용했다. 이유는 다음과 같�
 - 과제의 핵심이 프레임워크 활용보다 프로세스 적용 증빙에 있음
 - Chart.js와 Leaflet CDN만으로 필요한 시각화를 구현 가능
 
+### PWA 설치성 추가
+
+최종 산출물은 네이티브 모바일 앱이 아니라 브라우저에서 실행되는 정적 웹앱이다. 다만
+`manifest.webmanifest`, 앱 아이콘, `service-worker.js`를 추가하여 지원 브라우저에서는 홈 화면이나
+런처에 앱처럼 설치할 수 있게 했다. 이 결정은 기존 GitHub Pages 배포 구조를 유지하면서 사용자가
+"웹으로도 열고 앱처럼도 설치"할 수 있게 하기 위한 절충안이다.
+
 ### 정적 JSON 데이터 채택
 
 API 직접 호출 대신 `data/phase1-regions.json`을 사용했다. 브라우저 CORS, API 키, 외부 서비스 장애
@@ -116,6 +124,7 @@ API 직접 호출 대신 `data/phase1-regions.json`을 사용했다. 브라우�
 - 보고서 요약 Markdown 다운로드
 - 시나리오별 우선순위 매트릭스 확인
 - 보고서 캡처 모드로 조작 요소를 줄인 화면 확인
+- 지원 브라우저에서 PWA로 설치해 앱처럼 실행
 
 ---
 
