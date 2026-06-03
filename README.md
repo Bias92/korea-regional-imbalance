@@ -1,84 +1,125 @@
 # Korea Regional Imbalance Dashboard
 
-한국 지역 불균형(수도권 집중·인구감소·폐교)을 시각화하는 데이터 대시보드.  
-*소프트웨어공학 과제 "프로세스에 입각한 바이브코딩의 효과 논술"의 실증 프로젝트.*
+> 소프트웨어공학 과제 **"프로세스에 입각한 바이브코딩의 효과 논술"**을 위한 실증 프로젝트.
+> 한국 지역 불균형 데이터를 대시보드로 만들고, 요구사항 분석부터 품질 관리까지의 프로세스 적용 과정을 GitHub에 증빙한다.
 
-**Live Demo**: https://bias92.github.io/korea-regional-imbalance/
+[![CI](https://github.com/Bias92/korea-regional-imbalance/actions/workflows/ci.yml/badge.svg)](https://github.com/Bias92/korea-regional-imbalance/actions/workflows/ci.yml)
+[![Deploy Pages](https://github.com/Bias92/korea-regional-imbalance/actions/workflows/pages.yml/badge.svg)](https://github.com/Bias92/korea-regional-imbalance/actions/workflows/pages.yml)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-167c80)](https://bias92.github.io/korea-regional-imbalance/)
+[![Final Report](https://img.shields.io/badge/Final%20Report-PDF-d85d4a)](./docs/final-report.pdf)
+[![Process Evidence](https://img.shields.io/badge/Process-Evidence-3465d9)](./docs/submission-evidence.md)
 
----
+## Live
 
-## 1. 배경
-
-수도권 집중과 지방 인구감소는 한국 사회의 핵심 문제이지만, 통계청 자료는 표 형태라
-일반인이 체감하기 어렵다. 본 프로젝트는 이를 시각적으로 전달하는 대시보드를 만들고,
-그 과정에서 **바이브코딩(AI 보조 개발)에 프로세스를 적용했을 때의 효과**를 실증한다.
-
-## 2. MVP 정의
-
-- [x] 수도권 집중 통계 카드 (인구·GRDP 비중)
-- [x] 인구감소지역 수 표시
-- [x] 폐교 수 표시
-- [x] 시도별 인구 증감률 막대차트
-- [x] (Phase 2) 시도 단위 choropleth 지도 초안
-- [x] 지도 지표 전환 및 지역 선택 인터랙션
-- [x] 종합 위험지수와 핵심 진단 카드
-- [x] 위험지수 분석 시나리오 전환
-- [x] 두 지역 직접 비교 모드
-- [x] 위험지수 산식과 가중치 설명 UI
-- [x] 지역 검색·권역 필터·정렬 탐색
-- [x] 위험지수 기반 대응 전략 브리프
-- [x] 정책 대응 시뮬레이터
-- [x] 폐교 통계 필터·전용 차트·설명 카드
-- [x] 공식/임시 데이터 신뢰도 상태 표시
-- [x] 보고서 요약 MD 다운로드
-- [x] 위험지수 시나리오별 우선순위 매트릭스
-- [x] 보고서 캡처 모드와 인쇄 스타일
-
-> Phase 1 MVP와 Phase 2 지도 초안은 임시 시연 데이터 기준으로 구현 완료. 공식 통계 데이터 교체는 후속 작업으로 관리한다.
-
-## 3. 단계별 계획
-
-| Phase | 목표 | 기간 |
-|---|---|---|
-| Phase 1 (MVP) | 통계 카드 + 막대차트 | 2026-05-18 ~ 2026-05-24 |
-| Phase 2 | Leaflet 시도 단위 지도(choropleth) 추가 | 2026-05-25 ~ 2026-05-31 |
-| Phase 3 | 폐교 통계 + 필터 + 설명 카드 | 2026-06-01 ~ 2026-06-05 |
-| QA / 보고서 | 버그픽스, PDF 보고서 작성, 캡처 정리 | 2026-06-06 ~ 2026-06-08 |
-
-## 4. 기술 스택
-
-- **Frontend**: HTML5 / CSS3 / Vanilla JavaScript
-- **시각화**: Chart.js (차트), Leaflet (지도)
-- **지도 경계**: southkorea-maps KOSTAT 2018 시도 TopoJSON
-- **데이터 처리**: 원본 CSV 확보 후 정적 JSON으로 변환
-- **데이터 출처 (예정)**: KOSIS, 행정안전부 인구감소지역, 교육부 폐교현황
-- **빌드/배포**: 정적 호스팅 (GitHub Pages Actions 워크플로)
-
-> 프레임워크(React/Next.js) 미사용 결정 근거는 [`docs/design.md`](./docs/design.md) 참조.
-
-## 5. 소프트웨어공학 문서 읽는 순서
-
-`docs/`의 Markdown 문서는 제출용 프로세스 증빙이다. 처음 보면 이름만으로 헷갈릴 수 있어
-아래 순서대로 읽으면 된다.
-
-| 문서 | 역할 |
+| 항목 | 링크 |
 |---|---|
-| [`docs/process.md`](./docs/process.md) | 적용 방법론, 전체 개발 프로세스, 시퀀스 다이어그램, 프로세스 다이어그램 |
-| [`docs/requirements.md`](./docs/requirements.md) | 사용자, 기능 요구사항, 비기능 요구사항, 추적성 |
-| [`docs/design.md`](./docs/design.md) | Vanilla 스택, 정적 JSON, Phase 분리 같은 설계 결정 |
-| [`docs/test-plan.md`](./docs/test-plan.md) | 수동·자동 검증 기준 |
-| [`docs/lessons-learned.md`](./docs/lessons-learned.md) | Phase별 회고와 개선점 |
-| [`docs/final-report-draft.md`](./docs/final-report-draft.md) | 최종 보고서 초안과 제출 논리 |
-| [`docs/final-report.html`](./docs/final-report.html) | PDF 변환용 최종 보고서 원본 |
-| [`docs/final-report.pdf`](./docs/final-report.pdf) | 과제 제출용 PDF 보고서 |
-| [`docs/submission-evidence.md`](./docs/submission-evidence.md) | 과제 요구사항별 제출 증빙 인덱스와 화면 캡처 |
-| [`docs/final-submission-checklist.md`](./docs/final-submission-checklist.md) | 제출 직전 파일·명령·잔여 작업 체크리스트 |
-| [`docs/ai-log/`](./docs/ai-log/) | Claude와 Codex를 어떻게 사용했는지에 대한 날짜별 기록 |
-| [`data/README.md`](./data/README.md) | 데이터 출처, 임시 데이터 상태, 공식 데이터 교체 원칙 |
+| 실행 데모 | [https://bias92.github.io/korea-regional-imbalance/](https://bias92.github.io/korea-regional-imbalance/) |
+| 최종 PDF 보고서 | [docs/final-report.pdf](./docs/final-report.pdf) |
+| 제출 증빙 인덱스 | [docs/submission-evidence.md](./docs/submission-evidence.md) |
+| 최종 체크리스트 | [docs/final-submission-checklist.md](./docs/final-submission-checklist.md) |
 
-## 6. 로컬 실행 방법
+![Korea Regional Imbalance Dashboard screenshot](./docs/assets/screenshots/2026-06-02-dashboard-capture.png)
 
-정적 JSON을 `fetch`로 불러오므로 로컬에서는 저장소 루트에서 정적 서버를 실행한다.
+## 이 프로젝트는 무엇인가
+
+수도권 집중, 인구감소지역, 폐교 수처럼 서로 흩어져 있는 지역 불균형 지표를 한 화면에서 비교하는 정적 웹 대시보드다.
+단순히 앱을 만드는 것이 아니라, **AI 보조 개발을 소프트웨어공학 프로세스 안에서 통제했을 때 어떤 효과가 있는지**를 분석하기 위한 과제 산출물이다.
+
+### 사용자가 할 수 있는 일
+
+| 기능 | 설명 |
+|---|---|
+| 핵심 통계 카드 | 수도권 인구 비중, GRDP 비중, 인구감소지역 수, 폐교 수를 출처와 함께 확인 |
+| 시도별 지도 | Leaflet 기반 choropleth 지도에서 위험지수, 인구 증감률, 인구감소지역, 폐교 수 전환 |
+| 위험지수 시나리오 | 균형, 인구감소 중심, 소멸위험 중심, 폐교 중심 기준으로 위험지수 재계산 |
+| 지역 비교 | 두 시도를 선택해 위험지수, 인구 흐름, 인구감소지역·폐교 수 차이 비교 |
+| 정책 대응 시뮬레이터 | 청년·일자리, 생활권 인프라, 폐교 활용 투입 강도를 바꿔 위험 변화 가설 확인 |
+| 지역 탐색 | 지역명 검색, 수도권/비수도권 필터, 위험지수·인구감소·폐교 기준 정렬 |
+| 폐교 분석 | 폐교 수 전용 차트, 권역 필터, 설명 카드 제공 |
+| 보고서 지원 | 보고서 요약 Markdown 다운로드, 캡처 모드, 인쇄 스타일 제공 |
+
+## 과제 요구사항 대응
+
+| 과제 요구 | 이 저장소의 대응 산출물 |
+|---|---|
+| 바이브코딩으로 만들 SW 선정 | 한국 지역 불균형 대시보드, [설계 결정 기록](./docs/design.md) |
+| 바이브코딩 AI 자율 선정 | Claude와 Codex 역할 분담, [AI 활용 로그](./docs/ai-log/) |
+| 요구사항 분석 | [docs/requirements.md](./docs/requirements.md) |
+| 방법론과 프로세스 | 위험 기반 반복·점진 개발, V-Model식 추적성, ADR, [docs/process.md](./docs/process.md) |
+| 시퀀스/프로세스 다이어그램 | [docs/process.md](./docs/process.md)의 Mermaid 다이어그램 |
+| 품질 관리 | `npm test`, UI 계약 검증, 제출물 검증, GitHub Actions |
+| SW 산출물 캡처 | [데스크톱 캡처](./docs/assets/screenshots/2026-06-02-dashboard-capture.png), [모바일 캡처](./docs/assets/screenshots/2026-06-02-dashboard-mobile.png) |
+| 논술 PDF | [docs/final-report.pdf](./docs/final-report.pdf) |
+| 지속적 토의 증빙 | 2026-05-18부터 2026-06-03까지의 [날짜별 AI 로그](./docs/ai-log/)와 Git commit history |
+
+## 프로세스 요약
+
+본 프로젝트는 **위험 기반 반복·점진 개발**로 진행했다. 각 Phase는 작은 폭포수처럼 `요구사항 -> 설계 -> 구현 -> 검증 -> 회고`를 거치고, 결과를 다음 Phase에 반영한다.
+
+```mermaid
+flowchart LR
+  A["요구사항 분석"] --> B["위험 분석"]
+  B --> C["Phase 스코프 결정"]
+  C --> D["설계 결정 기록"]
+  D --> E["구현"]
+  E --> F["자동·수동 검증"]
+  F --> G["AI 로그와 회고"]
+  G --> A
+```
+
+```mermaid
+sequenceDiagram
+  actor User as 사용자
+  participant Browser as 브라우저
+  participant App as Vanilla JS 앱
+  participant Data as 정적 JSON
+  participant Chart as Chart.js/Leaflet
+
+  User->>Browser: GitHub Pages URL 접속
+  Browser->>App: HTML/CSS/JS 로드
+  App->>Data: phase1-regions.json fetch
+  Data-->>App: summary, regions 반환
+  App->>Chart: 차트와 지도 데이터 전달
+  Chart-->>Browser: 대시보드 렌더링
+  User->>App: 시나리오/지역/정책 강도 조작
+  App-->>Browser: 위험지수와 보고서 요약 갱신
+```
+
+## 개발 일정
+
+| Phase | 목표 | 결과 |
+|---|---|---|
+| Phase 1 | 통계 카드 + 막대차트 MVP | 완료 |
+| Phase 2 | Leaflet 시도 지도 + 위험지수 | 완료 |
+| Phase 3 | 폐교 분석 + 정책 대응 시뮬레이터 | 완료 |
+| QA / 보고서 | 캡처, PDF, 제출 증빙, Pages 배포 | 완료 |
+
+## 기술 스택
+
+| 영역 | 선택 |
+|---|---|
+| Frontend | HTML5, CSS3, Vanilla JavaScript |
+| 시각화 | Chart.js, Leaflet |
+| 지도 경계 | southkorea-maps KOSTAT 2018 시도 TopoJSON |
+| 데이터 | Git에 고정한 정적 JSON |
+| 검증 | Node.js 검증 스크립트, JSON 파싱 검증, GitHub Actions |
+| 배포 | GitHub Pages |
+
+프레임워크를 쓰지 않은 이유는 [docs/design.md](./docs/design.md)의 `DD-001`에 정리했다. 과제의 핵심이 프레임워크 활용이 아니라 **프로세스 적용 증빙**이므로, 정적 파일 구조로 구현 이력과 산출물을 단순하게 유지했다.
+
+## 데이터 상태
+
+| 데이터 | 상태 |
+|---|---|
+| 요약 지표 4종 | 통계청·행정안전부·교육부 공식 통계 출처와 기준연도 반영 |
+| 시도별 분석값 | 화면 검증용 임시 데이터, 공식 시도별 자료 교체는 후속 작업 |
+| 지도 경계 | 저장소에 고정한 KOSTAT 2018 시도 TopoJSON |
+
+데이터의 출처와 한계는 [data/README.md](./data/README.md)에 따로 기록했다. 앱 화면과 보고서에도 공식 데이터와 임시 데이터를 구분해 표시한다.
+
+## 로컬 실행
+
+정적 JSON을 `fetch`로 불러오므로 파일을 직접 더블클릭하지 않고 정적 서버를 사용한다.
 
 ```bash
 python -m http.server 8000
@@ -90,84 +131,98 @@ python -m http.server 8000
 http://127.0.0.1:8000/src/index.html
 ```
 
-루트 경로(`http://127.0.0.1:8000/`)는 `src/index.html`로 이동한다.
-
-### 자동 검증
+## 검증
 
 ```bash
 npm test
 ```
 
-최종 보고서 PDF를 다시 생성하려면 다음 명령을 실행한다.
+`npm test`는 다음 검증을 한 번에 실행한다.
+
+| 명령 | 역할 |
+|---|---|
+| `node --check src/app.js` | JavaScript 문법 검사 |
+| `node tests/verify-data.mjs` | 데이터 구조, 17개 시도, 지도 경계 매핑 검증 |
+| `node tests/verify-ui-contract.mjs` | 핵심 DOM id, 버튼 개수, 렌더링 함수, 요구사항 ID 검증 |
+| `node tests/verify-submission.mjs` | PDF, 캡처, Pages URL, 제출 증빙 문서 검증 |
+| `python -m json.tool ...` | JSON 파싱 가능 여부 검증 |
+
+최종 보고서 PDF를 다시 생성하려면 다음을 실행한다.
 
 ```bash
 npm run report:pdf
 ```
 
-개별 검증 명령은 다음과 같다.
+## 문서 읽는 순서
 
-```bash
-node --check src/app.js
-node tests/verify-data.mjs
-node tests/verify-ui-contract.mjs
-```
+| 문서 | 역할 |
+|---|---|
+| [docs/submission-evidence.md](./docs/submission-evidence.md) | 과제 요구사항별 증빙 인덱스 |
+| [docs/process.md](./docs/process.md) | 방법론, 프로세스 다이어그램, 시퀀스 다이어그램 |
+| [docs/requirements.md](./docs/requirements.md) | 요구사항 분석과 추적성 |
+| [docs/design.md](./docs/design.md) | 설계 결정 기록 |
+| [docs/test-plan.md](./docs/test-plan.md) | 자동·수동 테스트 계획 |
+| [docs/lessons-learned.md](./docs/lessons-learned.md) | 프로세스 적용 교훈 |
+| [docs/final-report.pdf](./docs/final-report.pdf) | 최종 제출 PDF |
+| [docs/ai-log/](./docs/ai-log/) | 날짜별 AI 토의와 작업 로그 |
 
-## 7. 바이브코딩 도구 운용 방침
+## 프로젝트 구조
 
-- **Claude**: 요구사항 정리, 문서 작성, 의사결정 토론 파트너, 보고서 작성
-- **Codex**: 코드 구현, 버그 수정, 비판적 리뷰, 커밋 메시지 정리
-- 두 AI의 응답을 교차 검증하여 lessons learned를 [`docs/lessons-learned.md`](./docs/lessons-learned.md)에 누적 기록
-
-## 8. 프로젝트 구조
-
-```
+```text
 korea-regional-imbalance/
 ├── README.md
-├── index.html               # GitHub Pages 루트 진입점
-├── docs/
-│   ├── process.md           # 소프트웨어공학 프로세스 총괄
-│   ├── requirements.md      # 요구사항 분석
-│   ├── design.md            # 설계 결정 기록
-│   ├── test-plan.md         # 검증 계획
-│   ├── submission-evidence.md # 과제 제출 증빙 인덱스
-│   ├── ai-log/              # AI와의 주요 토의 로그
-│   ├── assets/screenshots/  # 제출용 화면 캡처
-│   └── lessons-learned.md   # 프로세스 적용 교훈
-├── data/                    # 데이터 출처 및 전처리 산출물
+├── index.html
+├── .github/workflows/
+│   ├── ci.yml
+│   └── pages.yml
+├── data/
 │   ├── phase1-regions.json
 │   ├── skorea-provinces-2018-topo-simple.json
 │   └── skorea-provinces-license.md
-├── src/                     # 실제 웹앱 코드
+├── docs/
+│   ├── ai-log/
+│   ├── assets/screenshots/
+│   ├── final-report.pdf
+│   ├── process.md
+│   ├── requirements.md
+│   ├── design.md
+│   ├── test-plan.md
+│   └── submission-evidence.md
+├── src/
 │   ├── index.html
 │   ├── styles.css
 │   └── app.js
-├── package.json             # 검증 스크립트
-└── tests/
-    └── verify-data.mjs      # Phase 1 데이터 구조 검증
+├── tests/
+│   ├── verify-data.mjs
+│   ├── verify-ui-contract.mjs
+│   └── verify-submission.mjs
+└── package.json
 ```
 
-## 9. 진행 로그
+## 진행 로그 요약
 
-- **2026-05-18**: 프로젝트 킥오프 / 주제·스택 확정 / repo 개설
-- **2026-05-21**: Day 1 리뷰 반영 / Phase 1 문서·데이터·MVP 구현 착수
-- **2026-05-25**: 소프트웨어공학 프로세스 문서화 / 다이어그램 추가 / 데이터 검증 자동화
-- **2026-05-25**: Phase 2 Leaflet 시도 단위 choropleth 지도 초안 구현
-- **2026-05-25**: 지도 지표 전환·지역 선택 인터랙션 보강
-- **2026-05-25**: 위험지수 기반 핵심 진단 패널 추가
-- **2026-05-26**: 위험지수 분석 시나리오 전환 기능 추가
-- **2026-05-26**: 두 지역 직접 비교 모드 추가
-- **2026-05-27**: 위험지수 산식과 가중치 설명 UI 추가
-- **2026-05-29**: 요약 지표 4종을 통계청·행안부·교육부 공식 통계로 교체, 카드에 출처 표기 추가
-- **2026-05-31**: 지역 검색·권역 필터·정렬 탐색 기능 추가
-- **2026-05-31**: 위험지수 기반 대응 전략 브리프 추가
-- **2026-05-31**: Phase 3 폐교 통계 필터·차트·설명 카드 초안 추가
-- **2026-05-31**: 공식/임시 데이터 신뢰도 상태 패널 추가
-- **2026-06-01**: 보고서 요약 MD 다운로드 기능 추가
-- **2026-06-01**: 최종 보고서 초안 문서 추가
-- **2026-06-01**: npm 검증 스크립트와 GitHub Actions CI 추가
-- **2026-06-01**: GitHub Pages 배포 워크플로와 루트 진입점 추가
-- **2026-06-01**: 위험지수 시나리오별 우선순위 매트릭스 추가
-- **2026-06-01**: 보고서 캡처 모드와 인쇄 스타일 추가
-- **2026-06-02**: 제출 증빙 인덱스와 대시보드 화면 캡처 추가
-- **2026-06-02**: 최종 보고서 PDF와 제출 산출물 검증 스크립트 추가
-- **2026-06-02**: 정책 대응 시뮬레이터와 요구사항 추적성 추가
+| 날짜 | 주요 변경 |
+|---|---|
+| 2026-05-18 | 주제 선정, AI 역할 분담, repo 개설 |
+| 2026-05-21 | Phase 1 MVP 문서·데이터·화면 구현 |
+| 2026-05-25 | 프로세스 문서화, 지도 초안, 위험지수 도입 |
+| 2026-05-26 | 위험지수 시나리오와 두 지역 비교 기능 추가 |
+| 2026-05-27 | 위험지수 산식과 가중치 설명 UI 추가 |
+| 2026-05-29 | 요약 지표 공식 통계 출처 반영 |
+| 2026-05-31 | 지역 탐색, 대응 전략, 폐교 분석, 데이터 신뢰도 패널 추가 |
+| 2026-06-01 | 보고서 요약, CI, Pages, 캡처 모드 추가 |
+| 2026-06-02 | 정책 대응 시뮬레이터, 최종 PDF, 제출 증빙 추가 |
+| 2026-06-03 | GitHub Pages 배포 활성화와 Live Demo URL 검증 |
+
+## 제출 상태
+
+| 항목 | 상태 |
+|---|---|
+| SW 산출물 | 준비 완료 |
+| 화면 캡처 | 준비 완료 |
+| 최종 PDF | 준비 완료 |
+| 프로세스 증빙 | 준비 완료 |
+| GitHub Pages 데모 | 준비 완료 |
+| 자동 검증 | 통과 |
+
+남은 항목은 공식 시도별 데이터 전체 교체 정도다. 현재 보고서와 앱에서는 해당 값이 임시 데이터임을 명시했으므로, 제출 필수 요건은 충족한 상태다.
