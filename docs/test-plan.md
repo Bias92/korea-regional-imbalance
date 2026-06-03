@@ -174,3 +174,16 @@
 | 정책 투입 강도 변경 | 통과, 예상 위험지수와 잔여 리스크 문구 갱신 |
 | 시나리오 전환 연동 | 통과, 현재 위험지수 시나리오 기준으로 시뮬레이션 결과 재계산 |
 | 보고서 요약 연동 | 통과, MD 요약에 정책 시뮬레이션 가설 포함 |
+
+---
+
+## 13. 2026-06-03 최종 제출 검증 기록
+
+| 항목 | 결과 |
+|---|---|
+| `npm test` | 통과, 데이터·UI 계약·제출물·JSON 검증 모두 성공 |
+| `pdfinfo docs/final-report.pdf` | 통과, A4 7페이지, 암호화 없음 |
+| GitHub Pages 루트 URL | 통과, `https://bias92.github.io/korea-regional-imbalance/` 200 OK |
+| GitHub Pages 앱 URL | 통과, `src/index.html` 200 OK 및 `대응 시뮬레이터` 섹션 확인 |
+| README 제출용 랜딩 페이지 | 통과, Live Demo, 최종 PDF, 과제 요구사항 대응표, 화면 캡처, 프로세스 다이어그램 포함 |
+| Git 상태 | 통과, `main`과 `origin/main` 동기화 확인 |

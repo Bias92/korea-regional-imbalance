@@ -23,7 +23,7 @@
 | 제출 직전 확인 | `docs/final-submission-checklist.md` | 제출 파일, 검증 명령, 잔여 작업 정리 |
 | 형상 관리 시스템 공유 | GitHub repository | main 브랜치에 산출물과 증빙 문서 누적 |
 | 착수 시점 토의 증빙 | `docs/ai-log/2026-05-18-kickoff.md`, `docs/ai-log/2026-05-18-codex-review.md` | 주제 선정과 AI 교차 검토 기록 |
-| 지속적 토의 증빙 | `docs/ai-log/` 날짜별 로그, Git commit history | 5/18부터 6/2까지 주기적 진행 기록 |
+| 지속적 토의 증빙 | `docs/ai-log/` 날짜별 로그, Git commit history | 5/18부터 6/3까지 주기적 진행 기록 |
 
 ---
 
@@ -65,4 +65,4 @@
 | 항목 | 이유 | 권장 처리 |
 |---|---|---|
 | 공식 시도별 데이터 보강 | 데이터 신뢰도 향상 | 임시 시도별 분석값을 공식 기준으로 단계적 교체 |
-| 최종 검증 로그 | 제출 직전 재현성 확보 | `npm test` 결과와 브라우저 캡처 결과를 `docs/test-plan.md`에 추가 |
+| 최종 검증 로그 | 제출 직전 재현성 확보 | 완료, 2026-06-03 `npm test`, PDF, Pages, README 정합성 확인 |
