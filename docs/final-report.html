@@ -7,13 +7,13 @@
     <style>
       :root {
         color-scheme: light;
-        --ink: #17211c;
-        --muted: #607067;
-        --line: #d8dfd8;
-        --surface: #f7f8f4;
-        --teal: #167c80;
-        --coral: #d85d4a;
-        --gold: #a66d12;
+        --ink: #1f1f1f;
+        --muted: #555555;
+        --line: #b8b8b8;
+        --soft-line: #dddddd;
+        --surface: #f4f4f4;
+        --diagram-fill: #fafafa;
+        --diagram-deep: #e8e8e8;
       }
 
       * {
@@ -24,28 +24,27 @@
         margin: 0;
         background: #ffffff;
         color: var(--ink);
-        font-family: "Segoe UI", "Noto Sans KR", AppleSDGothicNeo, sans-serif;
-        line-height: 1.68;
+        font-family: "Noto Sans KR", AppleSDGothicNeo, "Malgun Gothic", sans-serif;
+        line-height: 1.72;
       }
 
       .report {
-        width: min(960px, calc(100% - 48px));
+        width: min(900px, calc(100% - 48px));
         margin: 0 auto;
-        padding: 48px 0 64px;
+        padding: 42px 0 64px;
       }
 
       .cover {
-        padding: 40px 0 28px;
-        border-bottom: 3px solid var(--teal);
+        padding: 32px 0 24px;
+        border-bottom: 2px solid var(--ink);
       }
 
       .eyebrow {
-        margin: 0 0 10px;
-        color: var(--teal);
-        font-size: 0.84rem;
-        font-weight: 850;
+        margin: 0 0 12px;
+        color: var(--muted);
+        font-size: 0.9rem;
+        font-weight: 600;
         letter-spacing: 0;
-        text-transform: uppercase;
       }
 
       h1,
@@ -57,25 +56,25 @@
 
       h1 {
         max-width: 820px;
-        margin-bottom: 18px;
-        font-size: 2.6rem;
-        line-height: 1.12;
+        margin-bottom: 14px;
+        font-size: 2.15rem;
+        line-height: 1.2;
         letter-spacing: 0;
       }
 
       h2 {
-        margin: 34px 0 14px;
-        padding-bottom: 8px;
+        margin: 32px 0 12px;
+        padding-bottom: 6px;
         border-bottom: 1px solid var(--line);
-        font-size: 1.5rem;
+        font-size: 1.34rem;
         line-height: 1.25;
         letter-spacing: 0;
       }
 
       h3 {
         margin: 22px 0 8px;
-        color: var(--teal);
-        font-size: 1.06rem;
+        color: var(--ink);
+        font-size: 1.02rem;
         letter-spacing: 0;
       }
 
@@ -84,13 +83,13 @@
       }
 
       a {
-        color: var(--teal);
+        color: var(--ink);
       }
 
       .lead {
         max-width: 860px;
         color: var(--muted);
-        font-size: 1.08rem;
+        font-size: 1rem;
       }
 
       .meta-grid,
@@ -105,31 +104,27 @@
 
       .card {
         min-width: 0;
-        padding: 16px;
+        padding: 12px 14px;
         border: 1px solid var(--line);
-        border-radius: 8px;
-        background: var(--surface);
+        border-radius: 0;
+        background: #ffffff;
       }
 
       .card strong {
         display: block;
         margin-bottom: 6px;
-        color: var(--teal);
+        color: var(--ink);
       }
 
       .process-flow {
-        display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: 8px;
-        margin: 18px 0;
+        display: none;
       }
 
       .step {
         min-height: 92px;
         padding: 12px;
         border: 1px solid var(--line);
-        border-top: 4px solid var(--teal);
-        border-radius: 8px;
+        border-radius: 0;
         background: #ffffff;
       }
 
@@ -147,14 +142,14 @@
 
       th,
       td {
-        padding: 10px;
+        padding: 9px 10px;
         border: 1px solid var(--line);
         vertical-align: top;
       }
 
       th {
         background: var(--surface);
-        color: var(--teal);
+        color: var(--ink);
         text-align: left;
       }
 
@@ -172,11 +167,71 @@
         break-inside: avoid;
       }
 
+      .diagram {
+        padding: 12px;
+        border: 1px solid var(--line);
+        background: #ffffff;
+      }
+
+      .diagram svg {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .diagram .box {
+        fill: var(--diagram-fill);
+        stroke: #333333;
+        stroke-width: 1.4;
+      }
+
+      .diagram .box-deep {
+        fill: var(--diagram-deep);
+        stroke: #333333;
+        stroke-width: 1.4;
+      }
+
+      .diagram .line {
+        fill: none;
+        stroke: #333333;
+        stroke-width: 1.4;
+      }
+
+      .diagram .dash {
+        fill: none;
+        stroke: #555555;
+        stroke-width: 1.2;
+        stroke-dasharray: 5 4;
+      }
+
+      .diagram .arrow {
+        fill: #333333;
+      }
+
+      .diagram text {
+        fill: var(--ink);
+        font-family: "Noto Sans KR", AppleSDGothicNeo, "Malgun Gothic", sans-serif;
+        letter-spacing: 0;
+      }
+
+      .diagram .label {
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .diagram .small {
+        font-size: 11px;
+      }
+
+      .diagram .tiny {
+        font-size: 10px;
+      }
+
       img {
         display: block;
         width: 100%;
         border: 1px solid var(--line);
-        border-radius: 8px;
+        border-radius: 0;
       }
 
       .mobile-shot {
@@ -192,13 +247,13 @@
 
       .note {
         padding: 14px 16px;
-        border-left: 4px solid var(--gold);
-        background: #fff8e8;
+        border-left: 4px solid #555555;
+        background: var(--surface);
       }
 
       .risk {
-        border-left-color: var(--coral);
-        background: #fff2f0;
+        border-left-color: #333333;
+        background: var(--surface);
       }
 
       .page-break {
@@ -221,12 +276,12 @@
         }
 
         h1 {
-          font-size: 28pt;
+          font-size: 24pt;
         }
 
         h2 {
           margin-top: 22px;
-          font-size: 16pt;
+          font-size: 15pt;
         }
 
         h3 {
@@ -245,7 +300,7 @@
   <body>
     <main class="report">
       <section class="cover">
-        <p class="eyebrow">Software Engineering Report</p>
+        <p class="eyebrow">소프트웨어공학 과제 보고서</p>
         <h1>프로세스에 입각한 바이브코딩의 효과 분석</h1>
         <p class="lead">
           처음에는 AI를 이용하면 화면을 빨리 만들 수 있다는 점에만 관심이 갔다. 그러나 실제로
@@ -307,6 +362,56 @@
           프로세스를 운영하기에는 1인 과제 규모가 작았다. 따라서 작은 Phase를 반복하면서 각 Phase마다
           요구사항, 설계, 구현, 검증, 회고를 진행하는 방식을 택했다.
         </p>
+        <figure class="diagram">
+          <svg viewBox="0 0 860 350" role="img" aria-label="V-Model 추적성 도식">
+            <defs>
+              <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                <path class="arrow" d="M0,0 L8,4 L0,8 Z"></path>
+              </marker>
+            </defs>
+            <text x="430" y="24" text-anchor="middle" class="label">V-Model식 추적성 적용</text>
+
+            <rect class="box" x="28" y="50" width="178" height="52"></rect>
+            <text x="117" y="72" text-anchor="middle" class="label">요구사항 분석</text>
+            <text x="117" y="91" text-anchor="middle" class="small">기능/비기능/범위 제외</text>
+
+            <rect class="box" x="156" y="137" width="178" height="52"></rect>
+            <text x="245" y="159" text-anchor="middle" class="label">아키텍처 설계</text>
+            <text x="245" y="178" text-anchor="middle" class="small">정적 웹앱, 데이터, 지도</text>
+
+            <rect class="box" x="284" y="224" width="178" height="52"></rect>
+            <text x="373" y="246" text-anchor="middle" class="label">구현</text>
+            <text x="373" y="265" text-anchor="middle" class="small">HTML/CSS/JS, Chart.js, Leaflet</text>
+
+            <rect class="box-deep" x="414" y="224" width="178" height="52"></rect>
+            <text x="503" y="246" text-anchor="middle" class="label">단위/통합 검증</text>
+            <text x="503" y="265" text-anchor="middle" class="small">데이터, DOM, 렌더링 계약</text>
+
+            <rect class="box-deep" x="542" y="137" width="178" height="52"></rect>
+            <text x="631" y="159" text-anchor="middle" class="label">시스템 검증</text>
+            <text x="631" y="178" text-anchor="middle" class="small">데모, PWA, 제출물 검증</text>
+
+            <rect class="box-deep" x="670" y="50" width="178" height="52"></rect>
+            <text x="759" y="72" text-anchor="middle" class="label">인수 기준 확인</text>
+            <text x="759" y="91" text-anchor="middle" class="small">과제 요구사항, PDF, GitHub 증빙</text>
+
+            <path class="line" marker-end="url(#arrow)" d="M206 102 L156 137"></path>
+            <path class="line" marker-end="url(#arrow)" d="M334 189 L284 224"></path>
+            <path class="line" marker-end="url(#arrow)" d="M462 250 L414 250"></path>
+            <path class="line" marker-end="url(#arrow)" d="M592 224 L542 189"></path>
+            <path class="line" marker-end="url(#arrow)" d="M720 137 L670 102"></path>
+
+            <path class="dash" d="M206 76 H670"></path>
+            <path class="dash" d="M334 163 H542"></path>
+            <path class="dash" d="M462 250 H414"></path>
+            <text x="430" y="69" text-anchor="middle" class="tiny">FR/NFR ↔ 최종 제출 조건</text>
+            <text x="430" y="156" text-anchor="middle" class="tiny">설계 결정 ↔ 시스템 동작 확인</text>
+            <text x="430" y="294" text-anchor="middle" class="tiny">구현 변경 ↔ 자동 테스트</text>
+          </svg>
+          <figcaption>
+            그림 1. 본 프로젝트에서 사용한 V-Model식 추적성. 왼쪽의 분석·설계 산출물이 오른쪽의 검증 기준과 직접 대응되도록 관리했다.
+          </figcaption>
+        </figure>
         <div class="phase-grid">
           <div class="card">
             <strong>반복·점진 개발</strong>
@@ -326,13 +431,57 @@
           </div>
         </div>
         <h3>프로세스 다이어그램</h3>
-        <div class="process-flow">
-          <div class="step"><b>요구사항</b>사용자와 평가자 관점에서 필요한 기능을 정리한다.</div>
-          <div class="step"><b>설계</b>기술 스택, 데이터 구조, 지도 범위, 산식 기준을 결정한다.</div>
-          <div class="step"><b>구현</b>AI 제안을 검토해 Phase 범위 안에서 코드에 반영한다.</div>
-          <div class="step"><b>검증</b>수동 확인과 자동 테스트로 회귀를 확인한다.</div>
-          <div class="step"><b>회고</b>결정 이유와 한계를 문서와 커밋으로 남긴다.</div>
-        </div>
+        <figure class="diagram">
+          <svg viewBox="0 0 860 250" role="img" aria-label="반복 개발 프로세스 도식">
+            <defs>
+              <marker id="arrow-process" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                <path class="arrow" d="M0,0 L8,4 L0,8 Z"></path>
+              </marker>
+            </defs>
+            <rect class="box" x="24" y="78" width="118" height="58"></rect>
+            <text x="83" y="101" text-anchor="middle" class="label">요구사항</text>
+            <text x="83" y="121" text-anchor="middle" class="small">기능/비기능</text>
+
+            <rect class="box" x="166" y="78" width="118" height="58"></rect>
+            <text x="225" y="101" text-anchor="middle" class="label">설계</text>
+            <text x="225" y="121" text-anchor="middle" class="small">데이터/화면</text>
+
+            <rect class="box" x="308" y="78" width="118" height="58"></rect>
+            <text x="367" y="101" text-anchor="middle" class="label">AI 초안</text>
+            <text x="367" y="121" text-anchor="middle" class="small">코드/문서 제안</text>
+
+            <rect class="box" x="450" y="78" width="118" height="58"></rect>
+            <text x="509" y="101" text-anchor="middle" class="label">검토·구현</text>
+            <text x="509" y="121" text-anchor="middle" class="small">선별 반영</text>
+
+            <rect class="box" x="592" y="78" width="118" height="58"></rect>
+            <text x="651" y="101" text-anchor="middle" class="label">검증</text>
+            <text x="651" y="121" text-anchor="middle" class="small">테스트/데모</text>
+
+            <rect class="box" x="734" y="78" width="118" height="58"></rect>
+            <text x="793" y="101" text-anchor="middle" class="label">회고·커밋</text>
+            <text x="793" y="121" text-anchor="middle" class="small">증빙 축적</text>
+
+            <path class="line" marker-end="url(#arrow-process)" d="M142 107 H166"></path>
+            <path class="line" marker-end="url(#arrow-process)" d="M284 107 H308"></path>
+            <path class="line" marker-end="url(#arrow-process)" d="M426 107 H450"></path>
+            <path class="line" marker-end="url(#arrow-process)" d="M568 107 H592"></path>
+            <path class="line" marker-end="url(#arrow-process)" d="M710 107 H734"></path>
+
+            <path class="dash" marker-end="url(#arrow-process)" d="M793 78 C793 30 83 30 83 78"></path>
+            <text x="430" y="34" text-anchor="middle" class="small">피드백을 다음 Phase 요구사항으로 환류</text>
+
+            <text x="83" y="172" text-anchor="middle" class="tiny">평가자 요구</text>
+            <text x="225" y="172" text-anchor="middle" class="tiny">ADR 기록</text>
+            <text x="367" y="172" text-anchor="middle" class="tiny">바이브코딩</text>
+            <text x="509" y="172" text-anchor="middle" class="tiny">사람 판단</text>
+            <text x="651" y="172" text-anchor="middle" class="tiny">자동/수동</text>
+            <text x="793" y="172" text-anchor="middle" class="tiny">GitHub 증빙</text>
+          </svg>
+          <figcaption>
+            그림 2. 프로젝트에서 실제로 반복한 프로세스. AI 초안은 바로 산출물로 인정하지 않고, 검토·구현·검증을 거친 뒤 커밋했다.
+          </figcaption>
+        </figure>
         <p>
           이 흐름은 `docs/process.md`에 Mermaid 다이어그램으로도 남겼다. 보고서 본문에서는 핵심만
           요약했지만, 저장소에서는 요구사항 명세, 설계 결정, 테스트 계획, 회고 문서가 서로 연결되도록
@@ -393,13 +542,55 @@
           정확히는 PWA 설치성을 가진 웹앱이다.
         </p>
         <h3>화면 렌더링 시퀀스</h3>
-        <div class="process-flow">
-          <div class="step"><b>1. 접속</b>사용자가 GitHub Pages URL을 연다.</div>
-          <div class="step"><b>2. 로드</b>브라우저가 HTML, CSS, JS, manifest를 불러온다.</div>
-          <div class="step"><b>3. 데이터</b>`phase1-regions.json`과 지도 경계를 fetch한다.</div>
-          <div class="step"><b>4. 렌더링</b>카드, 차트, 지도, 비교 패널을 갱신한다.</div>
-          <div class="step"><b>5. 조작</b>시나리오와 정책 강도 변경 시 위험지수를 다시 계산한다.</div>
-        </div>
+        <figure class="diagram">
+          <svg viewBox="0 0 860 320" role="img" aria-label="화면 렌더링 시퀀스 다이어그램">
+            <defs>
+              <marker id="arrow-seq" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                <path class="arrow" d="M0,0 L8,4 L0,8 Z"></path>
+              </marker>
+            </defs>
+            <rect class="box-deep" x="28" y="24" width="118" height="34"></rect>
+            <rect class="box-deep" x="202" y="24" width="118" height="34"></rect>
+            <rect class="box-deep" x="376" y="24" width="118" height="34"></rect>
+            <rect class="box-deep" x="550" y="24" width="118" height="34"></rect>
+            <rect class="box-deep" x="724" y="24" width="118" height="34"></rect>
+            <text x="87" y="46" text-anchor="middle" class="label">사용자</text>
+            <text x="261" y="46" text-anchor="middle" class="label">브라우저</text>
+            <text x="435" y="46" text-anchor="middle" class="label">app.js</text>
+            <text x="609" y="46" text-anchor="middle" class="label">JSON 데이터</text>
+            <text x="783" y="46" text-anchor="middle" class="label">Chart/Leaflet</text>
+
+            <path class="dash" d="M87 58 V292"></path>
+            <path class="dash" d="M261 58 V292"></path>
+            <path class="dash" d="M435 58 V292"></path>
+            <path class="dash" d="M609 58 V292"></path>
+            <path class="dash" d="M783 58 V292"></path>
+
+            <path class="line" marker-end="url(#arrow-seq)" d="M87 86 H261"></path>
+            <text x="174" y="79" text-anchor="middle" class="small">GitHub Pages 접속</text>
+
+            <path class="line" marker-end="url(#arrow-seq)" d="M261 118 H435"></path>
+            <text x="348" y="111" text-anchor="middle" class="small">HTML/CSS/JS 로드</text>
+
+            <path class="line" marker-end="url(#arrow-seq)" d="M435 150 H609"></path>
+            <text x="522" y="143" text-anchor="middle" class="small">지역 지표와 지도 경계 요청</text>
+
+            <path class="line" marker-end="url(#arrow-seq)" d="M609 182 H435"></path>
+            <text x="522" y="175" text-anchor="middle" class="small">정적 JSON 반환</text>
+
+            <path class="line" marker-end="url(#arrow-seq)" d="M435 214 H783"></path>
+            <text x="609" y="207" text-anchor="middle" class="small">차트/지도/비교 패널 렌더링</text>
+
+            <path class="line" marker-end="url(#arrow-seq)" d="M87 246 H435"></path>
+            <text x="261" y="239" text-anchor="middle" class="small">지역 선택, 시나리오, 정책 강도 조작</text>
+
+            <path class="line" marker-end="url(#arrow-seq)" d="M435 276 H783"></path>
+            <text x="609" y="269" text-anchor="middle" class="small">위험지수 재계산 후 화면 갱신</text>
+          </svg>
+          <figcaption>
+            그림 3. 대시보드 화면 렌더링 시퀀스. 서버가 아니라 브라우저 안에서 정적 데이터와 시각화 라이브러리를 조합한다.
+          </figcaption>
+        </figure>
         <table>
           <thead>
             <tr>
@@ -441,11 +632,11 @@
         </p>
         <figure>
           <img src="./assets/screenshots/2026-06-02-dashboard-capture.png" alt="대시보드 데스크톱 캡처">
-          <figcaption>그림 1. 2026-06-02 기준 데스크톱 대시보드 캡처</figcaption>
+          <figcaption>그림 4. 2026-06-02 기준 데스크톱 대시보드 캡처</figcaption>
         </figure>
         <figure>
           <img class="mobile-shot" src="./assets/screenshots/2026-06-02-dashboard-mobile.png" alt="대시보드 모바일 캡처">
-          <figcaption>그림 2. 2026-06-02 기준 모바일 대시보드 캡처</figcaption>
+          <figcaption>그림 5. 2026-06-02 기준 모바일 대시보드 캡처</figcaption>
         </figure>
       </section>
 

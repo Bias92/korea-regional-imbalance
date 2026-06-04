@@ -20,7 +20,7 @@
 | 프로세스 적용 교훈 | `docs/lessons-learned.md`, `docs/final-report-draft.md` | 날짜별 lessons learned 누적 |
 | 사용자 피드백 반영 | `docs/ai-log/2026-06-02-policy-simulator.md`, `docs/requirements.md` | "단순 표시 앱" 피드백을 정책 대응 시뮬레이터 요구사항으로 전환 |
 | SW 산출물 캡처 | `docs/assets/screenshots/2026-06-02-dashboard-capture.png`, `docs/assets/screenshots/2026-06-02-dashboard-mobile.png` | 2026-06-02 데스크톱·모바일 캡처 확보 |
-| PDF 제출 보고서 | `docs/final-report.html`, `docs/final-report.pdf` | 최종 보고서 HTML/PDF 작성 |
+| PDF 제출 보고서 | `docs/final-report.html`, `docs/final-report.pdf` | 최종 보고서 HTML/PDF 작성, V-Model/프로세스/시퀀스 도식 포함 |
 | 제출 직전 확인 | `docs/final-submission-checklist.md` | 제출 파일, 검증 명령, 잔여 작업 정리 |
 | 형상 관리 시스템 공유 | GitHub repository | main 브랜치에 산출물과 증빙 문서 누적 |
 | 착수 시점 토의 증빙 | `docs/ai-log/2026-05-18-kickoff.md`, `docs/ai-log/2026-05-18-codex-review.md` | 주제 선정과 AI 교차 검토 기록 |
@@ -44,7 +44,7 @@
 | 2026-06-02 | 정책 대응 시뮬레이터 추가와 요구사항 추적성 갱신 | `docs/ai-log/2026-06-02-policy-simulator.md` |
 | 2026-06-03 | GitHub Pages 배포 실패 원인 분석, Pages 활성화, 실제 URL 200 OK 확인 | `docs/ai-log/2026-06-03-pages-finalization.md` |
 | 2026-06-03 | PWA 설치성 추가와 앱/웹 구분 정리 | `docs/ai-log/2026-06-03-pwa-installability.md` |
-| 2026-06-04 | 최종 보고서 문체와 과제 요구사항 대응 재정리 | `docs/ai-log/2026-06-04-final-report-polish.md` |
+| 2026-06-04 | 최종 보고서 문체와 과제 요구사항 대응 재정리, V-Model/프로세스/시퀀스 도식 보강 | `docs/ai-log/2026-06-04-final-report-polish.md` |
 
 위 흐름은 막판에 한 번에 구현한 것이 아니라, 요구사항과 검증 기준을 기능 확장과 함께
 반복적으로 갱신했음을 보여준다.
