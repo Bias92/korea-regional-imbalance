@@ -10,8 +10,8 @@
 
 | 항목 | 파일 또는 위치 | 상태 |
 |---|---|---|
-| PDF 보고서 | `docs/final-report.pdf` | 준비 완료 |
-| PDF 원본 | `docs/final-report.html` | 준비 완료 |
+| PDF 보고서 | `docs/final-report.pdf` | 2026-06-04 재생성 완료 |
+| PDF 원본 | `docs/final-report.html` | 제출용 논술 문체 정리 완료 |
 | 데스크톱 화면 캡처 | `docs/assets/screenshots/2026-06-02-dashboard-capture.png` | 준비 완료 |
 | 모바일 화면 캡처 | `docs/assets/screenshots/2026-06-02-dashboard-mobile.png` | 준비 완료 |
 | GitHub 증빙 저장소 | `https://github.com/Bias92/korea-regional-imbalance` | main 브랜치에 누적 |
@@ -36,7 +36,7 @@ git status --short --branch
 |---|---|
 | `npm test` | 데이터 검증, UI 계약 검증, 제출물 검증 모두 통과 |
 | `npm run report:pdf` | `docs/final-report.pdf` 재생성 |
-| `pdfinfo docs/final-report.pdf` | A4 PDF, 7페이지, 암호화 없음 |
+| `pdfinfo docs/final-report.pdf` | A4 PDF, 9페이지, 암호화 없음 |
 | `git status --short --branch` | `main...origin/main` 상태에서 변경 없음 |
 
 ---
@@ -60,4 +60,4 @@ git status --short --branch
 |---|---|---|
 | 공식 시도별 데이터 전체 교체 | 선택 | 데이터 신뢰도는 높아지지만 검증 시간이 필요하므로 별도 커밋으로 진행 |
 | GitHub Pages 실제 URL 확인 | 권장 | 완료, `https://bias92.github.io/korea-regional-imbalance/` |
-| PDF 문장 다듬기 | 권장 | 분량과 수업 제출 양식에 맞춰 최종 조정 |
+| PDF 문장 다듬기 | 권장 | 완료, 과제 요구사항과 프로세스 적용 효과 중심으로 재정리 |
